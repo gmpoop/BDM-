@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video</title>
+    <link href="../output.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Incluir SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body class="w-auto mx-auto bg-gray-100 text-gray-800">
+    <div class=" bg-white rounded-xl shadow-md p-6 flex ">
+        <videoSection class="flex flex-col items-start gap-2">
+            <div>
+                <img src="https://via.placeholder.com/850x500" alt="Curso 1" class="rounded-lg mb-4 min-w-[500px] lg:min-w-[850px]">
+            </div>
+            <div class="menuVideo">
+                <ul class="flex gap-5 font-bold text-gray-500">
+                    <li class="element-list-video_menu">
+                        <button id="btnOverview" class="focus:outline-none focus:text-gray-900">Resumen</button>
+                    </li>
+                    <li class="element-list-video_menu">
+                        <button id="btnComments" class="focus:outline-none focus:text-gray-900">Comentarios</button>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Overview Section -->
+            <div id="overview" class="w-auto flex flex-col gap-2">
+                <h3 class="text-lg font-bold text-gray-900 mb-2">Nivel 1</h3>
+                <p id="description">Aprende selectores de forma rápida</p>
+            </div>
+            
+            <!-- Comments Section -->
+            <div id="comments" class="hidden">
+                <div class="bg-gray-100 p-4 rounded-lg mb-4">
+                    <div class="flex items-center mb-2">
+                        <div class="bg-[#4821ea] w-10 h-10 rounded-full flex items-center justify-center text-white font-bold mr-3">JD</div>
+                        <h3 class="text-lg font-semibold text-gray-700">Juan Díaz</h3>
+                    </div>
+                    <p class="text-gray-600">Este curso ha sido realmente útil. Me ha ayudado a entender conceptos que antes no comprendía. ¡Recomendado!</p>
+                    <div class="text-sm text-gray-500 mt-2">Hace 2 horas</div>
+                </div>
+            </div>
+        </videoSection>
+        <aside class="mx-5 divide-y divide-gray-300 w-full ">
+            <h1 class="text-4xl	 font-bold text-gray-9 mb-2">Niveles</h1>
+            <ul class="max-h-[500px] divide-y divide-gray-300 bg-white rounded-xl shadow-md p-6 overflow-y-auto w-full flex flex-col items-center ">
+                <li class="element-list-level min-w-[250px]  flex justify-between items-center p-4 hover:opacity-90">
+                    <div class="flex justify-between items-center gap-5">
+                        <img src="https://via.placeholder.com/70x50" alt="Curso 1" class="rounded-lg ">
+                        <p class="text-gray-500">Introduccion</p>                           
+                    </div>
+                </li>
+                <li class="element-list-level min-w-[250px]  flex justify-between items-center p-4 hover:opacity-90">
+                    <div class="flex justify-between items-center gap-5">
+                        <img src="https://via.placeholder.com/70x50" alt="Curso 1" class="rounded-lg ">
+                        <p class="text-gray-500">Introduccion</p>                           
+                    </div>
+                </li>
+                <li class="element-list-level min-w-[250px] flex justify-between items-center p-4 hover:opacity-90">
+                    <div class="flex justify-between items-center gap-5">
+                        <img src="https://via.placeholder.com/70x50" alt="Curso 1" class="rounded-lg ">
+                        <p class="text-gray-500">Introduccion</p>                           
+                    </div>
+                </li>
+                <li class="element-list-level min-w-[250px] flex justify-between items-center p-4 hover:opacity-90">
+                    <div class="flex justify-between items-center gap-5">
+                        <img src="https://via.placeholder.com/70x50" alt="Curso 1" class="rounded-lg ">
+                        <p class="text-gray-500">Introduccion</p>                           
+                    </div>
+                </li>
+                <li class="element-list-level min-w-[250px] flex justify-between items-center p-4 hover:opacity-90">
+                    <div class="flex justify-between items-center gap-5">
+                        <img src="https://via.placeholder.com/70x50" alt="Curso 1" class="rounded-lg ">
+                        <p class="text-gray-500">Introduccion</p>                           
+                    </div>
+                </li>
+                <li class="element-list-level min-w-[250px] flex justify-between items-center p-4 hover:opacity-90">
+                    <div class="flex justify-between items-center gap-5">
+                        <img src="https://via.placeholder.com/70x50" alt="Curso 1" class="rounded-lg ">
+                        <p class="text-gray-500">Introduccion</p>                           
+                    </div>
+                </li>
+                <li class="element-list-level min-w-[250px] flex justify-between items-center p-4 hover:opacity-90">
+                    <div class="flex justify-between items-center gap-5">
+                        <img src="https://via.placeholder.com/70x50" alt="Curso 1" class="rounded-lg ">
+                        <p class="text-gray-500">Introduccion</p>                           
+                    </div>
+                </li>
+                <li class="element-list-level min-w-[250px] flex justify-between items-center p-4 hover:opacity-90">
+                    <div class="flex justify-between items-center gap-5">
+                        <img src="https://via.placeholder.com/70x50" alt="Curso 1" class="rounded-lg ">
+                        <p class="text-gray-500">Introduccion</p>                           
+                    </div>
+                </li>
+                <li class="element-list-level min-w-[250px] flex justify-between items-center p-4 hover:opacity-90">
+                    <div class="flex justify-between items-center gap-5">
+                        <img src="https://via.placeholder.com/70x50" alt="Curso 1" class="rounded-lg ">
+                        <p class="text-gray-500">Introduccion</p>                           
+                    </div>
+                </li>
+               
+                
+            </ul>
+        </aside>
+        
+    </div>
+    
+</body>
+
+<script>
+       const btnOverview = document.getElementById("btnOverview");
+    const btnComments = document.getElementById("btnComments");
+    const overviewSection = document.getElementById("overview");
+    const commentsSection = document.getElementById("comments");
+
+    // Función para mostrar la sección de "Resumen" y ocultar "Comentarios"
+    btnOverview.addEventListener("click", () => {
+        overviewSection.classList.remove("hidden");
+        commentsSection.classList.add("hidden");
+    });
+
+    // Función para mostrar la sección de "Comentarios" y ocultar "Resumen"
+    btnComments.addEventListener("click", () => {
+        commentsSection.classList.remove("hidden");
+        overviewSection.classList.add("hidden");
+    });
+
+</script>
+<style>
+    .element-list-video_menu:hover {
+        --tw-text-opacity: 1;
+        color: rgb(3 7 18 / var(--tw-text-opacity))
+    }
+
+    .element-list-level {
+        width: 100%;
+    }
+
+</style>
+</html>
