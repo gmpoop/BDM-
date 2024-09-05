@@ -32,7 +32,7 @@
                                     Ver Curso
                                 </button>                                
                             </div>
-                            <span class="text-lg font-bold text-[#4821ea]">$49.99</span>
+                            <p class="text-lg font-bold text-[#4821ea]">$<span class="price">49.99</span></p>
                             <button class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600" onclick="eliminarDelCarrito()">
                                 Eliminar
                             </button>
@@ -45,7 +45,7 @@
                                     Ver Curso
                                 </button>
                             </div>
-                            <span class="text-lg font-bold text-[#4821ea]">$49.99</span>
+                            <p class="text-lg font-bold text-[#4821ea]">$<span class="price">49.99</span></p>
                             <button class="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600">
                                 Eliminar
                             </button>
@@ -54,7 +54,7 @@
                     </ul>
                     <div class="flex justify-between items-center mt-6">
                         <span class="text-xl font-bold">Total:</span>
-                        <span class="text-2xl font-bold text-[#4821ea]">$49.99</span>
+                        <p class="text-2xl font-bold text-[#4821ea]S">$<span id="totalDisplay" class="total">49.99</span></p>
                     </div>
         
                     <!-- Verificación del Método de Pago -->
@@ -63,7 +63,7 @@
                         <form id="payment-form" name="form">
                             <div class="mb-4">
                                 <label for="payment-method" class="block text-lg font-semibold text-gray-700">Selecciona un método de pago:</label>
-                                <select id="payment-method" class="w-full bg-gray-200 border border-gray-300 text-gray-700 py-2 px-4 rounded mt-2" required>
+                                <select id="payment-method" class="w-full bg-gray-200 border border-gray-300 text-gray-700 py-2 px-4 rounded mt-2" >
                                     <option value="">-- Selecciona una opción --</option>
                                     <option value="tarjeta">Tarjeta de Crédito/Débito</option>
                                     <option value="paypal">PayPal</option>
@@ -106,10 +106,10 @@
                             </div>
         
                             <div class="mb-4">
-                                <input type="checkbox" id="terms" class="mr-2 leading-tight" required>
+                                <input  type="checkbox" id="terms" class="mr-2 leading-tight" >
                                 <label for="terms" class="text-gray-700">Acepto los <a href="#" class="text-[#4821ea]">términos y condiciones</a></label>
                             </div>
-                            <button id="proceed-payment" type="submit" class="mt-6 w-full bg-[#4821ea] text-white py-2 px-4 rounded hover:bg-[#3d1bc8]" onclick="agregarAlCarrito()">
+                            <button id="proceed-payment" type="button" class="mt-6 w-full bg-[#4821ea] text-white py-2 px-4 rounded hover:bg-[#3d1bc8]" onclick="agregarAlCarrito(event)">
                                 Proceder al Pago
                             </button>
                         </form>
@@ -133,12 +133,20 @@
     
 
 
-    <script>
+    <script>   
 
         const paymentMethod = document.getElementById('payment-method');
         const formTarjeta = document.getElementById('form-tarjeta');
         const formPayPal = document.getElementById('form-paypal');
         const formTransferencia = document.getElementById('form-transferencia');
+        const termsAnConditions = document.getElementById('terms');
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+            total();
+
+        });
+
 
         paymentMethod.addEventListener('change', function () {
             // Ocultar todos los formularios
@@ -160,154 +168,171 @@
             }
         });
 
+     
+    function total(){
+
+        const totalDisplay = document.getElementById('totalDisplay');
+        const prices = document.querySelectorAll('.price');
+
+            const sumTotal = () => {
+                let totalPrices = 0;
+
+                prices.forEach((price) => {
+
+                    console.log(price.textContent)
+
+                    totalPrices += parseFloat(price.textContent); 
+                });
+
+                return totalPrices;
+            };
+
+            if (totalDisplay) {
+                totalDisplay.textContent = ` ${sumTotal().toFixed(2)}`; // Mostrar el total formateado a 2 decimales
+            }
+
+    } 
+
     function agregarAlCarrito() {
 
+        event.preventDefault();
+
         let complete = false; 
-        console.log(paymentMethod.value)
-        switch (paymentMethod.value) {
-                case 'tarjeta':
-                    console.log ("Eligio tarjeta")
-                        if(validarFormularioTarjetas())
-                        complete = true
-                        else
-                        complete = false
-                    break;
-                case 'paypal':
-                    console.log ("Eligio paypal")
-                        if(validarFormularioPaypal())
-                        complete = true
-                        else
-                        complete = false
-                    break;
-                case 'transferencia':
-                    console.log ("Eligio tarjeta")
-                        if(validarTransferencia())
-                        complete = true
-                        else
-                        complete = false
-                    break;
-            }
+        let terms = false;
 
+        if(!termsAnConditions.checked){
 
-        if(complete) {
             Swal.fire({
-                title: 'Curso Agregado al Carrito',
-                text: 'Has agregado el curso de Desarrollo Web Completo a tu carrito.',
-                icon: 'success',
-                confirmButtonText: 'Continuar'
-            });
+            title: '¡Aviso! ',
+            text: 'Tiene que aceptar los terminos y condiciones para poder continuar',
+            icon: 'warning',
+            confirmButtonText: 'Ok',
+            })
+
+            terms = false;
         }
         else
-        Swal.fire({
-                title: 'Fallo',
-                text: 'No se pudo agregar al carro.',
-                icon: 'error',
-                confirmButtonText: 'Continuar'
-            });        
-        
-}
+            terms = true;
+            
+       
 
-        function eliminarDelCarrito() {
-        Swal.fire({
-            title: '¿Estás seguro?',
-            text: '¿Deseas eliminar este curso de tu carrito?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Sí, eliminarlo',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire(
-                    'Eliminado',
-                    'El curso ha sido eliminado de tu carrito.',
-                    'success'
-                );
-                // Aquí va la lógica para eliminar el curso del carrito
+        if(paymentMethod.value != "") {
+            switch (paymentMethod.value) {
+                case 'tarjeta':
+                    console.log("Eligió tarjeta");
+                    complete = validarFormularioTarjetas();
+                    break;
+                case 'paypal':
+                    console.log("Eligió PayPal");
+                    complete = validarFormularioPaypal();
+                    break;
+                case 'transferencia':
+                    console.log("Eligió transferencia");
+                    complete = validarTransferencia();
+                    break;
             }
-        });
-    }
-        
 
-        function validaciones(){
-
-            console.log("Ingresando a las validaciones")
-            if (validarFormularioTarjetaCredito() && validarFormularioPaypal()) {
-                return true; // Si todas las validaciones son correctas
-            }
-            return false; // Si alguna validación falla       
-        }
-
-        function validarFormularioTarjetas() {
-
-            const numeroTarjeta = document.getElementById("numeroTarjeta").value.trim();
-            const fechaExpiracion = document.getElementById("fechaExpiracion").value.trim();
-            const cvv = document.getElementById("cvv").value.trim();
-
-            if (numeroTarjeta === "" || !/^\d{16}$/.test(numeroTarjeta)) {
+            if (complete) {
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Por favor, ingrese un número de tarjeta válido de 16 dígitos.',
+                    title: 'Curso Agregado al Carrito',
+                    text: 'Has agregado el curso de Desarrollo Web Completo a tu carrito.',
+                    icon: 'success',
                     confirmButtonText: 'Continuar'
                 });
-                return false;
-            }
-            if (fechaExpiracion === "" || !/^\d{2}\/\d{2}$/.test(fechaExpiracion)) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Por favor, ingrese una fecha de expiración válida (MM/YY).'
-                });
-                return false;
-            }
-            if (cvv === "" || !/^\d{3}$/.test(cvv)) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Por favor, ingrese un CVV válido de 3 dígitos.'
-                });
-                return false;
-            }
+                return true;
+            } 
+        } else if (terms){
             Swal.fire({
-                icon: 'success',
-                title: 'Pago realizado',
-                text: 'Su pago con tarjeta de crédito ha sido procesado exitosamente.'
+            title: '¡Aviso! ',
+            text: 'Por favor ingresa un metodo de pago previamente',
+            icon: 'warning',
+            confirmButtonText: 'Ok',
+        })
+        }
+
+        
+    }
+
+    function eliminarDelCarrito() {
+        Swal.fire({
+            title: '¡Chanfles! ',
+            text: '¿Deseas eliminar este curso de tu carrito?',
+            icon: 'error',
+            confirmButtonText: 'Sí, eliminarlo',
+            cancelButtonText: 'Cancelar'
+        })
+    }
+
+    function validarFormularioTarjetas() {
+
+        const numeroTarjeta = document.getElementById("numeroTarjeta").value.trim();
+        const fechaExpiracion = document.getElementById("fechaExpiracion").value.trim();
+        const cvv = document.getElementById("cvv").value.trim();
+
+        console.log("Esta entrando");
+        if (numeroTarjeta === "" || !/^\d{16}$/.test(numeroTarjeta)) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Por favor, ingrese un número de tarjeta válido de 16 dígitos.',
+                confirmButtonText: 'Continuar'
+            })
+            return false;
+        }
+        if (fechaExpiracion === "" || !/^\d{2}\/\d{2}$/.test(fechaExpiracion)) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Por favor, ingrese una fecha de expiración válida (MM/YY).'
             });
             return false;
         }
-
-        // Validación para el formulario de PayPal
-        function validarFormularioPaypal() {
-            const emailPaypal = document.getElementById("emailPaypal").value.trim();
-
-            if (emailPaypal === "" || !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(emailPaypal)) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Por favor, ingrese un correo electrónico válido.'
-                });
-                return false;
-            }
-            if (passwordPaypal === "" || passwordPaypal.length < 6) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Por favor, ingrese una contraseña válida de al menos 6 caracteres.'
-                });
-                return false;
-            }
+        if (cvv === "" || !/^\d{3}$/.test(cvv)) {
             Swal.fire({
-                icon: 'success',
-                title: 'Pago realizado',
-                text: 'Su pago con PayPal ha sido procesado exitosamente.'
+                icon: 'error',
+                title: 'Error',
+                text: 'Por favor, ingrese un CVV válido de 3 dígitos.'
             });
             return false;
         }
+        Swal.fire({
+            icon: 'success',
+            title: 'Pago realizado',
+            text: 'Su pago con tarjeta de crédito ha sido procesado exitosamente.'
+        });
+    
+    }
 
-        function validarTransferencia() {
-            const nombreBanco = document.getElementById("nombreBanco").value.trim();
+    function validarFormularioPaypal() {
+        const emailPaypal = document.getElementById("emailPaypal").value.trim();
+        const passwordPaypal = document.getElementById("passwordPaypal").value.trim(); // Asegúrate de tener este elemento en tu HTML
+
+        if (emailPaypal === "" || !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(emailPaypal)) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Por favor, ingrese un correo electrónico válido.'
+            });
+            return false;
+        }
+        if (passwordPaypal === "" || passwordPaypal.length < 6) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Por favor, ingrese una contraseña válida de al menos 6 caracteres.'
+            });
+            return false;
+        }
+        Swal.fire({
+            icon: 'success',
+            title: 'Pago realizado',
+            text: 'Su pago con PayPal ha sido procesado exitosamente.'
+        });
+        return true;
+    }
+
+    function validarTransferencia() {
+        const nombreBanco = document.getElementById("nombreBanco").value.trim();
             const numCuenta = document.getElementById("numCuenta").value.trim();
 
             if (nombreBanco === "" || nombreBanco.length < 3) {
@@ -333,9 +358,8 @@
                 title: 'Pago realizado',
                 text: 'Su pago mediante transferencia bancaria ha sido procesado exitosamente.'
             });
-            return false;
+            return true;    
         }
-
 
         
     </script>

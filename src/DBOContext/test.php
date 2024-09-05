@@ -7,6 +7,7 @@ $result = $conn->query($sql);
 
 // Verificar si hay resultados
 if ($result->num_rows > 0) {
+
     // Crear tarjetas HTML para mostrar los resultados
     while($row = $result->fetch_assoc()) {
         echo "<div class='max-w-sm rounded overflow-hidden shadow-lg bg-white m-4'>
