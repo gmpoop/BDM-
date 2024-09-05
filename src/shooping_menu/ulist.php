@@ -18,6 +18,9 @@ if ($result->num_rows > 0) {
                             <div class='flex flex-col items-start'>
                                 <h3 class='text-lg font-bold text-gray-700'>Curso de Desarrollo Web Completo</h3>
                                 <p class='text-gray-500'>Nivel: Intermedio</p>
+                                <div class='bg-gray-400 rounded-lg p-2 shadow-lg flex flex-wrap max-w-[350px]'>
+                                    <p class='text-gray-900 text-xs	font-semibold'>Tecnologia</p>
+                                </div>
                                 <button id='' class='mt-4 bg-[#4821ea] text-white py-2 px-4 rounded hover:bg-[#3d1bc8]' onclick='agregarAlCarrito()'>
                                     Ver Curso
                                 </button>                                
