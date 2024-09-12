@@ -11,13 +11,17 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
+<div>
+    <?php include 'C:\xampp\htdocs\BDM-\src\navbar_dash.php'; ?>
+</div>
+
 <body class="bg-gray-100 text-gray-800">
     <!-- Contenedor Principal -->
 
         <div class="container mx-auto p-6">
             <!-- Título del Menú de Compras -->
             <h1 class="text-4xl font-bold text-center text-[#4821ea] mb-8">Menú de Compras</h1>
-    
+
             <!-- Carrito de Compras -->
             <main class="w-auto flex justify-between ">
                 <method class="w-full mt-12 bg-white shadow-lg rounded-lg p-6">
@@ -144,7 +148,11 @@
             }
         });
 
-     
+        function verCurso(productId) {
+            // Redirigir al usuario a la página deseada con el parámetro productId
+            window.location.href = "/BDM-/src/templateCourse/course.php?id=" + encodeURIComponent(productId);
+        }
+
     function total(){
 
         const totalDisplay = document.getElementById('totalDisplay');
@@ -229,16 +237,50 @@
         
     }
 
-    function eliminarDelCarrito() {
+    function eliminarDelCarrito(productId) {
+        // Confirmar la eliminación usando SweetAlert2
         Swal.fire({
-            title: '¡Chanfles! ',
+            title: '¡Chanfles!',
             text: '¿Deseas eliminar este curso de tu carrito?',
             icon: 'error',
+            showCancelButton: true, // Mostrar botón de cancelar
             confirmButtonText: 'Sí, eliminarlo',
             cancelButtonText: 'Cancelar'
-        })
+        }).then(result => {
+            // Si el usuario confirma la eliminación
+            if (result.isConfirmed) {
+                // Enviar la solicitud de eliminación al servidor
+                fetch('eliminar_producto.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({
+                        'id': productId
+                    })
+                })
+                .then(response => response.text())
+                .then(result => {
+                    // Manejar la respuesta del servidor
+                    if (result.trim() === 'success') {
+                        // Eliminar el elemento del DOM
+                        const button = document.querySelector(`button[onclick='eliminarDelCarrito(${productId})']`);
+                        if (button) {
+                            button.closest('li').remove();
+                        }
+                        Swal.fire('Eliminado!', 'El curso ha sido eliminado de tu carrito.', 'success');
+                    } else {
+                        Swal.fire('Error', 'Error al eliminar el producto.', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire('Error', 'Error al eliminar el producto.', 'error');
+                });
+            }
+        });
     }
-
+    
     function validarFormularioTarjetas() {
 
         const numeroTarjeta = document.getElementById("numeroTarjeta").value.trim();

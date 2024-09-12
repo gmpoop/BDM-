@@ -8,12 +8,22 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <!-- Incluir SweetAlert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
 </head>
-<body class="w-auto mx-auto bg-gray-100 text-gray-800">
-    <div class=" bg-white rounded-xl shadow-md p-6 flex ">
-        <videoSection class="flex flex-col items-start gap-2">
-            <div>
-                <img src="https://via.placeholder.com/850x500" alt="Curso 1" class="rounded-lg mb-4 min-w-[500px] lg:min-w-[850px]">
+<body class="mx-auto bg-gray-100 text-gray-800 w-full">
+    <div class="  bg-white rounded-xl shadow-md p-6 flex w-full">
+        <videoSection class="flex flex-col items-start gap-2 w-full">
+            <div class="w-full flex lg:hidden justify-end ">
+                <button id="mobile-menu-button" class="text-gray-700 hover:text-purple-500 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="w-full">
+                <img src="https://via.placeholder.com/900x500" alt="Curso 1" class="rounded-lg mb-4  ">
             </div>
             <div class="menuVideo">
                 <ul class="flex gap-5 font-bold text-gray-500">
@@ -23,17 +33,61 @@
                     <li class="element-list-video_menu">
                         <button id="btnComments" class="focus:outline-none focus:text-gray-900">Comentarios</button>
                     </li>
+                    <li class="element-list-video_menu">
+                        <button id="btnStatistics" class="focus:outline-none focus:text-gray-900">Estadísticas</button>
+                    </li>
                 </ul>
             </div>
             
             <!-- Overview Section -->
-            <div id="overview" class="w-auto flex flex-col gap-2">
-                <h3 class="text-lg font-bold text-gray-900 mb-2">Nivel 1</h3>
-                <p id="description">Aprende selectores de forma rápida</p>
+            <div id="overview" class=" w-full flex flex-col gap-2">
+                <div class="flex items-center gap-3">
+                    <h3 class="text-lg font-bold text-gray-900 ">Nivel 1</h3>
+                    <span>-</span>
+                    <h3 class="text-lg font-bold text-gray-900">Descripcion corta</h3>
+                </div>
+                <p id="description">Descripcion larga</p>
+
             </div>
             
             <!-- Comments Section -->
             <div id="comments" class="hidden">
+                <div class="bg-gray-100 p-4 rounded-lg mb-4 space-y-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center">
+                            <div class="bg-[#4821ea] w-10 h-10 rounded-full flex items-center justify-center text-white font-bold mr-3">JD</div>
+                            <h3 class="text-lg font-semibold text-gray-700">Tu nombre</h3>
+                        </div>
+                        <!-- Barra de progreso -->
+                        <div class="max-w-md p-4 min-w-[228px] flex flex-col items-start">
+                            <!-- Título de la sección -->
+                            <h2 class="text-lg font-semibold text-gray-700">Califica el video</h2>
+                        
+                            <!-- Barra de progreso -->
+                            <div class="w-full flex items-center gap-7">
+                                <input 
+                                    type="range" 
+                                    id="progressBar" 
+                                    min="1" 
+                                    max="100" 
+                                    value="50" 
+                                    class="w-full h-2 text-[#4821ea] bg-gray-300 rounded-lg appearance-none cursor-pointer progress-range focus:outline-none"
+                                >
+                                <!-- Visualización del valor actual de la barra -->
+                                <div class=" text-center relative m-4">
+                                    <span id="progressValue" class="absolute -top-3 -left-3 text-xl font-semibold text-gray-700">50%</span>
+                                </div>
+                            </div>
+                        
+                            <!-- Acción cuando selecciona el valor -->
+                        </div>
+                        
+                    </div>
+                    <div class="flex items-center mb-2 gap-2">
+                        <input class="w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 rounded" placeholder="Añadir comentario..." type="text" name="" id="">    
+                        <button class="  bg-[#4821ea] text-white rounded hover:bg-[#3d1bc8] py-2 px-4 h-full">Añadir</button>                  
+                    </div>
+                </div>
                 <div class="bg-gray-100 p-4 rounded-lg mb-4">
                     <div class="flex items-center mb-2">
                         <div class="bg-[#4821ea] w-10 h-10 rounded-full flex items-center justify-center text-white font-bold mr-3">JD</div>
@@ -43,20 +97,102 @@
                     <div class="text-sm text-gray-500 mt-2">Hace 2 horas</div>
                 </div>
             </div>
+
+            <!-- Statistics Section -->
+            <div id="statistics" class="hidden w-full space-y-5">
+                    <div class=" w-full overflow-x-auto bg-white border border-gray-100 shadow-md p-6 rounded-md ">
+                        <table class="items-center w-full bg-transparent border-collapse">
+                            <thead>
+                              <tr>
+                                <th class="px-4 bg-gray-100 light:bg-gray-600 text-gray-500 light:text-gray-100 align-middle border border-solid border-gray-200 light:border-gray-500 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Role</th>
+                                <th class="px-4 bg-gray-100 light:bg-gray-600 text-gray-500 light:text-gray-100 align-middle border border-solid border-gray-200 light:border-gray-500 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Amount</th>
+                                <th class="px-4 bg-gray-100 light:bg-gray-600 text-gray-500 light:text-gray-100 align-middle border border-solid border-gray-200 light:border-gray-500 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left min-w-140-px"></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr class="text-gray-700 light:text-gray-100">
+                                <th class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">Administrator</th>
+                                <td class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">1</td>
+                                <td class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                  <div class="flex items-center">
+                                    <span class="mr-2">70%</span>
+                                    <div class="relative w-full">
+                                      <div class="overflow-hidden h-2 text-xs flex rounded bg-gray-200">
+                                        <div style="width: 70%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-[#4821ea]"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr class="text-gray-700 light:text-gray-100">
+                                <th class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">User</th>
+                                <td class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">6</td>
+                                <td class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                  <div class="flex items-center">
+                                    <span class="mr-2">40%</span>
+                                    <div class="relative w-full">
+                                      <div class="overflow-hidden h-2 text-xs flex rounded bg-gray-200">
+                                        <div style="width: 40%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-[#4821ea]"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr class="text-gray-700 light:text-gray-100">
+                                <th class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">User</th>
+                                <td class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">5</td>
+                                <td class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                  <div class="flex items-center">
+                                    <span class="mr-2">45%</span>
+                                    <div class="relative w-full">
+                                      <div class="overflow-hidden h-2 text-xs flex rounded bg-gray-100">
+                                        <div style="width: 45%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-[#7a59ff]"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr class="text-gray-700 light:text-gray-100">
+                                <th class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">User</th>
+                                <td class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">4</td>
+                                <td class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                  <div class="flex items-center">
+                                    <span class="mr-2">60%</span>
+                                    <div class="relative w-full">
+                                      <div class="overflow-hidden h-2 text-xs flex rounded bg-gray-100">
+                                        <div style="width: 60%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-[#7a59ff]"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                    </div>
+                 
+                    <div class="w-full mb-6 " >
+                        <div class="bg-white border border-gray-100 shadow-md p-6 rounded-md w-full">
+                            <div class="w-full flex justify-center">
+                                <canvas id="order-chart" ></canvas>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+
         </videoSection>
-        <aside class="mx-5 divide-y divide-gray-300 w-full ">
+        <aside class="mx-5 divide-y divide-gray-300 w-full md:w-auto min-w-[500px] hidden lg:block">
             <h1 class="text-4xl	 font-bold text-gray-9 mb-2">Niveles</h1>
-            <ul class="max-h-[500px] divide-y divide-gray-300 bg-white rounded-xl shadow-md p-6 overflow-y-auto w-full flex flex-col items-center ">
+            <ul class="max-h-[500px]  divide-y divide-gray-300 bg-white rounded-xl shadow-md p-6 overflow-y-auto flex flex-col items-center ">
                 <li class="element-list-level min-w-[250px]  flex justify-between items-center p-4 hover:opacity-90">
                     <div class="flex justify-between items-center gap-5">
                         <img src="https://via.placeholder.com/70x50" alt="Curso 1" class="rounded-lg ">
                         <p class="text-gray-500">Introduccion</p>                           
                     </div>
                 </li>
-                <li class="element-list-level min-w-[250px]  flex justify-between items-center p-4 hover:opacity-90">
+                <li class="element-list-level min-w-[250px] flex justify-between items-center p-4 hover:opacity-90">
                     <div class="flex justify-between items-center gap-5">
                         <img src="https://via.placeholder.com/70x50" alt="Curso 1" class="rounded-lg ">
-                        <p class="text-gray-500">Introduccion</p>                           
+                        <p class="text-gray-500">1.<span>Introduccion</span></p>                           
                     </div>
                 </li>
                 <li class="element-list-level min-w-[250px] flex justify-between items-center p-4 hover:opacity-90">
@@ -101,32 +237,143 @@
                         <p class="text-gray-500">Introduccion</p>                           
                     </div>
                 </li>
-               
                 
             </ul>
         </aside>
         
     </div>
-    
+
 </body>
 
 <script>
-       const btnOverview = document.getElementById("btnOverview");
+    const btnOverview = document.getElementById("btnOverview");
     const btnComments = document.getElementById("btnComments");
+    const btnStatistics = document.getElementById("btnStatistics");
     const overviewSection = document.getElementById("overview");
     const commentsSection = document.getElementById("comments");
+    const statisticsSection = document.getElementById("statistics");
 
     // Función para mostrar la sección de "Resumen" y ocultar "Comentarios"
     btnOverview.addEventListener("click", () => {
         overviewSection.classList.remove("hidden");
         commentsSection.classList.add("hidden");
+        statisticsSection.classList.add("hidden");
+
     });
 
     // Función para mostrar la sección de "Comentarios" y ocultar "Resumen"
     btnComments.addEventListener("click", () => {
         commentsSection.classList.remove("hidden");
         overviewSection.classList.add("hidden");
+        statisticsSection.classList.add("hidden");
     });
+
+    btnStatistics.addEventListener("click", () => {
+        commentsSection.classList.add("hidden");
+        overviewSection.classList.add("hidden");
+        statisticsSection.classList.remove("hidden");
+    });
+
+
+
+    const progressBar = document.getElementById('progressBar');
+    const progressValue = document.getElementById('progressValue');
+    const submitRating = document.getElementById('submitRating');
+
+    // Actualizar el valor mostrado cuando se mueve la barra
+    progressBar.addEventListener('input', function () {
+        progressValue.textContent = `${this.value}%`; // Actualizar el texto con el valor seleccionado
+    });
+
+    new Chart(document.getElementById('order-chart'), {
+            type: 'line',
+            data: {
+                labels: generateNDays(7),
+                datasets: [
+                    {
+                        label: 'Comentarios',
+                        data: 2,
+                        borderWidth: 1,
+                        fill: true,
+                        pointBackgroundColor: 'rgb(59, 130, 246)',
+                        borderColor: 'rgb(59, 130, 246)',
+                        backgroundColor: 'rgb(59 130 246 / .05)',
+                        tension: .2
+                    },
+                    {
+                        label: 'Vistas',
+                        data: [0,1,0,0,0,10],
+                        borderWidth: 1,
+                        fill: true,
+                        pointBackgroundColor: 'rgb(16, 185, 129)',
+                        borderColor: 'rgb(16, 185, 129)',
+                        backgroundColor: 'rgb(16 185 129 / .05)',
+                        tension: .2
+                    },
+                    {
+                        label: 'Comprados',
+                        data: 2,
+                        borderWidth: 1,
+                        fill: true,
+                        pointBackgroundColor: 'rgb(244, 63, 94)',
+                        borderColor: 'rgb(244, 63, 94)',
+                        backgroundColor: 'rgb(244 63 94 / .05)',
+                        tension: .2
+                    },
+                    {
+                        label: 'Completados',
+                        data: [2,3,4,5,6],
+                        borderWidth: 1,
+                        fill: true,
+                        pointBackgroundColor: 'rgb(0, 0, 0)',
+                        borderColor: 'rgb(0, 0, 0)',
+                        backgroundColor: 'rgb(244 63 94 / .05)',
+                        tension: .2
+                    },
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        function generateNDays(n) {
+            const data = []
+            for(let i=0; i<n; i++) {
+                const date = new Date()
+                date.setDate(date.getDate()-i)
+                data.push(date.toLocaleString('en-US', {
+                    month: 'short',
+                    day: 'numeric'
+                }))
+            }
+            return data
+        }
+
+
+    // Manejar el envío de la calificación
+    submitRating.addEventListener('click', function () {
+        const selectedValue = progressBar.value;
+        alert(`Has seleccionado ${selectedValue}% como tu nivel de satisfacción con el video.`);
+        
+        // Aquí podrías enviar el valor seleccionado a tu backend utilizando una solicitud AJAX, fetch, etc.
+        // Por ejemplo:
+        // fetch('/ruta-al-backend', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify({ rating: selectedValue })
+        // }).then(response => response.json())
+        //   .then(data => console.log(data))
+        //   .catch(error => console.error('Error:', error));
+    });
+
+
 
 </script>
 <style>
@@ -138,6 +385,41 @@
     .element-list-level {
         width: 100%;
     }
+
+     input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px; /* Ancho de la bolita */
+            height: 20px; /* Alto de la bolita */
+            background-color: #4821ea; /* Color personalizado */
+            border-radius: 50%; /* Forma redondeada */
+            cursor: pointer;
+        }
+
+        /* Estilo del Thumb para navegadores basados en Gecko (Firefox) */
+        input[type="range"]::-moz-range-thumb {
+            width: 20px; /* Ancho de la bolita */
+            height: 20px; /* Alto de la bolita */
+            background-color: #4821ea; /* Color personalizado */
+            border-radius: 50%; /* Forma redondeada */
+            cursor: pointer;
+        }
+
+        /* Estilo de la pista de progreso (opcional) */
+        input[type="range"]::-webkit-slider-runnable-track {
+            background-color: #e5e7eb; /* Color de la pista */
+            height: 6px; /* Alto de la pista */
+            border-radius: 3px; /* Bordes redondeados */
+        }
+
+        input[type="range"]::-moz-range-track {
+            background-color: #e5e7eb; /* Color de la pista */
+            height: 6px; /* Alto de la pista */
+            border-radius: 3px; /* Bordes redondeados */
+        }
+
+        
+
+    
 
 </style>
 </html>
