@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Perfil - iCraft</title>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="flex justify-center items-center h-screen">
+        <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+            <h1 class="text-2xl font-bold text-gray-800 mb-6">Editar Perfil</h1>
+            <form id="editUserForm" enctype="multipart/form-data">
+                <div class="mb-4">
+                    <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Nombre</label>
+                    <input type="text" id="name" name="name" value="Nombre del usuario" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                </div>
+                <div class="mb-4">
+                    <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Correo electrónico </label>
+                    <input type="email" id="email" name="email" value="email@ejemplo.com" disabled class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                </div>
+                <div class="mb-4">
+                    <label for="birthdate" class="block text-gray-700 text-sm font-bold mb-2">Fecha de nacimiento</label>
+                    <input type="date" id="birthdate" name="birthdate" value="1990-01-01" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                </div>
+                <div class="mb-4">
+                    <label for="gender" class="block text-gray-700 text-sm font-bold mb-2">Género</label>
+                    <select id="gender" name="gender" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="male" selected>Masculino</option>
+                        <option value="female">Femenino</option>
+                        <option value="other">Otro</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="avatar" class="block text-gray-700 text-sm font-bold mb-2">Cambiar foto de perfil</label>
+                    <input type="file" id="avatar" name="avatar" accept="image/*" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                </div>
+                <div class="mb-4">
+                    <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Nueva contraseña (opcional)</label>
+                    <input type="password" id="password" name="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Al menos 8 caracteres">
+                </div>
+                <div class="mb-4">
+                    <label for="password-confirm" class="block text-gray-700 text-sm font-bold mb-2">Confirmar nueva contraseña</label>
+                    <input type="password" id="password-confirm" name="password_confirmation" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                </div>
+                <div class="flex items-center justify-between mb-4">
+                    <button id="saveButton" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                        Guardar cambios
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.getElementById('editUserForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const birthdate = document.getElementById('birthdate').value;
+            const password = document.getElementById('password').value;
+            const passwordConfirm = document.getElementById('password-confirm').value;
+            const passwordPattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+            // Si hay nueva contraseña, validar
+            if (password && !passwordPattern.test(password)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'La nueva contraseña debe tener al menos 8 caracteres, incluir una mayúscula, un número y un carácter especial.',
+                });
+                return;
+            }
+
+            if (password !== passwordConfirm) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Las contraseñas no coinciden.',
+                });
+                return;
+            }
+
+            // Simulación de éxito
+            Swal.fire({
+                icon: 'success',
+                title: '¡Perfil actualizado!',
+                text: 'Los cambios se han guardado exitosamente.',
+            });
+        });
+    </script>
+</body>
+</html>
