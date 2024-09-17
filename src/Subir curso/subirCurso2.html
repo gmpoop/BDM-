@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear y Subir Curso</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <style>
+        .bg-purple {
+            background-color: #6B46C1 !important; 
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header bg-purple text-white text-center">
+                <h1>Crear y Subir Curso</h1>
+            </div>
+            <div class="card-body">
+                <form id="courseForm" novalidate> <!-- Desactiva validación nativa -->
+                    <!-- Paso 1 -->
+                    <div id="step1" class="step">
+                        <div class="form-group">
+                            <label for="titulo">Título del Curso:</label>
+                            <input type="text" class="form-control" id="titulo" name="titulo">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="descripcion">Descripción del Curso:</label>
+                            <textarea id="descripcion" class="form-control" name="descripcion" rows="4"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="categoria">Categoría:</label>
+                            <select id="categoria" class="form-control" name="categoria">
+                                <option value="">Seleccione una categoría</option>
+                                <option value="IT">IT & Software</option>
+                                <option value="Marketing">Marketing</option>
+                                <option value="Design">Design</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="imagenCurso">Imagen del Curso:</label>
+                            <input type="file" class="form-control-file" id="imagenCurso" name="imagenCurso" accept="image/*">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="niveles">Número de Niveles:</label>
+                                <input type="number" class="form-control" id="niveles" name="niveles" min="1">
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="costo">Costo del Curso (en USD):</label>
+                                <input type="number" class="form-control" id="costo" name="costo" min="0">
+                            </div>
+                        </div>
+
+
+                        <button type="button" class="btn btn-primary" id="nextStep">Siguiente</button>
+                    </div>
+
+                    <!-- Paso 2 -->
+                    <div id="step2" class="step d-none">
+                        <div id="contentUploads"></div>
+
+                        <button type="button" class="btn btn-secondary" id="prevStep">Anterior</button>
+                        <button type="button" class="btn btn-success" id="createCourse">Crear Curso</button>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function() {
+            let currentStep = 1;
+
+        
+            $('#nextStep').click(function() {
+                
+                if (!$('#titulo').val()) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'El título del curso es obligatorio.',
+                    });
+                    return;
+                }
+
+                if (!$('#descripcion').val()) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'La descripción del curso es obligatoria.',
+                    });
+                    return;
+                }
+
+                if (!$('#categoria').val()) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Debes seleccionar una categoría.',
+                    });
+                    return;
+                }
+
+                if (!$('#imagenCurso').val()) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Debes subir una imagen para el curso.',
+                    });
+                    return;
+                }
+
+                const niveles = $('#niveles').val();
+                if (niveles <= 0) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'El número de niveles debe ser mayor a 0.',
+                    });
+                    return;
+                }
+
+                const costo = $('#costo').val();
+                if (costo < 0) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'El costo del curso no puede ser negativo.',
+                    });
+                    return;
+                }
+
+                // Si todo está bien, cambiar de paso
+                $('#step1').addClass('d-none');
+                $('#step2').removeClass('d-none');
+                generateLevelInputs(niveles);
+            });
+            
+            $('#prevStep').click(function() {
+                $('#step2').addClass('d-none');
+                $('#step1').removeClass('d-none');
+            });
+
+    
+            function generateLevelInputs(levels) {
+                let contentUploads = $('#contentUploads');
+                contentUploads.empty();
+                
+                for (let i = 1; i <= levels; i++) {
+                    contentUploads.append(`
+                        <h5 class="mt-4">Contenido para el Nivel ${i}</h5>
+                        <div class="form-group">
+                            <label for="video${i}">Subir Video del Nivel ${i}:</label>
+                            <input type="file" class="form-control-file" id="video${i}" name="video${i}" accept="video/*" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="imagen${i}">Subir Imagen del Nivel ${i}:</label>
+                            <input type="file" class="form-control-file" id="imagen${i}" name="imagen${i}" accept="image/*">
+                        </div>
+                        <div class="form-group">
+                            <label for="archivo${i}">Subir Material Adicional (PDF, etc.) para el Nivel ${i}:</label>
+                            <input type="file" class="form-control-file" id="archivo${i}" name="archivo${i}" accept=".pdf">
+                        </div>
+                    `);
+                }
+            }
+
+           
+            $('#createCourse').click(function() {
+                
+                let allVideosUploaded = true;
+                $('#contentUploads input[type="file"]').each(function() {
+                    if (!$(this).val()) {
+                        allVideosUploaded = false;
+                    }
+                });
+
+                if (!allVideosUploaded) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Debes subir los videos para todos los niveles.',
+                    });
+                    return;
+                }
+
+                //lo hicimos :D lo hicimos muy bien
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Curso creado!',
+                    text: 'El curso ha sido creado exitosamente.',
+                });
+            });
+        });
+    </script>
+</body>
+</html>
