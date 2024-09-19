@@ -1,6 +1,5 @@
 <?php
 include 'C:\xampp\htdocs\BDM-\src\DBOContext\conection.php';
-include 'C:\xampp\htdocs\BDM-\src\DBOContext\conection.php';
 
 $idCurso = $_GET['idCurso'] ?? null;
 $idNivel = $_GET['idNivel'] ?? null;
@@ -8,18 +7,16 @@ $resultNivel = null;
 $resultCurso = null;
 $continue = false;
 
-// Realizar la consulta
 $sql = "SELECT id, nivel, idCurso, descripcion_corta, descripcion_larga, video_url
 FROM Nivel WHERE nivel = ? AND idCurso = ?";
 
 $stmt = $conn->prepare($sql);
 
 if ($stmt) {
-    // Enlazar el parámetro (en este caso, "i" indica que el parámetro es un entero)
+
     $stmt->bind_param("ii", $idNivel, $idCurso);
     $stmt->execute();
 
-    // Obtener el resultado
     $resultNivel = $stmt->get_result();
 }
 

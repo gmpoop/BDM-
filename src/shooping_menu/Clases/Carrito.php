@@ -16,6 +16,5 @@ class Carrito {
         $this->id_user = $id_user;
     }
 
-    // Puedes añadir métodos adicionales aquí
 }
 ?>
