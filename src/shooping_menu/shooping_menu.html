@@ -5,14 +5,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menú de Compras - Cursos</title>
-    <link href="../output.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="../styles/output.css" rel="stylesheet">
     <!-- Incluir SweetAlert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="bg-gray-100 text-gray-800">
     <!-- Contenedor Principal -->
+
+    <header class="bg-white shadow-md w-full z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+    
+                <div class="flex-shrink-0 flex items-center ">
+                  <a href="./dashboard/dash.html">
+                    <img class="h-10 w-auto" src="../images/logo.png" alt="" >
+                  </a>
+                </div>
+    
+            </div>
+        </div>
+    
+    </header>
 
         <div class="container mx-auto p-6">
             <!-- Título del Menú de Compras -->
@@ -121,7 +135,7 @@
                     </div>
                 </method>
                 <!-- Aside -->
-                <aside class="w-auto mt-12 p-6 -translate-y-6">
+                <aside class="w-full mt-12 p-6 -translate-y-6">
                     <div class="bg-white shadow-lg rounded-lg overflow-hidden">
                         <div class="p-4">
                             <h2 class="text-2xl font-bold text-[#4821ea]">Desarrollo Web</h2>
