@@ -10,17 +10,14 @@
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             margin: 5em;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            width: 100%;
+            height: auto;
         }
 
         .container_main {
             background-color: white;
+            height: auto;
             padding: 20px;
+            margin: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
@@ -68,9 +65,21 @@
             margin-top: 10px;
         }
 
+        .carousel {
+            overflow: hidden;
+        }
+
+        .carousel-item {
+            min-width: 100%;
+        }
+
+        .course-list {
+            margin-top: 20px;
+        }
+
         /* Estilos específicos para la lista de cursos */
         .course-container_main {
-            margin-top: 30px;
+            margin: 30px;
         }
 
         .course-list {
@@ -123,8 +132,6 @@
     </style>
 </head>
 <body>
-
-    
 
     <div class="container_main">
         <div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg mt-10">

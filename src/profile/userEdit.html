@@ -192,16 +192,34 @@
     }
 
     // Validar contraseñas opcionales
-    if (password !== "" && password.length < 8) {
-        validate = false;
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'La nueva contraseña debe tener al menos 8 caracteres.',
-            confirmButtonColor: '#4821ea'
-        });
-        return false;
+    if (password !== "") {
+        // Verificar si la contraseña tiene menos de 8 caracteres
+        if (password.length < 8) {
+            validate = false;
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'La nueva contraseña debe tener al menos 8 caracteres.',
+                confirmButtonColor: '#4821ea'
+            });
+            return false;
+        }
+        
+        // Verificar si la contraseña tiene al menos un número, una mayúscula y un carácter especial
+        const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+        if (!regex.test(password)) {
+            validate = false;
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'La contraseña debe contener al menos una letra mayúscula, un número y un carácter especial.',
+                confirmButtonColor: '#4821ea'
+            });
+            return false;
+        }
     }
+
 
     // Confirmar que las contraseñas coincidan
     if (password !== passwordConfirm) {
