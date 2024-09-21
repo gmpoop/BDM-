@@ -1,23 +1,112 @@
-<!DOCTYPE html>
-<html lang="en">
+<html lang="en"></html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
-    <link rel="stylesheet" href="../styles/output.css">
+    <title>Categorías</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
-<body>
 
-    <div class="mt-12">
-        <h2 class="text-2xl font-bold text-[#4821ea] mb-4">Filtrar Cursos</h2>
-        <div class="flex flex-wrap space-x-4">
-            <button class="bg-[#4821ea] text-white py-2 px-4 rounded hover:bg-[#3d1bc8]">Todos</button>
-            <button class="bg-[#4821ea] text-white py-2 px-4 rounded hover:bg-[#3d1bc8]">Principiante</button>
-            <button class="bg-[#4821ea] text-white py-2 px-4 rounded hover:bg-[#3d1bc8]">Intermedio</button>
-            <button class="bg-[#4821ea] text-white py-2 px-4 rounded hover:bg-[#3d1bc8]">Avanzado</button>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-6">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold text-black">Categorías</h1>
+            <div class="relative">
+                <button id="filterButton" class="bg-[#4821ea] text-white px-3 py-2 rounded-md focus:outline-none">
+                    <i class="fas fa-filter"></i> Filtros
+                </button>
+                <div id="filterMenu"
+                    class="absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-md shadow-lg hidden">
+                    <div class="p-4 space-y-2">
+                        <label class="block text-gray-700 mb-3">Rango de fechas de creación de la categoría</label>
+                        <input type="date" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+                        <input type="date" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+                    </div>
+
+                    <div class="p-4">
+                        <button class="bg-[#4821ea] text-white px-4 py-2 rounded-md w-full">Aplicar filtros</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white shadow-md rounded-lg overflow-hidden h-screen">
+            <table class="min-w-full bg-white">
+                <thead class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
+                    <tr>
+                        <th class="py-3 px-6 text-left">Nombre de la categoría</th>
+                        <th class="py-3 px-6 text-left">Fecha de creación</th>
+                        <th class="py-3 px-6 text-left">Estatus</th>
+                        <th class="py-3 px-6 text-left">Creador</th>
+                        <th class="py-3 px-6 text-left"></th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-600 text-sm font-light">
+                    <tr class="border-b border-gray-200 hover:bg-gray-100">
+                        <td class="py-4 px-6 text-left whitespace-nowrap">Nombre </td>
+                        <td class="py-4 px-6 text-left">9/23/16</td>
+                        <td class="py-4 px-4 text-left">
+                            <span class="bg-green-100 text-green-600 py-1 px-3 rounded-full text-xs">Alta</span>
+                        </td>
+                        <td>Vianney</td>    
+                        <td class="py-4 px-6 text-left relative">
+                            <i class="fas fa-ellipsis-v cursor-pointer" onclick="toggleMenu(this)"></i>
+                            <div
+                                class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg hidden ">
+                                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Editar</a>
+                                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Eliminar</a>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr class="border-b border-gray-200 hover:bg-gray-100">
+                        <td class="py-4 px-6 text-left whitespace-nowrap">Nombre </td>
+                        <td class="py-4 px-6 text-left">9/23/16</td>
+                        <td class="py-4 px-4 text-left">
+                            <span class="bg-red-100 text-orange-600 py-1 px-4 rounded-full text-xs">Baja</span>
+                        </td>
+                        <td>Alfonso</td>
+                        <td class="py-4 px-6 text-left relative">
+                            <i class="fas fa-ellipsis-v cursor-pointer" onclick="toggleMenu(this)"></i>
+                            <div
+                                class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg hidden ">
+                                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Editar</a>
+                                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Eliminar</a>
+                            </div>
+                        </td>
+                    </tr>
+
+
+                </tbody>
+            </table>
         </div>
     </div>
-    
+    <script>
+        document.getElementById('filterButton').addEventListener('click', function () {
+            var filterMenu = document.getElementById('filterMenu');
+            filterMenu.classList.toggle('hidden');
+        });
+
+        function toggleMenu(element) {
+            var menu = element.nextElementSibling;
+            menu.classList.toggle('hidden');
+        }
+
+        document.addEventListener('click', function (event) {
+            var isClickInside = document.getElementById('filterButton').contains(event.target) || document.getElementById('filterMenu').contains(event.target);
+            if (!isClickInside) {
+                document.getElementById('filterMenu').classList.add('hidden');
+            }
+
+            var ellipsisMenus = document.querySelectorAll('.fa-ellipsis-v');
+            ellipsisMenus.forEach(function (ellipsis) {
+                var menu = ellipsis.nextElementSibling;
+                if (!ellipsis.contains(event.target) && !menu.contains(event.target)) {
+                    menu.classList.add('hidden');
+                }
+            });
+        });
+    </script>
 </body>
+
 </html>
