@@ -30,8 +30,41 @@
                 </a>
               </div>
 
-            <div class="flex-1 hidden md:flex items-center justify-center">
+            <div class="flex-1 hidden md:flex items-center justify-center gap-5">
                 <input type="text" placeholder="Buscar cursos..." class="w-full max-w-md p-2 rounded-md border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-400">
+
+                <div class="relative">
+                    <button id="filterButton" class="bg-[#4821ea] text-white px-3 py-2 rounded-md focus:outline-none">
+                        <i class="fas fa-filter"></i> Filtros
+                    </button>
+                    <div id="filterMenu"
+                        class="absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-md shadow-lg hidden">
+                        <div class="p-4">
+                            <label class="block text-gray-700">Rango de fechas de inscripción al curso</label>
+                            <input type="date" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+                            <input type="date" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+                        </div>
+                        <div class="p-4">
+                            <label class="block text-gray-700">Categoría</label>
+                            <select class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+                                <option>Todas</option>
+                                <option>Categoría 1</option>
+                                <option>Categoría 2</option>
+                            </select>
+                        </div>
+                        <div class="p-4">
+                            <label class="block text-gray-700">Estado del curso</label>
+                            <select class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+                                <option>Todos</option>
+                                <option>Solo cursos terminados</option>
+                                <option>Solo cursos activos</option>
+                            </select>
+                        </div>
+                        <div class="p-4">
+                            <button class="bg-[#4821ea] text-white px-4 py-2 rounded-md w-full">Aplicar filtros</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="hidden md:flex items-center space-x-6">
@@ -72,7 +105,7 @@
  <div>
      <div class="w-full h-auto  bg-white rounded-xl  flex-col  m-5 overflow-x-auto">
          <h1 class="text-5xl font-bold ml-4 mb-4 text-[#000000]">Programación</h1>
-         <ul class=" flex overflow-x-auto ">
+         <ul class="flex overflow-x-auto ">
             
              <li class="shadow-inner	 min-w-[500px] flex-col space-y-4 justify-between items-center m-2 p-4 hover:opacity-90">
                  <div class="flex flex-col items-start">
@@ -142,7 +175,7 @@
                      </div>
                  </div>
              </li>
-             <li class="shadow-inner	 min-w-[500px] flex-col space-y-4 justify-between items-center m-2 p-4 hover:opacity-90">
+             <li class="shadow-inne min-w-[500px] flex-col space-y-4 justify-between items-center m-2 p-4 hover:opacity-90">
                  <div class="flex flex-col items-start">
                      <a href="./templateCourse/course.html">
                          <h2 class="text-2xl   font-bold text-gray-600">Nombre de curso</h2>
@@ -211,6 +244,11 @@
      </div>
  </div>
 
-    
+    <script>
+         document.getElementById('filterButton').addEventListener('click', function () {
+            var filterMenu = document.getElementById('filterMenu');
+            filterMenu.classList.toggle('hidden');
+        });
+    </script>
 </body>
 </html>
