@@ -1,0 +1,276 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kardex</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body class="bg-gray-100">
+    <div class="container mx-auto p-6">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold text-black">Kardex</h1>
+            <div class="relative">
+                <button id="filterButton" class="bg-[#4821ea] text-white px-3 py-2 rounded-md focus:outline-none">
+                    <i class="fas fa-filter"></i> Filtros
+                </button>
+                <div id="filterMenu"
+                    class="absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-md shadow-lg hidden">
+                    <div class="p-4">
+                        <label class="block text-gray-700">Rango de fechas de inscripción al curso</label>
+                        <input type="date" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+                        <input type="date" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+                    </div>
+                    <div class="p-4">
+                        <label class="block text-gray-700">Categoría</label>
+                        <select class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+                            <option>Todas</option>
+                            <option>Categoría 1</option>
+                            <option>Categoría 2</option>
+                        </select>
+                    </div>
+                    <div class="p-4">
+                        <label class="block text-gray-700">Estado del curso</label>
+                        <select class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+                            <option>Todos</option>
+                            <option>Solo cursos terminados</option>
+                            <option>Solo cursos activos</option>
+                        </select>
+                    </div>
+                    <div class="p-4">
+                        <button class="bg-[#4821ea] text-white px-4 py-2 rounded-md w-full">Aplicar filtros</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <table class="min-w-full bg-white">
+                <thead class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
+                    <tr>
+                        <th class="py-3 px-6 text-left">Nombre del curso</th>
+                        <th class="py-3 px-6 text-left">Fecha de inicio</th>
+                        <th class="py-3 px-6 text-left">Ultima vez visto</th>
+                        <th class="py-3 px-6 text-left">Progreso</th>
+                        <th class="py-3 px-6 text-left">Estatus</th>
+                        <th class="py-3 px-6 text-left">Fecha finalizado</th>
+                        <th class="py-3 px-6 text-left"></th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-600 text-sm font-light">
+                    <tr class="border-b border-gray-200 hover:bg-gray-100">
+                        <td class="py-4 px-6 text-left whitespace-nowrap">Nombre curso</td>
+                        <td class="py-4 px-6 text-left">9/23/16</td>
+                        <td class="py-4 px-6 text-left">9/23/16</td>
+                        <td class="py-4 px-6 text-left">50%</td>
+                        <td class="py-4 px-6 text-left">
+                            <span class="bg-orange-100 text-orange-600 py-1 px-3 rounded-full text-xs">En
+                                progreso</span>
+                        </td>
+                        <td class="py-4 px-6 text-left">-</td>
+                        <td class="py-4 px-6 text-left relative">
+                            <i class="fas fa-ellipsis-v cursor-pointer" onclick="toggleMenu(this)"></i>
+                            <div
+                                class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg hidden">
+                                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Ir al curso</a>
+                                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Ver detalles</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="border-b border-gray-200 hover:bg-gray-100">
+                        <td class="py-4 px-6 text-left whitespace-nowrap">Nombre curso</td>
+                        <td class="py-4 px-6 text-left">4/21/12</td>
+                        <td class="py-4 px-6 text-left">9/23/16</td>
+                        <td class="py-4 px-6 text-left">100%</td>
+                        <td class="py-4 px-6 text-left">
+                            <span class="bg-green-100 text-green-600 py-1 px-3 rounded-full text-xs">Completada</span>
+                        </td>
+                        <td class="py-4 px-6 text-left">4/21/15</td>
+                        <td class="py-4 px-6 text-left relative">
+                            <i class="fas fa-ellipsis-v cursor-pointer" onclick="toggleMenu(this)"></i>
+                            <div
+                                class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg hidden">
+                                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Ir al curso</a>
+                                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Ver detalles</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="border-b border-gray-200 hover:bg-gray-100">
+                        <td class="py-4 px-6 text-left whitespace-nowrap">Nombre curso</td>
+                        <td class="py-4 px-6 text-left">12/4/17</td>
+                        <td class="py-4 px-6 text-left">9/23/16</td>
+                        <td class="py-4 px-6 text-left">100%</td>
+                        <td class="py-4 px-6 text-left">
+                            <span class="bg-green-100 text-green-600 py-1 px-3 rounded-full text-xs">Completada</span>
+                        </td>
+                        <td class="py-4 px-6 text-left">4/21/15</td>
+                        <td class="py-4 px-6 text-left relative">
+                            <i class="fas fa-ellipsis-v cursor-pointer" onclick="toggleMenu(this)"></i>
+                            <div
+                                class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg hidden">
+                                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Ir al curso</a>
+                                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Ver detalles</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="border-b border-gray-200 hover:bg-gray-100">
+                        <td class="py-4 px-6 text-left whitespace-nowrap">Nombre curso</td>
+                        <td class="py-4 px-6 text-left">7/18/17</td>
+                        <td class="py-4 px-6 text-left">9/23/16</td>
+                        <td class="py-4 px-6 text-left">100%</td>
+                        <td class="py-4 px-6 text-left">
+                            <span class="bg-green-100 text-green-600 py-1 px-3 rounded-full text-xs">Completada</span>
+                        </td>
+                        <td class="py-4 px-6 text-left">4/21/15</td>
+                        <td class="py-4 px-6 text-left relative">
+                            <i class="fas fa-ellipsis-v cursor-pointer" onclick="toggleMenu(this)"></i>
+                            <div
+                                class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg hidden">
+                                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Ir al curso</a>
+                                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Ver detalles</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="border-b border-gray-200 hover:bg-gray-100">
+                        <td class="py-4 px-6 text-left whitespace-nowrap">Nombre curso</td>
+                        <td class="py-4 px-6 text-left">1/31/14</td>
+                        <td class="py-4 px-6 text-left">9/23/16</td>
+                        <td class="py-4 px-6 text-left">100%</td>
+                        <td class="py-4 px-6 text-left">
+                            <span class="bg-green-100 text-green-600 py-1 px-3 rounded-full text-xs">Completada</span>
+                        </td>
+                        <td class="py-4 px-6 text-left">4/21/15</td>
+                        <td class="py-4 px-6 text-left relative">
+                            <i class="fas fa-ellipsis-v cursor-pointer" onclick="toggleMenu(this)"></i>
+                            <div
+                                class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg hidden">
+                                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Ir al curso</a>
+                                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Ver detalles</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="border-b border-gray-200 hover:bg-gray-100">
+                        <td class="py-4 px-6 text-left whitespace-nowrap">Nombre curso</td>
+                        <td class="py-4 px-6 text-left">12/10/13</td>
+                        <td class="py-4 px-6 text-left">9/23/16</td>
+                        <td class="py-4 px-6 text-left">93%</td>
+                        <td class="py-4 px-6 text-left">
+                            <span class="bg-orange-100 text-orange-600 py-1 px-3 rounded-full text-xs">En
+                                progreso</span>
+                        </td>
+                        <td class="py-4 px-6 text-left">-</td>
+                        <td class="py-4 px-6 text-left relative">
+                            <i class="fas fa-ellipsis-v cursor-pointer" onclick="toggleMenu(this)"></i>
+                            <div
+                                class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg hidden">
+                                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Ir al curso</a>
+                                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Ver detalles</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="border-b border-gray-200 hover:bg-gray-100">
+                        <td class="py-4 px-6 text-left whitespace-nowrap">Nombre curso</td>
+                        <td class="py-4 px-6 text-left">5/27/15</td>
+                        <td class="py-4 px-6 text-left">9/23/16</td>
+                        <td class="py-4 px-6 text-left">100%</td>
+                        <td class="py-4 px-6 text-left">
+                            <span class="bg-green-100 text-green-600 py-1 px-3 rounded-full text-xs">Completada</span>
+                        </td>
+                        <td class="py-4 px-6 text-left">4/21/15</td>
+                        <td class="py-4 px-6 text-left relative">
+                            <i class="fas fa-ellipsis-v cursor-pointer" onclick="toggleMenu(this)"></i>
+                            <div
+                                class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg hidden">
+                                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Ir al curso</a>
+                                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Ver detalles</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="border-b border-gray-200 hover:bg-gray-100">
+                        <td class="py-4 px-6 text-left whitespace-nowrap">Nombre curso</td>
+                        <td class="py-4 px-6 text-left">5/7/16</td>
+                        <td class="py-4 px-6 text-left">9/23/16</td>
+                        <td class="py-4 px-6 text-left">100%</td>
+                        <td class="py-4 px-6 text-left">
+                            <span class="bg-green-100 text-green-600 py-1 px-3 rounded-full text-xs">Completada</span>
+                        </td>
+                        <td class="py-4 px-6 text-left">4/21/15</td>
+                        <td class="py-4 px-6 text-left relative">
+                            <i class="fas fa-ellipsis-v cursor-pointer" onclick="toggleMenu(this)"></i>
+                            <div
+                                class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg hidden">
+                                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Ir al curso</a>
+                                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Ver detalles</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="border-b border-gray-200 hover:bg-gray-100">
+                        <td class="py-4 px-6 text-left whitespace-nowrap">Nombre curso</td>
+                        <td class="py-4 px-6 text-left">1/15/12</td>
+                        <td class="py-4 px-6 text-left">9/23/16</td>
+                        <td class="py-4 px-6 text-left">100%</td>
+                        <td class="py-4 px-6 text-left">
+                            <span class="bg-green-100 text-green-600 py-1 px-3 rounded-full text-xs">Completada</span>
+                        </td>
+                        <td class="py-4 px-6 text-left">4/21/15</td>
+                        <td class="py-4 px-6 text-left relative">
+                            <i class="fas fa-ellipsis-v cursor-pointer" onclick="toggleMenu(this)"></i>
+                            <div
+                                class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg hidden">
+                                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Ir al curso</a>
+                                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Ver detalles</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="border-b border-gray-200 hover:bg-gray-100">
+                        <td class="py-4 px-6 text-left whitespace-nowrap">Nombre curso</td>
+                        <td class="py-4 px-6 text-left">8/21/15</td>
+                        <td class="py-4 px-6 text-left">9/23/16</td>
+                        <td class="py-4 px-6 text-left">100%</td>
+                        <td class="py-4 px-6 text-left">
+                            <span class="bg-green-100 text-green-600 py-1 px-3 rounded-full text-xs">Completada</span>
+                        </td>
+                        <td class="py-4 px-6 text-left">4/21/15</td>
+                        <td class="py-4 px-6 text-left relative">
+                            <i class="fas fa-ellipsis-v cursor-pointer" onclick="toggleMenu(this)"></i>
+                            <div
+                                class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg hidden">
+                                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Ir al curso</a>
+                                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Ver detalles</a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        document.getElementById('filterButton').addEventListener('click', function () {
+            var filterMenu = document.getElementById('filterMenu');
+            filterMenu.classList.toggle('hidden');
+        });
+
+        function toggleMenu(element) {
+            var menu = element.nextElementSibling;
+            menu.classList.toggle('hidden');
+        }
+
+        document.addEventListener('click', function (event) {
+            var isClickInside = document.getElementById('filterButton').contains(event.target) || document.getElementById('filterMenu').contains(event.target);
+            if (!isClickInside) {
+                document.getElementById('filterMenu').classList.add('hidden');
+            }
+
+            var ellipsisMenus = document.querySelectorAll('.fa-ellipsis-v');
+            ellipsisMenus.forEach(function (ellipsis) {
+                var menu = ellipsis.nextElementSibling;
+                if (!ellipsis.contains(event.target) && !menu.contains(event.target)) {
+                    menu.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
