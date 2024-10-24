@@ -8,10 +8,12 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="bg-gray-100 w-full">
+
+
     <div class="flex justify-center items-center h-screen w-full">
         <div class="bg-white p-8 rounded-lg shadow-lg w-[70%] m-5">
             <h1 class="text-2xl font-bold text-gray-800 mb-6" id="title"></h1>
-            <form class=" w-full" id="editUserForm" enctype="multipart/form-data">
+            <form class=" w-full" id="editUserForm" method="POST" action ="register.php" enctype="multipart/form-data">
                 <div class="flex gap-8 ">
                     <div class="w-full">
     
@@ -54,7 +56,7 @@
                     </div>
                 </div>
                 <div class="flex items-center justify-between mb-4">
-                    <button onclick="validarFormulario()" id="saveButton" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="">
+                    <button  id="saveButton" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" >
                         Guardar cambios
                     </button>
                 </div>
@@ -77,43 +79,50 @@
         }
 
         document.getElementById('editUserForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const name = document.getElementById('name').value;
-            const birthdate = document.getElementById('birthdate').value;
-            const password = document.getElementById('password').value;
-            const passwordConfirm = document.getElementById('password-confirm').value;
-            const passwordPattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        event.preventDefault(); // Prevenir el envío normal del formulario
+    
+    if (validarFormulario()) {
+        var formData = new FormData(this); // Recoge los datos del formulario
 
-            // Si hay nueva contraseña, validar
-            if (password && !passwordPattern.test(password)) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'La nueva contraseña debe tener al menos 8 caracteres, incluir una mayúscula, un número y un carácter especial.',
-                });
-                return;
+        console.log(formData)
+        fetch('register.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            // Verificamos si el response tiene un status 200 (éxito)
+            if (response.ok) {
+                return response.json(); // Asumimos que el servidor devuelve un JSON
+            } else {
+                throw new Error('Correo electronico ya existente');
             }
-
-            if (password !== passwordConfirm) {
+        })
+        .then(data => {
+            // Si la respuesta contiene algún dato relevante de éxito (como 'success' en JSON)
+            if (data.success) {
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Las contraseñas no coinciden.',
+                    icon: 'success',
+                    title: 'Registro exitoso',
+                    text: data.message || 'Los cambios se han guardado exitosamente.',
                 });
-                return;
+            } else {
+                throw new Error(data.message || 'Error en la respuesta del servidor.');
             }
-
-            // Simulación de éxito
+        })
+        .catch(error => {
+            // Si hay cualquier error (en la solicitud o en la respuesta del servidor)
             Swal.fire({
-                icon: 'success',
-                title: '¡Perfil actualizado!',
-                text: 'Los cambios se han guardado exitosamente.',
+                icon: 'error',
+                title: 'Error',
+                text: error.message || 'Hubo un error al guardar los cambios.',
             });
         });
+    }
+});
 
-        function validarFormulario() {
 
 
+    function validarFormulario() {
 
     const name = document.getElementById("nombre").value.trim();
     const email = document.getElementById("email").value.trim();  // aunque está deshabilitado, lo dejo por si lo habilitas en algún momento
@@ -180,46 +189,45 @@
     }
 
     // Validar si se ha seleccionado una foto de perfil
-    if (!avatar) {
+    // if (!avatar) {
+    //     validate = false;
+    //     Swal.fire({
+    //         icon: 'error',
+    //         title: 'Error',
+    //         text: 'Por favor, seleccione una foto de perfil.',
+    //         confirmButtonColor: '#4821ea'
+    //     });
+    //     return false;
+    // }
+
+    // Validar contraseñas opcionales
+    if (password !== "") {
+    // Verificar si la contraseña tiene menos de 8 caracteres
+    if (password.length < 8) {
         validate = false;
         Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: 'Por favor, seleccione una foto de perfil.',
+            text: 'La nueva contraseña debe tener al menos 8 caracteres.',
             confirmButtonColor: '#4821ea'
         });
         return false;
     }
 
-    // Validar contraseñas opcionales
-    if (password !== "") {
-        // Verificar si la contraseña tiene menos de 8 caracteres
-        if (password.length < 8) {
-            validate = false;
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'La nueva contraseña debe tener al menos 8 caracteres.',
-                confirmButtonColor: '#4821ea'
-            });
-            return false;
-        }
-        
-        // Verificar si la contraseña tiene al menos un número, una mayúscula y un carácter especial
-        const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    console.log(password)
+    // Verificar si la contraseña tiene al menos una letra mayúscula, un número y un carácter especial
+    const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-        if (!regex.test(password)) {
-            validate = false;
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'La contraseña debe contener al menos una letra mayúscula, un número y un carácter especial.',
-                confirmButtonColor: '#4821ea'
-            });
-            return false;
-        }
+    if (!regex.test(password)) {
+        validate = false;
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'La contraseña debe contener al menos una letra mayúscula, un número y un carácter especial.',
+            confirmButtonColor: '#4821ea'
+        });
+        return false;
     }
-
 
     // Confirmar que las contraseñas coincidan
     if (password !== passwordConfirm) {
@@ -232,17 +240,21 @@
         });
         return false;
     }
-
-
-    // Si pasa todas las validaciones
-    if(validate) {
+}
+else 
+    {     
         Swal.fire({
-            icon: 'success',
-            title: 'Cambios guardados',
-            text: 'El perfil ha sido actualizado exitosamente.',
+            icon: 'error',
+            title: 'Error',
+            text: 'Llenar el campo contraseña',
             confirmButtonColor: '#4821ea'
         });
+
+        return false;
     }
+
+    return true;
+
 }
 
     </script>
