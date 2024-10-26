@@ -33,6 +33,30 @@ class usuariosControl
             $this->user->fecha_nacimiento = $data->fecha_nacimiento ?? null;
             $this->user->rol_id = $data->rol_id ?? 2;
 
+            // Manejar la imagen en base64
+            if (!empty($data->foto)) {
+                $imageData = explode(',', $data->foto); // Separar el tipo de datos de la imagen
+                $this->user->foto = uniqid() . '.png'; // Generar un nombre único para la imagen
+                $this->user->ruta_foto = '../DirectorioImg/' . $this->user->foto; // Asegúrate de tener la barra al final
+
+                // Validar el tipo de imagen
+                if (preg_match('/^data:image\/(png|jpg|jpeg);base64,/', $data->foto)) {
+                    // Guardar la imagen
+                    if (file_put_contents($this->user->ruta_foto, base64_decode($imageData[1])) === false) {
+                        http_response_code(500);
+                        echo json_encode(array("message" => "Error al guardar la imagen."));
+                        return;
+                    }
+                } else {
+                    http_response_code(400);
+                    echo json_encode(array("message" => "Formato de imagen no válido."));
+                    return;
+                }
+            } else {
+                $this->user->foto = null;
+                $this->user->ruta_foto = null;
+            }
+
             // Crear el usuario
             if ($this->user->create()) {
                 http_response_code(201);
@@ -46,7 +70,6 @@ class usuariosControl
             echo json_encode(array("message" => "No se puede crear el usuario. Datos incompletos."));
         }
     }
-
     public function login()
     {
         // Obtener datos POST
@@ -112,22 +135,21 @@ class usuariosControl
             echo json_encode(array("message" => "Usuario no encontrado."));
         }
     }
-
     public function updateUser($userId)
     {
         // Obtener datos del cuerpo de la solicitud
         $data = json_decode(file_get_contents("php://input"));
-        
+
         // Verificar que se recibieron datos
         if (!$data) {
             http_response_code(400);
             echo json_encode(["message" => "No se recibieron datos para actualizar"]);
             return;
         }
-    
+
         $user = new Usuario($this->db);
         $user->id = $userId;
-        
+
         // Asignar los datos recibidos a las propiedades del usuario
         $user->nombre_completo = $data->nombre_completo ?? null;
         $user->genero = $data->genero ?? null;
@@ -137,9 +159,9 @@ class usuariosControl
         $user->email = $data->email ?? null;
         $user->contraseña = $data->contraseña ?? null;
         $user->rol_id = $data->rol_id ?? null;
-    
+
         $result = $user->update();
-    
+
         if (isset($result['success'])) {
             http_response_code(200);
             echo json_encode($result);
@@ -148,7 +170,6 @@ class usuariosControl
             echo json_encode($result);
         }
     }
-    
     public function deleteUser($id)
     {
         $this->user->id = $id;

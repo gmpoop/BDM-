@@ -27,7 +27,7 @@ $userController = new usuariosControl($db);
 
 // Obtener el método HTTP y la ruta
 $method = $_SERVER['REQUEST_METHOD'];
-$request = $_SERVER['REQUEST_URI'];
+$request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 // Rutas de la API
 switch ($request) {

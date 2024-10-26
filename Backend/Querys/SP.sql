@@ -21,7 +21,7 @@ END$$
 
 -- Modificar un rol
 CREATE PROCEDURE sp_modificar_rol (
-    IN p_id BIGINT,
+    IN p_id BIGINT,s
     IN p_nombre VARCHAR(255)
 )
 BEGIN
@@ -33,7 +33,7 @@ CREATE PROCEDURE sp_insertar_usuario (
     IN p_nombre_completo VARCHAR(255),
     IN p_genero VARCHAR(50),
     IN p_fecha_nacimiento DATE,
-    IN p_foto BLOB,
+    IN p_foto TEXT,
     IN p_ruta_foto VARCHAR(255),
     IN p_email VARCHAR(255),
     IN p_contraseña TEXT,

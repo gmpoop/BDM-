@@ -28,18 +28,26 @@ class Usuario
     // Método para insertar un nuevo usuario
     public function create()
     {
+        // Llamar al procedimiento almacenado para insertar un nuevo usuario
         $query = "CALL sp_insertar_usuario(?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
-
+    
+        if (!$stmt) {
+            return false;
+        }
+    
         // Sanitizar inputs
         $this->nombre_completo = htmlspecialchars(strip_tags($this->nombre_completo));
         $this->genero = htmlspecialchars(strip_tags($this->genero));
+        $this->fecha_nacimiento = htmlspecialchars(strip_tags($this->fecha_nacimiento));
+        $this->foto = htmlspecialchars(strip_tags($this->foto));
+        $this->ruta_foto = htmlspecialchars(strip_tags($this->ruta_foto));
         $this->email = htmlspecialchars(strip_tags($this->email));
-        $this->contraseña = password_hash($this->contraseña, PASSWORD_DEFAULT); // Encriptar contraseña
+        $this->contraseña = password_hash($this->contraseña, PASSWORD_DEFAULT);
 
         // Bind de los parámetros
         $stmt->bind_param(
-            "sssbsssi",
+            "sssssssi",    
             $this->nombre_completo,
             $this->genero,
             $this->fecha_nacimiento,
@@ -49,11 +57,12 @@ class Usuario
             $this->contraseña,
             $this->rol_id
         );
-
         if ($stmt->execute()) {
             return true;
+        } else {
+            // Manejo de errores
+            return false; 
         }
-        return false;
     }
 
     // Método para obtener un usuario por ID
