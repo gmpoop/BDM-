@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar - iCraft</title>
+    <link rel="stylesheet" href="../styles/output.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body class="bg-gray-100 w-full">
+    <div class="flex justify-center items-center h-screen w-full">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-[70%] m-5">
+            <div class="flex justify-center mb-4">
+                <img src="../images/logo.png" alt="Título de la Página" style="width: 200px;">
+            </div>
+            <h1 class="text-2xl font-bold text-gray-800 mb-6">Registrar Usuario</h1>
+
+            <form class="w-full" id="registerForm" method="POST" enctype="multipart/form-data">
+                <div class="flex gap-8">
+                    <div class="w-full">
+                        <div class="mb-4">
+                            <label for="nombre" class="block text-gray-700 text-sm font-bold mb-2">Nombre</label>
+                            <input type="text" id="nombre_completo" name="nombre_completo"
+                                placeholder="Nombre del usuario" required
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Correo
+                                electrónico</label>
+                            <input type="email" id="email" name="email" placeholder="email@ejemplo.com" required
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="birthdate" class="block text-gray-700 text-sm font-bold mb-2">Fecha de
+                                nacimiento</label>
+                            <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="gender" class="block text-gray-700 text-sm font-bold mb-2">Género</label>
+                            <select id="gender" name="genero"
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                <option value="male" selected>Masculino</option>
+                                <option value="female">Femenino</option>
+                                <option value="other">Otro</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="w-full">
+                        <div class="mb-4">
+                            <label for="foto" class="block text-gray-700 text-sm font-bold mb-2">Foto de perfil</label>
+                            <input type="file" id="foto" name="foto" accept="image/*" required
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Contraseña</label>
+                            <input type="password" id="password" name="contraseña" placeholder="Al menos 8 caracteres"
+                                required
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="password-confirm" class="block text-gray-700 text-sm font-bold mb-2">Confirmar
+                                contraseña</label>
+                            <input type="password" id="password-confirm" name="password_confirmation" required
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between mb-4">
+                    <button type="submit"
+                        class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Registrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Evitar envío estándar del formulario
+
+            // Obtener los valores de los campos
+            const nombreCompleto = document.getElementById('nombre_completo').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('password-confirm').value;
+            const fechaNacimiento = document.getElementById('fecha_nacimiento').value;
+            const genero = document.getElementById('gender').value;
+            const fileInput = document.getElementById('foto');
+
+            // Validar que ningún campo esté vacío
+            if (!nombreCompleto || !email || !password || !confirmPassword || !fechaNacimiento || !genero || (fileInput.files.length === 0)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Todos los campos son obligatorios.',
+                });
+                return; // Salir si algún campo está vacío
+            }
+
+            // Validar formato de correo electrónico
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'El correo electrónico no es válido.',
+                });
+                return; // Salir si el correo no es válido
+            }
+
+            // Validar fecha de nacimiento
+            const today = new Date();
+            const birthDate = new Date(fechaNacimiento);
+            if (birthDate > today) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'La fecha de nacimiento no puede ser mayor a la fecha actual.',
+                });
+                return; // Salir si la fecha de nacimiento es mayor a hoy
+            }
+
+            // Validar que las contraseñas coincidan
+            if (password !== confirmPassword) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Las contraseñas no coinciden.',
+                });
+                return; // Salir si las contraseñas no coinciden
+            }
+
+            // Crear un objeto con los datos del formulario
+            const formData = {
+                nombre_completo: nombreCompleto,
+                email: email,
+                contraseña: password, // Usar la contraseña ingresada
+                genero: genero,
+                fecha_nacimiento: fechaNacimiento,
+            };
+
+            // Manejar la imagen como base64
+            if (fileInput.files.length > 0) {
+                const reader = new FileReader();
+                reader.onloadend = function () {
+                    formData.foto = reader.result; // Convertir la imagen a base64
+                    sendData(formData); // Enviar los datos
+                };
+                reader.readAsDataURL(fileInput.files[0]); // Leer el archivo como Data URL
+            } else {
+                formData.foto = null; // Si no hay foto, establecer en null
+                sendData(formData); // Enviar los datos
+            }
+        });
+
+        function sendData(data) {
+            fetch('http://localhost/BDM/BDM/Backend/API/api.php/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+                .then(async response => {
+                    const contentType = response.headers.get("content-type");
+                    if (!contentType || !contentType.includes("application/json")) {
+                        const text = await response.text();
+                        throw new Error("Respuesta no JSON: " + text);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Registro exitoso!',
+                        text: data.message,
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: error.message || 'Hubo un error al conectar con la API.',
+                    });
+                });
+        }
+    </script>
+</body>
+
+</html>
