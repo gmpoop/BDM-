@@ -2,7 +2,7 @@
 require_once '../clases/Database.php';
 require_once '../modelos/usuarios.php';
 require_once '../controladores/usuariosControl.php';
-require_once 'C:/xampp/htdocs/BDM/BDM/vendor/autoload.php';
+require_once 'C:/xampp/htdocs/BDM-/vendor/autoload.php';
 
 
 use Firebase\JWT\JWT;
@@ -31,7 +31,7 @@ $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 // Rutas de la API
 switch ($request) {
-    case '/BDM/BDM/Backend/API/api.php/register': {
+    case '/BDM-/Backend/API/api.php/register': {
         if ($method == 'POST') {
             $userController->register();
         } else {
@@ -41,7 +41,7 @@ switch ($request) {
     }
         break;
 
-    case '/BDM/BDM/Backend/API/api.php/login': {
+    case '/BDM-/Backend/API/api.php/login': {
         if ($method == 'POST') {
             $userController->login();
         } else {
@@ -51,7 +51,8 @@ switch ($request) {
     }
         break;
 
-    case '/BDM/BDM/Backend/API/api.php/users': {
+        
+    case '/BDM-/Backend/API/api.php/users': {
         if ($method == 'GET') {
             // Verificar el token JWT
             $headers = getallheaders();
@@ -70,7 +71,16 @@ switch ($request) {
                 http_response_code(401);
                 echo json_encode(array("message" => "Se requiere autorización"));
             }
-        } else {
+        } 
+        else if ($method == 'PUT') {
+
+                $userController->updateUser();
+        }
+        else if ($method == 'DELETE') {
+
+                $userController->deleteUser();
+        }
+        else {
             http_response_code(405);
             echo json_encode(array("message" => "Método no permitido"));
         }

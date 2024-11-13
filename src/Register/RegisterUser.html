@@ -23,21 +23,21 @@
                         <div class="mb-4">
                             <label for="nombre" class="block text-gray-700 text-sm font-bold mb-2">Nombre</label>
                             <input type="text" id="nombre_completo" name="nombre_completo"
-                                placeholder="Nombre del usuario" required
+                                placeholder="Nombre del usuario" 
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                         </div>
 
                         <div class="mb-4">
                             <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Correo
                                 electrónico</label>
-                            <input type="email" id="email" name="email" placeholder="email@ejemplo.com" required
+                            <input type="email" id="email" name="email" placeholder="email@ejemplo.com"  
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                         </div>
 
                         <div class="mb-4">
                             <label for="birthdate" class="block text-gray-700 text-sm font-bold mb-2">Fecha de
                                 nacimiento</label>
-                            <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required
+                            <input type="date" id="fecha_nacimiento" name="fecha_nacimiento"  
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                         </div>
 
@@ -55,21 +55,21 @@
                     <div class="w-full">
                         <div class="mb-4">
                             <label for="foto" class="block text-gray-700 text-sm font-bold mb-2">Foto de perfil</label>
-                            <input type="file" id="foto" name="foto" accept="image/*" required
+                            <input type="file" id="foto" name="foto" accept="image/*"  
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                         </div>
 
                         <div class="mb-4">
                             <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Contraseña</label>
                             <input type="password" id="password" name="contraseña" placeholder="Al menos 8 caracteres"
-                                required
+                                 
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                         </div>
 
                         <div class="mb-4">
                             <label for="password-confirm" class="block text-gray-700 text-sm font-bold mb-2">Confirmar
                                 contraseña</label>
-                            <input type="password" id="password-confirm" name="password_confirmation" required
+                            <input type="password" id="password-confirm" name="password_confirmation"  
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                         </div>
                     </div>
@@ -82,6 +82,7 @@
         </div>
     </div>
     <script>
+
         document.getElementById('registerForm').addEventListener('submit', function (event) {
             event.preventDefault(); // Evitar envío estándar del formulario
 
@@ -93,9 +94,10 @@
             const fechaNacimiento = document.getElementById('fecha_nacimiento').value;
             const genero = document.getElementById('gender').value;
             const fileInput = document.getElementById('foto');
+            
 
             // Validar que ningún campo esté vacío
-            if (!nombreCompleto || !email || !password || !confirmPassword || !fechaNacimiento || !genero || (fileInput.files.length === 0)) {
+            if (!nombreCompleto || !email || !password || !confirmPassword || !fechaNacimiento || !genero) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
@@ -125,6 +127,17 @@
                     text: 'La fecha de nacimiento no puede ser mayor a la fecha actual.',
                 });
                 return; // Salir si la fecha de nacimiento es mayor a hoy
+            }
+
+            const passwordPattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            // Si hay nueva contraseña, validar
+            if (password && !passwordPattern.test(password)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'La nueva contraseña debe tener al menos 8 caracteres, incluir una mayúscula, un número y un carácter especial.',
+                });
+                return;
             }
 
             // Validar que las contraseñas coincidan
@@ -161,7 +174,8 @@
         });
 
         function sendData(data) {
-            fetch('http://localhost/BDM/BDM/Backend/API/api.php/register', {
+            console.log(data);
+            fetch('http://localhost/BDM-/Backend/API/api.php/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -169,6 +183,10 @@
                 body: JSON.stringify(data),
             })
                 .then(async response => {
+                    if (!response.ok) {
+                        const text = await response.text();
+                        throw new Error("Error en la respuesta: " + text);
+                    }
                     const contentType = response.headers.get("content-type");
                     if (!contentType || !contentType.includes("application/json")) {
                         const text = await response.text();

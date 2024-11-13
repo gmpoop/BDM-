@@ -113,6 +113,29 @@ class usuariosControl
             echo json_encode(array("message" => "Inicio de sesión fallido."));
         }
     }
+
+    public function dele($id)
+    {
+        $this->user->id = $id;
+        if ($this->user->read_one()) {
+            $user_arr = array(
+                "id" => $this->user->id,
+                "nombre_completo" => $this->user->nombre_completo,
+                "email" => $this->user->email,
+                "genero" => $this->user->genero,
+                "fecha_nacimiento" => $this->user->fecha_nacimiento,
+                "ruta_foto" => $this->user->ruta_foto,
+                "fecha_registro" => $this->user->fecha_registro,
+                "estado" => $this->user->estado,
+                "rol_id" => $this->user->rol_id
+            );
+            http_response_code(200);
+            echo json_encode($user_arr);
+        } else {
+            http_response_code(404);
+            echo json_encode(array("message" => "Usuario no encontrado."));
+        }
+    }
     public function getUser($id)
     {
         $this->user->id = $id;
@@ -135,7 +158,7 @@ class usuariosControl
             echo json_encode(array("message" => "Usuario no encontrado."));
         }
     }
-    public function updateUser($userId)
+    public function updateUser()
     {
         // Obtener datos del cuerpo de la solicitud
         $data = json_decode(file_get_contents("php://input"));
@@ -147,20 +170,20 @@ class usuariosControl
             return;
         }
 
-        $user = new Usuario($this->db);
-        $user->id = $userId;
+        $this->user->read_one($data->email);
 
         // Asignar los datos recibidos a las propiedades del usuario
-        $user->nombre_completo = $data->nombre_completo ?? null;
-        $user->genero = $data->genero ?? null;
-        $user->fecha_nacimiento = $data->fecha_nacimiento ?? null;
-        $user->foto = $data->foto ?? null;
-        $user->ruta_foto = $data->ruta_foto ?? null;
-        $user->email = $data->email ?? null;
-        $user->contraseña = $data->contraseña ?? null;
-        $user->rol_id = $data->rol_id ?? null;
+        $this->user->nombre_completo = $data->nombre_completo ?? null;
+        $this->user->genero = $data->genero ?? null;
+        $this->user->fecha_nacimiento = $data->fecha_nacimiento ?? null;
+        $this->user->foto = $data->foto ?? null;    
+        $this->user->ruta_foto = $data->ruta_foto ?? null;
+        $this->user->email = $data->email ?? null;
+        $this->user->contraseña = $data->contraseña ?? null;
+        $this->user->rol_id = $data->rol_id ?? null;
 
-        $result = $user->update();
+
+        $result = $this->user->update();
 
         if (isset($result['success'])) {
             http_response_code(200);
@@ -170,9 +193,20 @@ class usuariosControl
             echo json_encode($result);
         }
     }
-    public function deleteUser($id)
+    public function deleteUser()
     {
-        $this->user->id = $id;
+     // Obtener datos del cuerpo de la solicitud
+        $data = json_decode(file_get_contents("php://input"));
+
+        // Verificar que se recibieron datos
+        if (!$data) {
+            http_response_code(400);
+            echo json_encode(["message" => "No se recibieron datos para actualizar"]);
+            return;
+        }
+
+        $this->user->email = $data->email;    
+
 
         if ($this->user->delete()) {
             http_response_code(200);
@@ -181,6 +215,7 @@ class usuariosControl
             http_response_code(503);
             echo json_encode(array("message" => "No se pudo eliminar el usuario."));
         }
+        
     }
     public function getAllUsers()
     {

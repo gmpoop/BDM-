@@ -35,7 +35,7 @@
                 <a href="#" class="text-muted">¿Olvidaste tu contraseña?</a>
             </div>
             <hr>
-            <p class="text-muted">¿Es la primera vez que usas nuestro servicio? <a href="#">Regístrate</a></p>
+            <p class="text-muted">¿Es la primera vez que usas nuestro servicio? <a href="../Register/RegisterUser.html">Regístrate</a></p>
         </div>
     </div>
 
@@ -47,6 +47,7 @@
         async function log() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            let tries = 0;  // Intentos de inicio de sesión   
 
             if (!validateInputs(email, password)) {
                 return;
@@ -54,7 +55,7 @@
 
             try {
                 // Enviar los datos a la API
-                const response = await fetch('http://localhost/BDM/BDM/Backend/API/api.php/login', {
+                const response = await fetch('http://localhost/BDM-/Backend/API/api.php/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -73,14 +74,38 @@
                         // Guardar el token JWT en localStorage
                         localStorage.setItem('jwtToken', data.jwt);
                         // Redirigir a otra página
-                        window.location.href = "/BDM/BDM/src/home.html";
+                        window.location.href = "/BDM-/src/dashboard/home.html";
                     });
                 } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: data.message || 'Hubo un problema en el inicio de sesión.',
-                    });
+                    let tries = localStorage.getItem('loginTries') ? parseInt(localStorage.getItem('loginTries')) : 0;
+
+                    if (tries < 3) {
+                        console.log(tries);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: data.message || 'Hubo un problema en el inicio de sesión.',
+                        });
+                        tries++;
+                        localStorage.setItem('loginTries', tries);
+                    } else {
+                        const response = await fetch('http://localhost/BDM-/Backend/API/api.php/users', {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ email: email })
+                        });
+                        
+                        if(response.ok){
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Demasiados intentos fallidos. Por favor, inténtelo de nuevo más tarde.',
+                            });
+                        }
+               
+                    }
                 }
             } catch (error) {
                 console.error('Error en la solicitud:', error);
@@ -92,22 +117,38 @@
             }
         }
 
+        async function maxTries(){
+            const response = await fetch('http://localhost/BDM-/Backend/API/api.php/users', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email: email})
+            });
+
+            if(tries < 3){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Hubo un problema en el inicio de sesión.',
+                });
+                tries++;
+            }
+            else{
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Demasiados intentos fallidos. Por favor, inténtelo de nuevo más tarde.',
+                });
+            }
+        }
+
         function validateInputs(email, password) {
             if (email === "" || !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
                     text: 'Por favor, ingrese un correo electrónico válido.',
-                    confirmButtonColor: '#4821ea'
-                });
-                return false;
-            }
-
-            if (password.length < 8 || !/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password)) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'La contraseña debe tener al menos una letra mayúscula, un número y un carácter especial.',
                     confirmButtonColor: '#4821ea'
                 });
                 return false;

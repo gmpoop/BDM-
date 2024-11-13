@@ -68,9 +68,9 @@ class Usuario
     // Método para obtener un usuario por ID
     public function read_one()
     {
-        $query = "SELECT * FROM " . $this->table_name . " WHERE id = ? LIMIT 0,1";
+        $query = "SELECT * FROM " . $this->table_name . " WHERE email = ? LIMIT 0,1";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("i", $this->id);  // Usa el marcador de posición y enlaza el parámetro
+        $stmt->bind_param("s", $this->email);  // Usa el marcador de posición y enlaza el parámetro
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -85,7 +85,6 @@ class Usuario
             $this->ultimo_cambio = $row['ultimo_cambio'];
             $this->estado = $row['estado'];
             $this->rol_id = $row['rol_id'];
-            return true;
         }
         return false;
     }
@@ -139,6 +138,27 @@ class Usuario
     // Método para eliminar un usuario
     public function delete()
     {
+
+        try {            
+            $query = "SELECT * FROM " . $this->table_name . " WHERE email = ? LIMIT 0,1";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bind_param("s", $this->email);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                // Manejar la respuesta del SELECT aquí, por ejemplo, asignar valores a las propiedades del objeto
+                $this->id = $row['id'];
+            } else {
+                // Manejar el caso en que no se encuentre el usuario
+                return false;
+            }
+            
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
         $query = "CALL sp_borrar_usuario(?)";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("i", $this->id);
@@ -161,7 +181,8 @@ class Usuario
     // Método para verificar si el email ya existe
     public function emailExists()
     {
-        $query = "SELECT id, contraseña, rol_id FROM " . $this->table_name . " WHERE email = ? LIMIT 0,1";
+        $query = "SELECT id, contraseña, rol_id FROM " . $this->table_name . " WHERE email = ? 
+        AND estado = 'activo' LIMIT 0,1";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("s", $this->email);
         $stmt->execute();
