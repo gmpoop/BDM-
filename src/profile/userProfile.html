@@ -16,8 +16,9 @@
                 </div>
                 <div class="ml-6">
                     <h1 id="nombre-usuario" class="text-2xl font-semibold text-gray-800">Cargando...</h1>
-                    <p id="alias-usuario" class="text-gray-500">@usuario</p>
-                    <p id="email-usuario" class="text-gray-600 text-sm">email@example.com</p>
+                    <p id="alias-usuario" class="text-gray-500">@<span id="userName"></span></p>
+                    <p id="email-usuario" class="text-gray-600 text-sm"><span id="userEmail"></span></p>
+                    
                 </div>
                 <div class="ml-auto flex space-x-4">
                     <a href="./userEdit.html">
@@ -51,7 +52,7 @@
                     </div>
                 </div>
                 <div class="text-center mt-8">
-                    <a href="./chat.html">
+                    <a href="../Chat/chat.html">
                         <button class="bg-indigo-500 text-white px-6 py-3 rounded-lg hover:bg-indigo-600">
                             <i class="fas fa-comments mr-2"></i> Ir al Chat
                         </button>
@@ -70,74 +71,7 @@
         </div>
     </div>
 
-    <script>
-        async function cargarPerfilUsuario() {
-            try {
-                const response = await fetch('controller.php?action=getUser&id=' + userId);
-                const usuario = await response.json();
-                document.getElementById('imagen-perfil').src = usuario.ruta_foto || 'https://via.placeholder.com/150';
-                document.getElementById('nombre-usuario').textContent = usuario.nombre_completo || 'Usuario';
-                document.getElementById('alias-usuario').textContent = `@${usuario.alias || 'alias'}`;
-                document.getElementById('email-usuario').textContent = usuario.email || 'email@example.com';
-                // Actualiza la información personal
-                document.querySelector('.grid-cols-2').innerHTML = `
-                    <div>
-                        <label class="text-gray-600">Fecha de Nacimiento</label>
-                        <p class="text-gray-800">${usuario.fecha_nacimiento || '01/01/1990'}</p>
-                    </div>
-                    <div>
-                        <label class="text-gray-600">Género</label>
-                        <p class="text-gray-800">${usuario.genero || 'Masculino'}</p>
-                    </div>
-                    <div>
-                        <label class="text-gray-600">Fecha de Registro</label>
-                        <p class="text-gray-800">${usuario.fecha_registro || '01/08/2024'}</p>
-                    </div>
-                    <div>
-                        <label class="text-gray-600">Última Modificación</label>
-                        <p class="text-gray-800">${usuario.ultimo_cambio || '03/09/2024'}</p>
-                    </div>
-                `;
-            } catch (error) {
-                console.error('Error al cargar el perfil del usuario:', error);
-            }
-        }
-
-        async function cargarCursosInscritos() {
-            try {
-                const response = await fetch('controller.php?action=getUserCourses&id=' + userId);
-                const cursos = await response.json();
-                const courseList = document.querySelector('.course-list');
-                courseList.innerHTML = '';
-                cursos.forEach(curso => {
-                    const cursoDiv = document.createElement('div');
-                    cursoDiv.classList.add('course');
-                    cursoDiv.setAttribute('onclick', `openCourse('${curso.titulo}')`);
-                    cursoDiv.innerHTML = `
-                        <img src="${curso.imagen}" alt="${curso.titulo}">
-                        <h3>${curso.titulo}</h3>
-                        <p>Progreso: ${curso.progreso}%</p>
-                    `;
-                    courseList.appendChild(cursoDiv);
-                });
-            } catch (error) {
-                console.error('Error al cargar los cursos inscritos:', error);
-            }
-        }
-
-        cargarPerfilUsuario();
-        cargarCursosInscritos();
-
-        document.getElementById('cerrar-sesion').addEventListener('click', async () => {
-            const response = await fetch('usuariosControl.php?action=logout', { method: 'POST' });
-            if (response.ok) {
-                alert('Sesión cerrada');
-                window.location.href = 'login.html';
-            } else {
-                alert('Error al cerrar sesión');
-            }
-        });
-    </script>
+    <script src="profile.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
 </body>
 </html>
