@@ -15,7 +15,7 @@ if (jwtToken) {
     const decodedToken = parseJWT(jwtToken);
 
     // Obtener la información del usuario del token
-    const userName = decodedToken.data.nombre; // Cambia "nombre" según lo que tengas en el payload
+    const userName = decodedToken.data.nombre_completo; // Cambia "nombre" según lo que tengas en el payload
     const userEmail = decodedToken.data.email;
 
     // Mostrar en la página
@@ -55,3 +55,46 @@ fetch(`http://localhost/BDM-/Backend/API/api.php/user/${userId}`, {
         console.error('Error al conectar con la API:', error);
     });
 
+    function actualizarInformacionUsuario() {
+        // Obtener el token desde localStorage
+        const jwtToken = localStorage.getItem('jwtToken');
+        if (!jwtToken) {
+            console.error('Token no disponible');
+            return;
+        }
+    
+        // Decodificar el token para obtener el ID del usuario
+        const decodedToken = parseJWT(jwtToken);
+        const userId = decodedToken.data.id_usuario; // Cambia según el nombre en tu token
+    
+        // Hacer la solicitud a la API para obtener detalles del usuario
+        fetch(`http://localhost/BDM-/Backend/controladores/usuariosControl.php/user/${userId}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${jwtToken}`,
+            },
+        })
+            .then(async (response) => {
+                if (!response.ok) {
+                    const text = await response.text();
+                    throw new Error('Error en la respuesta: ' + text);
+                }
+                return response.json();
+            })
+            .then((data) => {
+                console.log('Datos del usuario:', data);
+    
+                // Actualizar la información personal en el HTML
+                document.querySelector('[data-birthdate]').textContent = data.fecha_nacimiento || 'Sin información';
+                document.querySelector('[data-gender]').textContent = data.genero || 'Sin información';
+                document.querySelector('[data-created-at]').textContent = data.fecha_registro || 'Sin información';
+                document.querySelector('[data-updated-at]').textContent = data.ultima_modificacion || 'Sin información';
+            })
+            .catch((error) => {
+                console.error('Error al obtener la información del usuario:', error);
+            });
+    }
+    
+    // Llamar a la función al cargar la página
+    document.addEventListener('DOMContentLoaded', actualizarInformacionUsuario);
+    
