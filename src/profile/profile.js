@@ -5,6 +5,8 @@
     function getUserData() {
         const jwtToken = localStorage.getItem('jwtToken');
         
+        console.log(jwtToken);
+
         fetch('http://localhost/BDM-/Backend/API/api.php/user/0', {
             method: 'GET',
             headers: {
@@ -21,14 +23,16 @@
             return response.json();
         })
         .then(data => {
-            const user = data.data;
-            if (!user) {
+            console.log('Datos del usuario:', data);
+            const user = data;
+            if (user === null) {
                 throw new Error('No se encontraron usuarios.');
             }
-            document.getElementById('nombre').value = user.nombre_completo || '';
-            document.getElementById('email').value = user.email || '';
-            document.getElementById('birthdate').value = user.fecha_nacimiento || '';
-            document.getElementById('gender').value = user.genero || 'Masculino';
+            console.log(user);
+            document.getElementById('nombre-usuario').textContent = user.nombre_completo || '';
+            document.getElementById('email-usuario').textContent = user.email || '';
+            document.getElementById('birthdate').textContent = user.fecha_nacimiento || '';
+            document.getElementById('gender').textContent = user.genero || 'Masculino';
         })
         .catch(error => {
             console.error('Error:', error);
@@ -78,6 +82,6 @@ function configurarCierreSesion() {
 
 // Configurar eventos y cargar datos al iniciar
 document.addEventListener('DOMContentLoaded', () => {
-    actualizarInformacionUsuario(); // Cargar la información del usuario
+    getUserData(); // Cargar la información del usuario
     configurarCierreSesion(); // Configurar el botón de cierre de sesión
 });
