@@ -68,9 +68,9 @@ class Usuario
     // Método para obtener un usuario por ID
     public function read_one()
     {
-        $query = "SELECT * FROM " . $this->table_name . " WHERE email = ? LIMIT 0,1";
+        $query = "SELECT * FROM " . $this->table_name . " WHERE id = ? LIMIT 0,1";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("s", $this->email);  // Usa el marcador de posición y enlaza el parámetro
+        $stmt->bind_param("s", $this->id);  // Usa el marcador de posición y enlaza el parámetro
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -85,6 +85,7 @@ class Usuario
             $this->ultimo_cambio = $row['ultimo_cambio'];
             $this->estado = $row['estado'];
             $this->rol_id = $row['rol_id'];
+            return true;
         }
         return false;
     }

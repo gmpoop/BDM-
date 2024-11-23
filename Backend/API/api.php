@@ -87,14 +87,17 @@ switch ($request) {
     }
         break;
 
-    case (preg_match('/^\/BDM\/BDM\/Backend\/API\/api.php\/user\/(\d+)$/', $request, $matches) ? true : false): {
-        $userId = $matches[1];
+    case (preg_match('/^\/BDM-\/Backend\/API\/api.php\/user\/(\d+)$/', $request, $matches) ? true : false): {
         // Verificar el token JWT
         $headers = getallheaders();
         if (isset($headers['Authorization'])) {
             $token = str_replace('Bearer ', '', $headers['Authorization']);
+
             try {
                 $decoded = JWT::decode($token, new Key($_ENV['JWT_SECRET_KEY'], 'HS256'));
+                error_log(print_r($decoded, true)); // Imprimir la variable en la consola
+                $userId = $decoded->data->id;
+
                 switch ($method) {
                     case 'GET':
                         $userController->getUser($userId);

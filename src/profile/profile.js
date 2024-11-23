@@ -5,7 +5,7 @@
     function getUserData() {
         const jwtToken = localStorage.getItem('jwtToken');
         
-        fetch('http://localhost/BDM-/Backend/API/api.php/users', {
+        fetch('http://localhost/BDM-/Backend/API/api.php/user/0', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${jwtToken}`,
