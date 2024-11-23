@@ -11,36 +11,42 @@
     <div class="container_main">
         <div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg mt-10">
             <div class="flex items-center">
+                <!-- Imagen de Perfil -->
                 <div class="w-24 h-24 rounded-full overflow-hidden border-2 border-gray-300">
                     <img id="imagen-perfil" src="https://via.placeholder.com/150" alt="Avatar de Usuario" class="object-cover w-full h-full">
                 </div>
+    
+                <!-- Información del Usuario -->
                 <div class="ml-6">
                     <h1 id="nombre-usuario" class="text-2xl font-semibold text-gray-800">Cargando...</h1>
-                    <p id="alias-usuario" class="text-gray-500">@<span id="userName"></span></p>
-                    <p id="email-usuario" class="text-gray-600 text-sm"><span id="userEmail"></span></p>
-                    
+                    <p id="alias-usuario" class="text-gray-500">@<span id="userName">...</span></p>
+                    <p id="email-usuario" class="text-gray-600 text-sm"><span id="userEmail">...</span></p>
                 </div>
+    
+                <!-- Botones de Acción -->
                 <div class="ml-auto flex space-x-4">
                     <a href="./userEdit.html">
                         <button class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 flex items-center justify-center w-40">
                             <i class="fas fa-edit mr-2"></i> Editar Perfil
                         </button>
                     </a>
-                    <button id="cerrar-sesion" class="bg-red-500 text-white px-4 py-3 rounded-lg hover:bg-red-600 flex items-center justify-center w-40">
+                    <button id="cerrarSesionBtn" class="bg-red-500 text-white px-4 py-3 rounded-lg hover:bg-red-600 flex items-center justify-center w-40">
                         <i class="fas fa-sign-out-alt mr-2"></i> Cerrar Sesión
                     </button>
                 </div>
             </div>
+    
+            <!-- Información Personal -->
             <div class="mt-8">
                 <h3 class="text-xl font-semibold text-gray-800">Información Personal</h3>
                 <div class="grid grid-cols-2 gap-6 mt-4">
                     <div>
                         <label class="text-gray-600">Fecha de Nacimiento</label>
-                        <p class="text-gray-800">01/01/1990</p>
+                        <p class="text-gray-800" data-birthdate>...</p>
                     </div>
                     <div>
                         <label class="text-gray-600">Género</label>
-                        <p class="text-gray-800">Masculino</p>
+                        <p class="text-gray-800" data-gender>...</p>
                     </div>
                     <div>
                         <label class="text-gray-600">Fecha de Registro</label>
@@ -48,9 +54,11 @@
                     </div>
                     <div>
                         <label class="text-gray-600">Última Modificación</label>
-                        <p class="text-gray-800">03/09/2024</p>
+                        <p class="text-gray-800" data-updated-at>...</p>
                     </div>
                 </div>
+    
+                <!-- Botones Adicionales -->
                 <div class="text-center mt-8">
                     <a href="../Chat/chat.html">
                         <button class="bg-indigo-500 text-white px-6 py-3 rounded-lg hover:bg-indigo-600">
@@ -60,9 +68,16 @@
                     <button id="solicitudTutor" class="bg-indigo-500 text-white px-6 py-3 rounded-lg hover:bg-indigo-600">
                         <i class="fas fa-chalkboard-teacher mr-2"></i> Solicitar ser Tutor
                     </button>
+                    <a href="../Kardex/kardex.html">
+                        <button class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600">
+                            <i class="fas fa-file-alt mr-2"></i> Ver Kardex
+                        </button>
+                    </a>
                 </div>
             </div>
         </div>
+    </div>
+    
         <div class="course-container_main">
             <h2>Cursos Inscritos</h2>
             <div class="course-list">
@@ -73,5 +88,6 @@
 
     <script src="profile.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

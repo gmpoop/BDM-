@@ -1,100 +1,83 @@
-function parseJWT(token) {
-    // Dividir el token en partes
-    const parts = token.split('.');
+// Obtener el token del localStorage
+    const jwtToken = localStorage.getItem('jwtToken');
 
-    // Decodificar la parte de carga útil (payload)
-    const payload = JSON.parse(atob(parts[1]));
-
-    return payload;
-}
-
-// Obtener el token de localStorage
-const jwtToken = localStorage.getItem('jwtToken');
-
-if (jwtToken) {
-    const decodedToken = parseJWT(jwtToken);
-
-    // Obtener la información del usuario del token
-    const userName = decodedToken.data.nombre_completo; // Cambia "nombre" según lo que tengas en el payload
-    const userEmail = decodedToken.data.email;
-
-    // Mostrar en la página
-    document.getElementById('userName').innerText = userName;
-    document.getElementById('userEmail').innerText = userEmail;
-}
-
-
-// Decodificar el token para obtener el ID del usuario
-function parseJWT(token) {
-    const parts = token.split('.');
-    const payload = JSON.parse(atob(parts[1]));
-    return payload;
-}
-const decodedToken = parseJWT(jwtToken);
-const userId = decodedToken.data.id;
-
-// Realizar solicitud a la API para obtener información del usuario
-fetch(`http://localhost/BDM-/Backend/API/api.php/user/${userId}`, {
-    method: 'GET',
-    headers: {
-        'Authorization': `Bearer ${jwtToken}`,
-    },
-})
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Error al obtener la información del usuario');
-        }
-        return response.json();
-    })
-    .then(userData => {
-        // Mostrar los datos del usuario en la página
-        document.getElementById('userName').innerText = userData.nombre_completo;
-        document.getElementById('userEmail').innerText = userData.email;
-    })
-    .catch(error => {
-        console.error('Error al conectar con la API:', error);
-    });
-
-    function actualizarInformacionUsuario() {
-        // Obtener el token desde localStorage
+    // Función para obtener los datos del usuario
+    function getUserData() {
         const jwtToken = localStorage.getItem('jwtToken');
-        if (!jwtToken) {
-            console.error('Token no disponible');
-            return;
-        }
-    
-        // Decodificar el token para obtener el ID del usuario
-        const decodedToken = parseJWT(jwtToken);
-        const userId = decodedToken.data.id_usuario; // Cambia según el nombre en tu token
-    
-        // Hacer la solicitud a la API para obtener detalles del usuario
-        fetch(`http://localhost/BDM-/Backend/controladores/usuariosControl.php/user/${userId}`, {
+        
+        fetch('http://localhost/BDM-/Backend/API/api.php/users', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${jwtToken}`,
+                'Content-Type': 'application/json',
             },
         })
-            .then(async (response) => {
-                if (!response.ok) {
-                    const text = await response.text();
-                    throw new Error('Error en la respuesta: ' + text);
-                }
-                return response.json();
-            })
-            .then((data) => {
-                console.log('Datos del usuario:', data);
-    
-                // Actualizar la información personal en el HTML
-                document.querySelector('[data-birthdate]').textContent = data.fecha_nacimiento || 'Sin información';
-                document.querySelector('[data-gender]').textContent = data.genero || 'Sin información';
-                document.querySelector('[data-created-at]').textContent = data.fecha_registro || 'Sin información';
-                document.querySelector('[data-updated-at]').textContent = data.ultima_modificacion || 'Sin información';
-            })
-            .catch((error) => {
-                console.error('Error al obtener la información del usuario:', error);
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => {
+                    throw new Error(err.message || 'Error en la respuesta');
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            const user = data.data;
+            if (!user) {
+                throw new Error('No se encontraron usuarios.');
+            }
+            document.getElementById('nombre').value = user.nombre_completo || '';
+            document.getElementById('email').value = user.email || '';
+            document.getElementById('birthdate').value = user.fecha_nacimiento || '';
+            document.getElementById('gender').value = user.genero || 'Masculino';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.message || 'Hubo un error al obtener los datos del usuario.',
             });
+        });
     }
+    document.addEventListener('DOMContentLoaded', getUserData);
     
-    // Llamar a la función al cargar la página
-    document.addEventListener('DOMContentLoaded', actualizarInformacionUsuario);
-    
+
+
+// Función para manejar el cierre de sesión
+function configurarCierreSesion() {
+    const cerrarSesionBtn = document.getElementById("cerrarSesionBtn");
+
+    cerrarSesionBtn.addEventListener("click", () => {
+        Swal.fire({
+            title: '¿Estás seguro de que deseas cerrar sesión?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, cerrar sesión',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Eliminar datos de sesión
+                localStorage.removeItem("authToken");
+                sessionStorage.clear();
+
+                // Mostrar mensaje de confirmación
+                Swal.fire(
+                    '¡Sesión cerrada!',
+                    'Has cerrado sesión exitosamente.',
+                    'success'
+                ).then(() => {
+                    // Redirigir al usuario a la página de inicio de sesión
+                    window.location.href = "http://localhost/bdm-/src/login/Inicio_Sesion.html";
+                });
+            }
+        });
+    });
+}
+
+// Configurar eventos y cargar datos al iniciar
+document.addEventListener('DOMContentLoaded', () => {
+    actualizarInformacionUsuario(); // Cargar la información del usuario
+    configurarCierreSesion(); // Configurar el botón de cierre de sesión
+});
