@@ -95,7 +95,7 @@ document.getElementById('guardarCateBtn').addEventListener('click', function (ev
 });
 
 // Obtener todas las categorías para llenar el select
-function cargarCategorias() {
+function cargarCategoriasUpdate() {
     fetch('http://localhost/BDM/BDM/Backend/API/APIcategorias.php/categorias', {
         method: 'GET',
         headers: {
@@ -224,7 +224,7 @@ document.getElementById('guardarCambiosBtn').addEventListener('click', function(
         document.getElementById('estadoCategoria').disabled = true;
         document.getElementById('guardarCambiosBtn').disabled = true;
 
-        cargarCategorias(); // Recargar las categorías
+        cargarCategoriasUpdate(); // Recargar las categorías
     })
     .catch(error => {
         console.error('Error:', error);
@@ -238,7 +238,7 @@ document.getElementById('guardarCambiosBtn').addEventListener('click', function(
 
 // Cargar las categorías cuando se cargue la página
 document.addEventListener('DOMContentLoaded', function() {
-    cargarCategorias();
+    cargarCategoriasUpdate();
 });
 
 // Obtener todas las categorías para llenar el select
