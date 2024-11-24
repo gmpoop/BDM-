@@ -43,21 +43,23 @@
         <div class="flex justify-center mb-8 w-full px-1">
             <!-- Grid de Funciones ampliado -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-screen-lg">
+                <!-- Alumnos Registrados -->
                 <div class="bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
                     <h3 class="text-lg font-semibold text-gray-700 mb-2">Alumnos Registrados</h3>
-                    <p class="text-3xl font-bold text-indigo-600">1,000</p>
+                    <p id="alumnos-registrados" class="text-3xl font-bold text-indigo-600">0</p>
                 </div>
+                <!-- Instructores Registrados -->
                 <div class="bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
                     <h3 class="text-lg font-semibold text-gray-700 mb-2">Instructores Registrados</h3>
-                    <p class="text-3xl font-bold text-indigo-600">300</p>
+                    <p id="instructores-registrados" class="text-3xl font-bold text-indigo-600">0</p>
                 </div>
+                <!-- Reportes de Usuario -->
                 <div class="bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
                     <h3 class="text-lg font-semibold text-gray-700 mb-2">Reportes de usuario</h3>
-                    <p class="text-3xl font-bold text-red-600">1,730</p>
+                    <p id="reportes-usuarios" class="text-3xl font-bold text-red-600">0</p>
                 </div>
             </div>
         </div>
-
 
 
         <!-- Gestión de Categorías -->
@@ -114,8 +116,9 @@
                 <select id="categoriaDeleteSelect" class="w-full border border-gray-300 p-2 rounded-md mb-4">
                     <!-- Las opciones serán llenadas dinámicamente -->
                 </select>
-                <button id="eliminarBtn" class="w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-600" disabled>Eliminar</button>
-            </div>            
+                <button id="eliminarBtn" class="w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-600"
+                    disabled>Eliminar</button>
+            </div>
 
             <div class="bg-white p-3 rounded-lg max-w-4xl w-full"></div>
 
@@ -147,20 +150,12 @@
                             <th class="py-2 px-4 border">Total de ganancias</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <!-- Datos de ejemplo -->
-                        <tr>
-                            <td class="py-2 px-4 border">usuario123</td>
-                            <td class="py-2 px-4 border">Juan Pérez</td>
-                            <td class="py-2 px-4 border">2023-08-15</td>
-                            <td class="py-2 px-4 border">5</td>
-                            <td class="py-2 px-4 border">$1500</td>
-                        </tr>
-                        <!-- Más filas pueden ser añadidas aquí -->
+                    <tbody id="instructorTbody">
+                        <!-- Las filas serán añadidas dinámicamente -->
                     </tbody>
                 </table>
             </div>
-            
+
             <!-- Tabla de estudiantes -->
             <div id="studentTable" class="hidden">
                 <h2 class="text-xl font-bold text-gray-700 mb-4">Estudiantes</h2>
@@ -174,19 +169,12 @@
                             <th class="py-2 px-4 border">Porcentaje de cursos terminados</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <!-- Datos de ejemplo -->
-                        <tr>
-                            <td class="py-2 px-4 border">usuario456</td>
-                            <td class="py-2 px-4 border">Ana García</td>
-                            <td class="py-2 px-4 border">2022-11-05</td>
-                            <td class="py-2 px-4 border">3</td>
-                            <td class="py-2 px-4 border">50%</td>
-                        </tr>
-                        <!-- Más filas pueden ser añadidas aquí -->
+                    <tbody id="studentTableBody">
+                        <!-- Los datos se agregarán aquí dinámicamente -->
                     </tbody>
                 </table>
             </div>
+
         </div>
 
     </div>

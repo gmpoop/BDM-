@@ -2,7 +2,7 @@
 require_once '../clases/Database.php';
 require_once '../modelos/categoria.php';
 require_once '../controladores/categoriasControl.php';
-require_once 'C:/xampp/htdocs/BDM/BDM/vendor/autoload.php';
+require_once 'C:/xampp/htdocs/BDM/iCraft/vendor/autoload.php';
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
@@ -23,7 +23,7 @@ $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 // Rutas
 switch ($request) {
-    case '/BDM/BDM/Backend/API/APIcategorias.php/categorias': 
+    case '/BDM/iCraft/Backend/API/APIcategorias.php/categorias': 
         if ($method == 'GET') {
             $controller->getAllCategorias();
         } elseif ($method == 'POST') {
@@ -34,7 +34,7 @@ switch ($request) {
         }
         break;
 
-    case preg_match('/^\/BDM\/BDM\/Backend\/API\/APIcategorias.php\/categoria\/(\d+)$/', $request, $matches) ? true : false:
+    case preg_match('/^\/BDM\/iCraft\/Backend\/API\/APIcategorias.php\/categoria\/(\d+)$/', $request, $matches) ? true : false:
         $id = $matches[1];
         if ($method == 'GET') {
             $controller->getCategoria($id);

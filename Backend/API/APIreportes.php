@@ -2,6 +2,7 @@
 require_once '../clases/Database.php';
 require_once '../modelos/reporte.php';
 require_once '../controladores/reporteControl.php';
+require_once 'C:/xampp/htdocs/BDM/iCraft/vendor/autoload.php';
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
@@ -22,9 +23,27 @@ $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 // Rutas
 switch ($request) {
-    case '/BDM/BDM/Backend/API/APIReportes.php/reportes': 
+    case '/BDM/iCraft/Backend/API/APIReportes.php/reporte/Estudiantes':
         if ($method == 'GET') {
-            $controller->getAllReportes();
+            $controller->getReporteEstudiante();
+        } else {
+            http_response_code(405);
+            echo json_encode(array("message" => "Método no permitido"));
+        }
+        break;
+
+    case '/BDM/iCraft/Backend/API/APIReportes.php/reporte/Tutores':
+        if ($method == 'GET') {
+            $controller->getReporteTutores();
+        } else {
+            http_response_code(405);
+            echo json_encode(array("message" => "Método no permitido"));
+        }
+        break;
+
+    case '/BDM/iCraft/Backend/API/APIReportes.php/reporte/ReportesTotales':
+        if ($method == 'GET') {
+            $controller->getReportesTotales();
         } else {
             http_response_code(405);
             echo json_encode(array("message" => "Método no permitido"));
