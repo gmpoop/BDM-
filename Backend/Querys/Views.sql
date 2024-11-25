@@ -47,3 +47,28 @@ SELECT
     (SELECT COUNT(*) FROM reporte_usuarios) AS reportes_totales;  -- Conteo total de reportes
 
 DELIMITER ;
+
+DELIMITER $$
+
+CREATE VIEW KardexUsuario AS
+SELECT 
+    u.id AS usuario_id,
+    u.nombre_completo AS usuario,
+    c.id AS curso_id,
+    c.titulo AS curso,
+    c.categoria_id,
+    i.fecha_inscripcion,
+    i.progreso,
+    CASE 
+        WHEN i.progreso = 100 THEN 'Completado'
+        ELSE 'En progreso'
+    END AS estatus,
+    i.fecha_terminacion
+FROM 
+    usuarios u
+JOIN 
+    inscripciones i ON u.id = i.usuario_id
+JOIN 
+    cursos c ON i.curso_id = c.id;
+
+DELIMITER ;
