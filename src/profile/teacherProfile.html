@@ -17,6 +17,11 @@
             width: 100%;
             
         }
+        button {
+            background-color: initial;
+            color: initial;
+        }
+
 
         .container {
             background-color: white;
@@ -123,21 +128,23 @@
 <body>
 
     <div class="navbar fixed top-0 left-0 w-full bg-white shadow-md z-50">
-        <div class="flex items-center justify-between px-4 py-2">
+        <div class="flex items-center justify-between px-10 py-2">
             <a href="../dashboard/home.html">
                 <img class="h-10 w-auto" src="../resources/images/logo.png" alt="Logo">
             </a>
         </div>
+
+        
     </div>
     
     <div class="container">
 <!-- Ficha del Tutor -->
-<div class="max-w-5xl mx-auto p-6 bg-gray-50 rounded-lg shadow-lg mt-10">
+<div class="max-w-5xl mx-auto p-2 bg-gray-50 rounded-lg shadow-lg mt-10">
     <!-- Encabezado del Tutor -->
     <div class="flex flex-col md:flex-row items-center md:items-start md:space-x-8 border-b pb-6">
         <!-- Avatar del Tutor -->
         <div class="flex-shrink-0">
-            <img class="w-28 h-28 rounded-full shadow-md" src="https://via.placeholder.com/150" alt="Tutor Avatar">
+            <img class="w-28 h-28 rounded-full shadow-md" id="avatar" alt="Tutor Avatar">
         </div>
 
         <!-- Información Principal -->
@@ -174,7 +181,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="bg-white p-6 rounded-lg shadow-md">
                     <h4 class="text-gray-600 font-semibold">Número de Cursos Ofrecidos</h4>
-                    <p class="text-gray-900 text-xl font-bold mt-2">5</p>
+                    <p id="num-cursos" class="text-gray-900 text-xl font-bold mt-2">...</p>
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-md">
                     <h4 class="text-gray-600 font-semibold">Fecha de Registro</h4>
@@ -182,11 +189,11 @@
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-md">
                     <h4 class="text-gray-600 font-semibold">Última Modificación</h4>
-                    <p class="text-gray-900 text-xl font-bold mt-2">05/09/2024</p>
+                    <p id="fecha-modificacion" class="text-gray-900 text-xl font-bold mt-2">....</p>
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-md">
                     <h4 class="text-gray-600 font-semibold">Ingresos Totales</h4>
-                    <p class="text-gray-900 text-xl font-bold mt-2">$12,000 USD</p>
+                    <p id="Ingresos" class="text-gray-900 text-xl font-bold mt-2">$ USD</p>
                 </div>
             </div>
         </div>
@@ -197,6 +204,16 @@
         <div class="course-container mt-10 space-y-3    " x-data="{ activeSlide: 0 }">
             <h2 class="text-2xl font-semibold text-gray-800 text-center">Cursos Ofrecidos</h2>
 
+            <!-- Botón para crear curso -->
+            <div class="flex justify-center">
+                <a href="../Subir curso/subirCurso2.html">
+                    <button class="bg-[#4821ea] text-white px-6 py-3 rounded-lg hover:bg-blue-800 flex items-center justify-center w-40">
+                    + Crear Curso
+                    </button>
+                </a>
+            </div>
+            
+    
             <div class="carousel overflow-hidden relative">
                 <div class="flex transition-transform duration-500" :style="{ transform: `translateX(-${activeSlide * 100}%)` }">
                     <!-- Curso 1 -->
