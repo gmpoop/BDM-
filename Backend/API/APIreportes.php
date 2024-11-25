@@ -50,6 +50,37 @@ switch ($request) {
         }
         break;
 
+    case '/BDM/iCraft/Backend/API/APIReportes.php/reporte/Estudiantes/Buscar':
+        if ($method == 'GET') {
+            if (isset($_GET['id'])) {
+                $id = intval($_GET['id']);
+                $controller->getReporteEstudiantePorId($id);
+            } else {
+                http_response_code(400);
+                echo json_encode(array("message" => "Falta el parámetro 'id'."));
+            }
+        } else {
+            http_response_code(405);
+            echo json_encode(array("message" => "Método no permitido"));
+        }
+        break;
+
+    case '/BDM/iCraft/Backend/API/APIReportes.php/reporte/Tutores/Buscar':
+        if ($method == 'GET') {
+            if (isset($_GET['id'])) {
+                $id = intval($_GET['id']);
+                $controller->getReporteTutorPorId($id);
+            } else {
+                http_response_code(400);
+                echo json_encode(array("message" => "Falta el parámetro 'id'."));
+            }
+        } else {
+            http_response_code(405);
+            echo json_encode(array("message" => "Método no permitido"));
+        }
+        break;
+
+
     default:
         http_response_code(404);
         echo json_encode(array("message" => "Ruta no encontrada"));
