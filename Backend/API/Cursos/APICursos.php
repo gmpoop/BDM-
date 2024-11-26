@@ -37,8 +37,37 @@ switch ($request) {
         }
         break;
 
-    default:
-        http_response_code(404);
-        echo json_encode(array("message" => "Ruta no encontrada"));
+    case  '/BDM-/Backend/API/Cursos/APICursos.php/CursosCategorias':{
+        if ($method == 'GET') {
+
+            $controller->getCursosPorCategoria();
+        } else {
+            http_response_code(405);
+            echo json_encode(array("message" => "Método no permitido"));
+        }
         break;
+    }
+
+    case '/BDM-/Backend/API/Cursos/APICursos.php/CursosDetalle': {
+        if ($method == 'GET') {
+            // Obtener el idCurso desde la URL
+            if (isset($_GET['curso_id'])) {
+                $idCurso = intval($_GET['curso_id']); // Convertir a entero para mayor seguridad
+                $controller->getCursosDetalle($idCurso);
+            } else {
+                http_response_code(400); // Bad Request
+                echo json_encode(array("message" => "idCurso no proporcionado"));
+            }
+        } else {
+            http_response_code(405); // Method Not Allowed
+            echo json_encode(array("message" => "Método no permitido"));
+        }
+        break;
+    }
+    
+
+    default:
+    http_response_code(404);
+    echo json_encode(array("message" => "Ruta no encontrada"));
+    break;
 }

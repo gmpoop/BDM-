@@ -110,18 +110,10 @@ const CreateNivels = async (formData) => {
 
     const data = await CreateNivelResponse.json();
 
-    if (data.status === 201) {
-        Swal.fire({
-            icon: 'success',
-            title: 'Nivel creado!',
-            text: 'El curso ha sido creado exitosamente.',
-        });
+    if (data) {
+        return true;
     } else {
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Hubo un problema al crear el nivel.',
-        });
+        return false;
     }
 
 };
@@ -351,10 +343,28 @@ $(document).ready(function () {
                         NivelFormData.append('video', ''); // Manejar el caso en que no haya archivo seleccionado
                     }
             
-                    await CreateNivels(NivelFormData);
+                    const Valid = await CreateNivels(NivelFormData);
+
+                    if (Valid) {
+                      continue;
+                    }
+                    else{
+                        throw new Error("Error al crear los niveles");
+                    }
                 }
+
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Curso creado!',
+                    text: 'El curso se ha creado exitosamente.',
+                });
+
             } catch (error) {
-                console.error('Error al crear los niveles:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error,
+                });
             }
         }
 
