@@ -50,6 +50,7 @@ switch ($request) {
         }
         break;
 
+
     default:
         http_response_code(404);
         echo json_encode(array("message" => "Ruta no encontrada"));
