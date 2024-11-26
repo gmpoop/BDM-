@@ -40,4 +40,29 @@ class KardexController
         }
     }
 
+    public function getCertificad()
+    {
+        // Verificamos si se reciben los parámetros correctamente
+        if (isset($_GET['usuario_id']) && isset($_GET['curso_id'])) {
+            $usuario_id = $_GET['usuario_id'];
+            $curso_id = $_GET['curso_id'];
+
+            // Obtenemos los datos desde el modelo
+            $kardex = $this->model->getCertificado($usuario_id, $curso_id);
+
+            // Comprobamos si se obtuvo algún resultado
+            if ($kardex) {
+                // Respondemos con los datos en formato JSON
+                echo json_encode($kardex);
+            } else {
+                // Si no se encuentra información, respondemos con un mensaje
+                http_response_code(404);
+                echo json_encode(["message" => "No se encontraron registros para este estudiante y curso"]);
+            }
+        } else {
+            // Si no se pasan los parámetros requeridos, respondemos con un error
+            http_response_code(400);
+            echo json_encode(["message" => "Parámetros faltantes: usuario_id y curso_id"]);
+        }
+    }
 }

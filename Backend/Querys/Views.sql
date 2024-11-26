@@ -28,6 +28,7 @@ SELECT
     u.id AS usuario_id, -- Agregamos el ID del usuario
     u.email AS correo,
     u.nombre_completo,
+    u.ultimo_cambio,
     r.fecha_ingreso,
     r.cantidad_cursos_ofrecidos AS cursos_ofrecidos,
     r.total_ganancias
@@ -95,3 +96,20 @@ JOIN
     usuarios u ON c.usuario_creador_id = u.id;
 
 DELIMITER ;
+
+CREATE VIEW vista_certificado AS
+SELECT 
+    i.usuario_id AS id_usuario,
+    i.curso_id AS id_curso,
+    u.nombre_completo AS nombre_usuario,
+    c.titulo AS nombre_curso,
+    i.fecha_terminacion AS fecha_fin,
+    CONCAT(ui.nombre_completo) AS nombre_instructor
+FROM 
+    inscripciones i
+JOIN 
+    usuarios u ON i.usuario_id = u.id
+JOIN 
+    cursos c ON i.curso_id = c.id
+JOIN 
+    usuarios ui ON c.instructor_id = ui.id;
