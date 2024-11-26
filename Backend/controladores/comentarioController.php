@@ -1,7 +1,7 @@
 <?php
 require_once '../modelos/comentario.php';
 
-class ComentariosController {
+class ComentarioController {
     private $comentario;
 
     public function __construct($db) {
@@ -39,6 +39,17 @@ class ComentariosController {
         }
     }
 
+    public function getComentariosPorCurso($curso_id) {
+        $query = "SELECT * FROM vista_comentarios_cursos WHERE curso_id = :curso_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':curso_id', $curso_id);
+        $stmt->execute();
+    
+        $comentarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+        echo json_encode($comentarios);
+    }
+    
     public function getComentario($id) {
         $stmt = $this->comentario->getOne($id);
         $stmt->store_result();
@@ -66,7 +77,7 @@ class ComentariosController {
             echo json_encode(array("message" => "Comentario no encontrado."));
         }
     }
-    public function getComentariosPorCurso($curso_id) {
+    public function getPorCurso($curso_id) {
         // Llamar a la función getperCurso de la clase Comentario
         $comentarios = $this->comentario->getperCurso($curso_id);
     

@@ -41,5 +41,28 @@ class Reporte
 
         return $result;
     }
+
+    public function getReporteEstudiantePorId($id)
+    {
+        $query = "SELECT * FROM view_reporte_usuario_estudiantes WHERE usuario_id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result;
+    }
+
+    public function getReporteTutorPorId($id)
+    {
+        $query = "SELECT * FROM view_reporte_usuario_tutores WHERE usuario_id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result;
+    }
+
 }
 ?>

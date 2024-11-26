@@ -6,7 +6,7 @@ function getUserData() {
     
     console.log(jwtToken);
 
-    fetch('http://localhost/bdm-/Backend/API/APIreportes.php/user/0', {
+    fetch('http://localhost/BDM-/Backend/API/APIreportes.php/user/0', {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${jwtToken}`,

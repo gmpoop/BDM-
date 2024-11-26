@@ -117,3 +117,4 @@ CREATE TABLE reporte_usuarios (
     cantidad_cursos_inscritos INT,
     porcentaje_cursos_terminados DECIMAL(5, 2)
 );
+

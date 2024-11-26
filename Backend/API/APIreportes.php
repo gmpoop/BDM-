@@ -2,7 +2,7 @@
 require_once '../clases/Database.php';
 require_once '../modelos/reporte.php';
 require_once '../controladores/reporteControl.php';
-require_once 'C:/xampp/htdocs/BDM/iCraft/vendor/autoload.php';
+require_once 'C:/xampp/htdocs/BDM-/vendor/autoload.php';
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
@@ -23,7 +23,7 @@ $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 // Rutas
 switch ($request) {
-    case '/BDM/iCraft/Backend/API/APIReportes.php/reporte/Estudiantes':
+    case '/BDM-/Backend/API/APIReportes.php/reporte/Estudiantes':
         if ($method == 'GET') {
             $controller->getReporteEstudiante();
         } else {
@@ -32,7 +32,7 @@ switch ($request) {
         }
         break;
 
-    case '/BDM/iCraft/Backend/API/APIReportes.php/reporte/Tutores':
+    case '/BDM-/Backend/API/APIReportes.php/reporte/Tutores':
         if ($method == 'GET') {
             $controller->getReporteTutores();
         } else {
@@ -41,7 +41,7 @@ switch ($request) {
         }
         break;
 
-    case '/BDM/iCraft/Backend/API/APIReportes.php/reporte/ReportesTotales':
+    case '/BDM-/Backend/API/APIReportes.php/reporte/ReportesTotales':
         if ($method == 'GET') {
             $controller->getReportesTotales();
         } else {
@@ -49,6 +49,37 @@ switch ($request) {
             echo json_encode(array("message" => "Método no permitido"));
         }
         break;
+
+    case '/BDM-/Backend/API/APIReportes.php/reporte/Estudiantes/Buscar':
+        if ($method == 'GET') {
+            if (isset($_GET['id'])) {
+                $id = intval($_GET['id']);
+                $controller->getReporteEstudiantePorId($id);
+            } else {
+                http_response_code(400);
+                echo json_encode(array("message" => "Falta el parámetro 'id'."));
+            }
+        } else {
+            http_response_code(405);
+            echo json_encode(array("message" => "Método no permitido"));
+        }
+        break;
+
+    case '/BDM-/Backend/API/APIReportes.php/reporte/Tutores/Buscar':
+        if ($method == 'GET') {
+            if (isset($_GET['id'])) {
+                $id = intval($_GET['id']);
+                $controller->getReporteTutorPorId($id);
+            } else {
+                http_response_code(400);
+                echo json_encode(array("message" => "Falta el parámetro 'id'."));
+            }
+        } else {
+            http_response_code(405);
+            echo json_encode(array("message" => "Método no permitido"));
+        }
+        break;
+
 
     default:
         http_response_code(404);

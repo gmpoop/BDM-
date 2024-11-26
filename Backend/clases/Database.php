@@ -2,7 +2,7 @@
 
 class Database {
     private $host = "localhost";
-    private $db_name = "bdm"; // Nombre de tu base de datos
+    private $db_name = "bdmtest"; // Nombre de tu base de datos
     private $username = "root"; // Usuario de tu base de datos
     private $password = ""; // Contraseña de tu base de datos
     public $conn;
