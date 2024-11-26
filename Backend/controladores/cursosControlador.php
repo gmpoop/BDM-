@@ -37,11 +37,13 @@ class cursosControlador
 
             // Manejar la imagen del curso
              // Manejar la imagen del curso como BLOB
-             if (isset($_FILES['imagenCurso']) && $_FILES['imagenCurso']['error'] == 0) {
-                $imageBlob = file_get_contents($_FILES['imagenCurso']['tmp_name']);
+             if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] == 0) {
+                $imageBlob = file_get_contents($_FILES['imagen']['tmp_name']);
                 $this->curso->imagen = $imageBlob;
             } else {
                 $this->curso->imagen = null;
+                echo json_encode(array("message" => "Error en el alacemaniento de la imagen."));
+
             }
 
             // Crear el curso
@@ -49,7 +51,7 @@ class cursosControlador
                 $recentCourseId = $this->curso->getOneBy($this->curso->titulo, $this->curso->instructor_id);
                 if ($recentCourseId) {
                     http_response_code(201);
-                    echo json_encode(array("message" => "Curso creado con éxito.", "curso_id" => $recentCourseId->id));
+                    echo json_encode(array("message" => "Curso creado con éxito.", "curso_id" => $recentCourseId['id']));
                 }
                 else
                 {

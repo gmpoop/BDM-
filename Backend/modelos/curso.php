@@ -24,7 +24,6 @@ class Curso {
         // Sanitizar
         $this->titulo = htmlspecialchars(strip_tags($this->titulo));
         $this->descripcion = htmlspecialchars(strip_tags($this->descripcion));
-        $this->imagen = htmlspecialchars(strip_tags($this->imagen));
         $this->ruta_imagen = htmlspecialchars(strip_tags($this->ruta_imagen));
         $this->costo = htmlspecialchars(strip_tags($this->costo));
         $this->categoria_id = htmlspecialchars(strip_tags($this->categoria_id));
@@ -56,22 +55,39 @@ class Curso {
         return $stmt;
     }
 
-    public function getOneBy($title, $instructor_id) {
-        // Consulta para seleccionar el curso basado en título e ID de instructor
-        $query = "SELECT * FROM cursos WHERE titulo = ? AND instructor_id = ?";
+    function getOneBy($title, $instructor_id) {
+        // Añadir comodines para LIKE
+        $title = '%' . $title . '%'; 
+        $query = "SELECT * FROM cursos WHERE titulo LIKE ? AND instructor_id = ?";
     
         // Preparar la declaración
-        $stmt = $this->conn->prepare($query);
+        if ($stmt = $this->conn->prepare($query)) {
+            // Enlazar los parámetros a los marcadores de posición
+            $stmt->bind_param('si', $title, $instructor_id);
     
-        // Enlazar los parámetros a los marcadores de posición
-        $stmt->bind_param('si', $title, $instructor_id);
+            // Ejecutar la declaración
+            if ($stmt->execute()) {
+                // Obtener el resultado
+                $result = $stmt->get_result();
     
-        // Ejecutar la declaración
-        $stmt->execute();
-    
-        // Retornar el statement para el manejo posterior de los resultados
-        return $stmt;
+                // Verificar si hay resultados
+                if ($result->num_rows > 0) {
+                    // Obtener el primer resultado
+                    $course = $result->fetch_assoc();
+                    return $course;
+                } else {
+                    return null; // No hay resultados
+                }
+            } else {
+                echo "Error en la ejecución: " . $stmt->error;
+                return false;
+            }
+        } else {
+            echo "Error en la preparación de la declaración: " . $this->conn->error;
+            return false;
+        }
     }
+    
     
 
     // Actualizar una categoría
