@@ -46,6 +46,7 @@ class ReportesController
                 $reporte_item = array(
                     "correo" => $row['correo'],
                     "nombre_completo" => $row['nombre_completo'],
+                    "ultimo_cambio" => $row['ultimo_cambio'],
                     "fecha_ingreso" => $row['fecha_ingreso'],
                     "cursos_ofrecidos" => $row['cursos_ofrecidos'],
                     "total_ganancias" => $row['total_ganancias']
@@ -116,6 +117,7 @@ class ReportesController
             $reporte_item = array(
                 "correo" => $row['correo'],
                 "nombre_completo" => $row['nombre_completo'],
+                "ultimo_cambio" => $row['ultimo_cambio'],
                 "fecha_ingreso" => $row['fecha_ingreso'],
                 "cursos_ofrecidos" => $row['cursos_ofrecidos'],
                 "total_ganancias" => $row['total_ganancias']

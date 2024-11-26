@@ -32,6 +32,15 @@ switch ($request) {
         }
         break;
 
+    case '/BDM/iCraft/Backend/API/APIKardex.php/kardex/certificado':
+        if ($method === 'GET') {
+            $controller->getCertificad();
+        } else {
+            http_response_code(405);
+            echo json_encode(["message" => "Método no permitido"]);
+        }
+        break;
+
     default:
         http_response_code(404);
         echo json_encode(["message" => "Ruta no encontrada"]);

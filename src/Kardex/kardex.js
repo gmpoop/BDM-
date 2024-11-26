@@ -77,7 +77,7 @@ async function obtenerKardex(usuarioId) {
     if (estadoCurso && estadoCurso !== 'Todos') {
         params.append('estatus', estadoCurso);
     }
-    
+
     try {
         const response = await fetch(`${url}?${params.toString()}`, {
             method: 'GET',
@@ -115,16 +115,16 @@ async function obtenerKardex(usuarioId) {
                     <td class="py-4 px-6 text-left relative">
                         <i class="fas fa-ellipsis-v cursor-pointer" onclick="toggleMenu(this)"></i>
                         <div class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg hidden">
-                            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Ir al curso</a>
-                            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Ver detalles</a>
+                            <a href="javascript:void(0);" class="block px-4 py-2 text-gray-800 hover:bg-gray-100" onclick="validarCertificado('${item.estatus}', ${item.curso_id})">Obtener certificado</a>
                         </div>
                     </td>
-                `;
+            `;
                 tbody.appendChild(tr);
 
                 // Agregar la categoría al conjunto
                 categorias.add(item.categoria);
             });
+
 
             // Llenar el select de categorías
             const categoriaSelect = document.getElementById('categoria');
@@ -154,5 +154,23 @@ async function obtenerKardex(usuarioId) {
             text: 'No se pudieron obtener los datos del Kardex. Intenta nuevamente más tarde.',
             confirmButtonText: 'Cerrar'
         });
+    }
+}
+
+function validarCertificado(estatusCurso, cursoId) {
+    if (estatusCurso !== 'Completado') {
+        // Mostrar una alerta si el curso no está completado
+        Swal.fire({
+            icon: 'warning',
+            title: 'Curso no completado',
+            text: 'No puedes obtener el certificado hasta que el curso esté completado.',
+            confirmButtonText: 'Cerrar'
+        });
+    } else {
+        // Guardar el curso_id en localStorage
+        localStorage.setItem('curso_id', cursoId);
+
+        // Si el curso está completado, redirigir al certificado
+        window.location.href = "../Kardex/Certificado.html";
     }
 }
