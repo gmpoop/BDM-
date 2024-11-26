@@ -62,7 +62,7 @@ document.getElementById('applyFilters').addEventListener('click', () => {
 });
 
 async function obtenerKardex(usuarioId) {
-    const url = new URL('http://localhost/BDM/iCraft/Backend/API/APIKardex.php/kardex/estudiante');
+    const url = new URL('http://localhost/BDM-/Backend/API/APIKardex.php/kardex/estudiante');
     const params = new URLSearchParams();
 
     params.append('usuario_id', usuarioId);

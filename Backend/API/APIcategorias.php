@@ -2,7 +2,7 @@
 require_once '../clases/Database.php';
 require_once '../modelos/categoria.php';
 require_once '../controladores/categoriasControl.php';
-require_once 'C:/xampp/htdocs/BDM/iCraft/vendor/autoload.php';
+require_once 'C:/xampp/htdocs/BDM-/vendor/autoload.php';
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
@@ -23,7 +23,7 @@ $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 // Rutas
 switch ($request) {
-    case '/BDM/iCraft/Backend/API/APIcategorias.php/categorias': 
+    case '/BDM-/Backend/API/APIcategorias.php/categorias': 
         if ($method == 'GET') {
             $controller->getAllCategorias();
         } elseif ($method == 'POST') {

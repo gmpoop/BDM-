@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Función para llamar a la API
     function obtenerReporteTutor(id) {
-        const apiUrl = `http://localhost/BDM/iCraft/Backend/API/APIReportes.php/reporte/Tutores/Buscar?id=${id}`;
+        const apiUrl = `http://localhost/BDM-/Backend/API/APIReportes.php/reporte/Tutores/Buscar?id=${id}`;
 
         fetch(apiUrl, { method: "GET" })
             .then((response) => {

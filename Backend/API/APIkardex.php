@@ -2,7 +2,7 @@
 require_once '../clases/Database.php';
 require_once '../modelos/kardex.php';
 require_once '../controladores/kardexControl.php';
-require_once 'C:/xampp/htdocs/BDM/iCraft/vendor/autoload.php';
+require_once 'C:/xampp/htdocs/BDM-/vendor/autoload.php';
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
@@ -23,7 +23,7 @@ $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 // Rutas
 switch ($request) {
-    case '/BDM/iCraft/Backend/API/APIKardex.php/kardex/estudiante':
+    case '/BDM-/Backend/API/APIKardex.php/kardex/estudiante':
         if ($method === 'GET') {
             $controller->getKardexEstudiante();
         } else {
@@ -32,7 +32,7 @@ switch ($request) {
         }
         break;
 
-    case '/BDM/iCraft/Backend/API/APIKardex.php/kardex/certificado':
+    case '/BDM-/Backend/API/APIKardex.php/kardex/certificado':
         if ($method === 'GET') {
             $controller->getCertificad();
         } else {

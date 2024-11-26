@@ -70,7 +70,7 @@ if (usuarioId && cursoId) {
 }
 
 async function obtenerCertificado(usuarioId, cursoId) {
-    const url = `http://localhost/BDM/iCraft/Backend/API/APIKardex.php/kardex/certificado?usuario_id=${usuarioId}&curso_id=${cursoId}`;
+    const url = `http://localhost/BDM-/Backend/API/APIKardex.php/kardex/certificado?usuario_id=${usuarioId}&curso_id=${cursoId}`;
     const token = localStorage.getItem("jwtToken");
 
     try {

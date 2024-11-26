@@ -59,7 +59,7 @@ document.getElementById('guardarCateBtn').addEventListener('click', function (ev
     };
 
     // Enviar datos a la API
-    fetch('http://localhost/BDM/iCraft/Backend/API/APIcategorias.php/categorias', {
+    fetch('http://localhost/BDM-/Backend/API/APIcategorias.php/categorias', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -105,7 +105,7 @@ document.getElementById('guardarCateBtn').addEventListener('click', function (ev
 
 // Obtener todas las categorías para llenar el select
 function cargarCategoriasUpdate() {
-    fetch('http://localhost/BDM/iCraft/Backend/API/APIcategorias.php/categorias', {
+    fetch('http://localhost/BDM-/Backend/API/APIcategorias.php/categorias', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -143,7 +143,7 @@ document.getElementById('categoriaSelect',).addEventListener('change', function 
         document.getElementById('guardarCambiosBtn').disabled = false;
 
         // Obtener los detalles de la categoría seleccionada
-        fetch(`http://localhost/BDM/iCraft/Backend/API/APIcategorias.php/categoria/${categoriaId}`, {
+        fetch(`http://localhost/BDM-/Backend/API/APIcategorias.php/categoria/${categoriaId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -197,7 +197,7 @@ document.getElementById('guardarCambiosBtn').addEventListener('click', function 
         estado: estado
     };
 
-    fetch(`http://localhost/BDM/iCraft/Backend/API/APIcategorias.php/categoria/${categoriaId}`, {
+    fetch(`http://localhost/BDM-/Backend/API/APIcategorias.php/categoria/${categoriaId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -252,7 +252,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Obtener todas las categorías para llenar el select
 function cargarCategorias() {
-    fetch('http://localhost/BDM/iCraft/Backend/API/APIcategorias.php/categorias', {
+    fetch('http://localhost/BDM-/Backend/API/APIcategorias.php/categorias', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -303,7 +303,7 @@ document.getElementById('eliminarBtn').addEventListener('click', function (event
         confirmButtonText: 'Sí, eliminar'
     }).then((result) => {
         if (result.isConfirmed) {
-            fetch(`http://localhost/BDM/iCraft/Backend/API/APIcategorias.php/categoria/${categoriaId}`, {
+            fetch(`http://localhost/BDM-/Backend/API/APIcategorias.php/categoria/${categoriaId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -356,7 +356,7 @@ document.getElementById('categoriaDeleteSelect').addEventListener('change', func
 // Función para cargar los reportes de estudiantes
 function cargarReportesEstudiantes() {
     // URL de tu API
-    const apiUrl = 'http://localhost/BDM/iCraft/Backend/API/APIReportes.php/reporte/Estudiantes';
+    const apiUrl = 'http://localhost/BDM-/Backend/API/APIReportes.php/reporte/Estudiantes';
 
     // Elemento donde se mostrará la tabla
     const studentTable = document.getElementById('studentTable');
@@ -422,7 +422,7 @@ function fillTableestudiantes(reportes) {
 // Función para cargar los reportes de los tutores
 function cargarReportesTutores() {
     // URL de la API
-    const apiUrl = 'http://localhost/BDM/iCraft/Backend/API/APIReportes.php/reporte/Tutores';
+    const apiUrl = 'http://localhost/BDM-/Backend/API/APIReportes.php/reporte/Tutores';
 
     // Elemento donde se mostrará la tabla
     const instructorTable = document.getElementById('instructorTable');
@@ -489,7 +489,7 @@ function fillTabletutores(tutores) {
 //Cargar Dashboard
 async function cargarDatosDashboard() {
     try {
-        const response = await fetch("http://localhost/BDM/iCraft/Backend/API/APIReportes.php/reporte/ReportesTotales", {
+        const response = await fetch("http://localhost/BDM-/Backend/API/APIReportes.php/reporte/ReportesTotales", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

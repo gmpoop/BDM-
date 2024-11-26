@@ -84,7 +84,7 @@ async function searchCourses() {
     const status = document.getElementById('statusFilter').value;
 
     // Construir la URL de la API con parámetros
-    let url = `/BDM/iCraft/Backend/API/APIbusqueda.php/cursos/buscar?`;
+    let url = `/BDM-/Backend/API/APIbusqueda.php/cursos/buscar?`;
 
     if (searchQuery) url += `titulo=${encodeURIComponent(searchQuery)}&`;
     if (startDate) url += `start_date=${encodeURIComponent(startDate)}&`;
