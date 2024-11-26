@@ -46,6 +46,56 @@ class Curso {
         return $stmt;
     }
 
+    public function GetAllByCourse() {
+        $query = "SELECT cur.categoria_id, cat.nombre as nombre_categoria, cur.id as id_curso, cur.titulo, cur.descripcion, cur.imagen, cur.costo 
+                  FROM cursos cur 
+                  JOIN categorias cat ON cur.categoria_id = cat.id 
+                  WHERE cur.estado LIKE '%activo%'";
+    
+        $stmt = $this->conn->prepare($query);
+    
+        if ($stmt) {
+            // Ejecutar la declaración
+            $stmt->execute();
+    
+            // Retornar el statement
+            return $stmt;
+        } else {
+            // Manejar el error de preparación
+            echo "Error en la preparación de la declaración: " . $this->conn->error;
+            return false;
+        }
+    }
+    
+    public function getCoursesDetails($curso_id) {
+        $query = "SELECT cur.id as idCurso, cur.titulo as titulo_curso, cur.descripcion, cur.imagen, 
+                  us.id as idUsuario, us.nombre_completo, us.email, 
+                  niv.id as idNivel, niv.titulo as titulo_nivel 
+                  FROM cursos cur 
+                  JOIN usuarios us ON cur.instructor_id = us.id 
+                  JOIN niveles niv ON cur.id = niv.curso_id 
+                  WHERE cur.id = ?";
+    
+        $stmt = $this->conn->prepare($query);
+    
+        if ($stmt) {
+            // Enlazar parámetros para proteger contra inyecciones SQL
+            $stmt->bind_param('i', $curso_id);
+    
+            // Ejecutar la declaración
+            $stmt->execute();
+            
+            return $stmt;
+
+        } else {
+            // Manejar error de preparación
+            echo "Error en la preparación de la declaración: " . $this->conn->error;
+            return false;
+        }
+    }
+    
+    
+
     // Obtener una categoría por ID
     public function getOne($id) {
         $query = "SELECT * FROM cursps WHERE id = ?"; // No requiere un SP aquí
