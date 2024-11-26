@@ -276,6 +276,29 @@
 
         btnDelete_selects.classList.remove("hidden");
 
+        document.addEventListener('DOMContentLoaded', function() {
+            const cursoId = 1; // Asegúrate de establecer el curso_id correcto.
+            fetch(`http://localhost/BDM/iCraft/Backend/API/APIcomentarios.php/comentarios/curso/${cursoId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const comentariosContainer = document.getElementById('comments');
+                    comentariosContainer.innerHTML = ''; // Limpia cualquier comentario previo
+        
+                    data.forEach(comentario => {
+                        const comentarioElement = document.createElement('div');
+                        comentarioElement.className = 'comentario';
+        
+                        comentarioElement.innerHTML = `
+                            <h4>${comentario.usuario_nombre}</h4>
+                            <p>${comentario.comentario}</p>
+                            <small>${new Date(comentario.fecha_creacion).toLocaleDateString()}</small>
+                        `;
+        
+                        comentariosContainer.appendChild(comentarioElement);
+                    });
+                })
+                .catch(error => console.error('Error cargando comentarios:', error));
+        });
         // Agregar evento para el checkbox
         inputTermsCheckbox.forEach((checkbox, index) => {
             checkbox.classList.remove('hidden');
