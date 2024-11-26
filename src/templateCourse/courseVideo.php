@@ -153,8 +153,6 @@ $conn->close();
 
         const listElement = document.getElementById('list');
 
-    });
-
     const btnOverview = document.getElementById("btnOverview");
     const btnComments = document.getElementById("btnComments");
     const overviewSection = document.getElementById("overview");
@@ -183,4 +181,8 @@ $conn->close();
         window.location.href = "/BDM-/src/templateCourse/courseVideo.php?idCurso=" + encodeURIComponent(cursoId) + "&idNivel=" + encodeURIComponent(nivelId);
 
     }
+
+    });
+
+   
 </script>

@@ -2,7 +2,13 @@
 require_once '../clases/Database.php';
 require_once '../modelos/usuarios.php';
 require_once '../controladores/usuariosControl.php';
+//Nivel
+require_once '../modelos/Nivel.php';
+require_once '../controladores/nivelControlador.php';
+
 require_once 'C:/xampp/htdocs/BDM-/vendor/autoload.php';
+
+
 
 
 use Firebase\JWT\JWT;
@@ -24,13 +30,35 @@ $db = $database->getConnection();
 
 // Instanciar el controlador de usuario
 $userController = new usuariosControl($db);
+$NivelControlador = new NivelControlador($db);
 
 // Obtener el método HTTP y la ruta
 $method = $_SERVER['REQUEST_METHOD'];
 $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 // Rutas de la API
-switch ($request) {
+switch ($request) { 
+
+    case '/BDM-/Backend/API/api.php/verfiyToken': {
+        if ($method == 'GET') {
+        $headers = getallheaders();
+                
+            if (isset($headers['Authorization'])) {
+                $token = str_replace('Bearer ', '', $headers['Authorization']);
+
+                try {
+                    $decoded = JWT::decode($token, new Key($_ENV['JWT_SECRET_KEY'], 'HS256'));
+                    echo json_encode(array("message" => "Token resuelto", "data" => $decoded));
+                    
+                } catch (Exception $e) {
+                    http_response_code(401);
+                    echo json_encode(array("message" => "Token no válido"));
+                }
+            }
+        }
+       
+    }
+    break;
     case '/BDM-/Backend/API/api.php/register': {
         if ($method == 'POST') {
             $userController->register();
@@ -98,6 +126,7 @@ switch ($request) {
                 error_log(print_r($decoded, true)); // Imprimir la variable en la consola
                 $userId = $decoded->data->id;
 
+                
                 switch ($method) {
                     case 'GET':
                         $userController->getUser($userId);
@@ -155,9 +184,14 @@ switch ($request) {
     }
         break;
 
+        
+
     default: {
         http_response_code(404);
-        echo json_encode(array("message" => "Ruta no encontrada"));
+        echo json_encode(array("message" => "Ruta no encontrada",
+            "request" => $request));
     }
         break;
+
+   
 }

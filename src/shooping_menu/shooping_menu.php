@@ -5,14 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menú de Compras - Cursos</title>
-    <link href="../output.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="../styles/output.css" rel="stylesheet">
     <!-- Incluir SweetAlert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <div>
-    <?php include 'C:\xampp\htdocs\BDM-\src\navbar_dash.php'; ?>
+    <?php include 'C:\xampp\htdocs\BDM-\src\dashboard\navbar_dash.php'; ?>
 </div>
 
 <body class="bg-gray-100 text-gray-800">

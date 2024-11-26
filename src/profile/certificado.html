@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificado</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f9f9f9;
+        }
+        .certificate-container {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            background: url('../resources/images/1.png') no-repeat center center;
+            background-size: cover;
+        }
+        .certificate-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #000;
+        }
+        .student-name {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-top: 70px;
+        }
+        .course-name {
+            font-size: 1rem;
+            margin-top: 2px;
+        }
+        .signatures {
+            position: absolute;
+            bottom: 120px;
+            width: 20%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 50px;
+        }
+        .signature {
+            text-align: center;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="certificate-container">
+        <div class="certificate-content">
+            <div class="student-name">{{ nombre_alumno }}</div>
+            <div class="course-name">Curso: {{ nombre_curso }}</div>
+            <div class="signatures">
+                <div class="signature">
+                    <div>{{ tutor_curso }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script de Confeti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        // Función para lanzar el confeti
+        function lanzarConfeti() {
+            const duration = 3 * 1000; // Duración del confeti (en milisegundos)
+            const end = Date.now() + duration;
+
+            const colors = ['#bb0000', '#ffffff', '#d4af37'];
+
+            (function frame() {
+                confetti({
+                    particleCount: 5,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: colors,
+                });
+                confetti({
+                    particleCount: 5,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: colors,
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            })();
+        }
+
+        // Lanzar confeti al cargar la página
+        window.onload = lanzarConfeti;
+    </script>
+</body>
+</html>
