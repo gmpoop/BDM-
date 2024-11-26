@@ -11,18 +11,18 @@
 
 
 </head>
-<body class="mx-auto bg-gray-100 text-gray-800 w-full h-auto">
-    <div class="  bg-white rounded-xl shadow-md p-6 flex w-full h-full min-h-screen">
-        <videoSection class="flex flex-col items-start gap-2 w-auto">
-            <div class="w-full flex lg:hidden justify-end ">
+<body class=" bg-gray-100 text-gray-800 max-w-screen max-h-screen">
+    <div class=" bg-white rounded-xl shadow-md p-6 flex justify-between h-screen">
+        <section class="flex flex-col items-start gap-2 w-full">
+            <div class=" flex lg:hidden justify-end">
                 <button id="mobile-menu-button" class="text-gray-700 hover:text-purple-500 focus:outline-none">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
                     </svg>
                 </button>
             </div>
-            <div class="w-full">
-                <img src="https://via.placeholder.com/900x500" alt="Curso 1" class="rounded-lg mb-4  ">
+            <div class="w-full h-full">
+                <video id="video" class="" src="" autoplay muted controls></video>
             </div>
             <div class="menuVideo">
                 <ul class="flex gap-5 font-bold text-gray-500">
@@ -42,16 +42,16 @@
             <div id="overview" class=" w-full flex flex-col gap-2">
                 <div class="flex justify-between items-center gap-3">
                     <div class="flex gap-3">
-                        <h3 class="text-lg font-bold text-gray-900 ">Nivel 1</h3>
+                        <h3 id="nivel-text" class="text-lg font-bold text-gray-900 ">Nivel 1</h3>
                         <span>-</span>
-                        <h3 class="text-lg font-bold text-gray-900">Descripcion corta</h3>
+                        <h3 id="description_corta_text" class="text-lg font-bold text-gray-900">Descripcion corta</h3>
                     </div>
 
                     <div class="mr-4">
                         <h3 class="text-lg ">Promedio del video: <span class="text-gray-900 font-bold" id="averageVideo">50%</span></h3>
                     </div>
                 </div>
-                <p id="description">Descripcion larga</p>
+                <p  id="description_larga_text">Descripcion larga</p>
 
             </div>
             
@@ -241,64 +241,11 @@
                     </div>
             </div>
 
-        </videoSection>
-        <aside class="mx-5 divide-y divide-gray-300 w-auto hidden lg:block">
-            <h1 class="text-4xl	 font-bold text-gray-9 mb-2">Niveles</h1>
-            <ul class="max-h-[500px] w-full divide-y divide-gray-300 bg-white rounded-xl shadow-md p-6 overflow-y-auto flex flex-col items-center ">
-                <li class=" w-[500px] flex justify-between items-center p-4 hover:opacity-90">
-                    <div class="flex justify-between items-center gap-5">
-                        <img src="https://via.placeholder.com/70x50" alt="Curso 1" class="rounded-lg ">
-                        <p class="text-gray-500">Introduccion</p>   
-                    </div>
-                </li>
-                <li class="element-list-level min-w-[250px] flex justify-between items-center p-4 hover:opacity-90">
-                    <div class="flex justify-between items-center gap-5">
-                        <img src="https://via.placeholder.com/70x50" alt="Curso 1" class="rounded-lg ">
-                        <p class="text-gray-500">1.<span>Introduccion</span></p>                           
-                    </div>
-                </li>
-                <li class="element-list-level min-w-[250px] flex justify-between items-center p-4 hover:opacity-90">
-                    <div class="flex justify-between items-center gap-5">
-                        <img src="https://via.placeholder.com/70x50" alt="Curso 1" class="rounded-lg ">
-                        <p class="text-gray-500">Introduccion</p>                           
-                    </div>
-                </li>
-                <li class="element-list-level min-w-[250px] flex justify-between items-center p-4 hover:opacity-90">
-                    <div class="flex justify-between items-center gap-5">
-                        <img src="https://via.placeholder.com/70x50" alt="Curso 1" class="rounded-lg ">
-                        <p class="text-gray-500">Introduccion</p>                           
-                    </div>
-                </li>
-                <li class="element-list-level min-w-[250px] flex justify-between items-center p-4 hover:opacity-90">
-                    <div class="flex justify-between items-center gap-5">
-                        <img src="https://via.placeholder.com/70x50" alt="Curso 1" class="rounded-lg ">
-                        <p class="text-gray-500">Introduccion</p>                           
-                    </div>
-                </li>
-                <li class="element-list-level min-w-[250px] flex justify-between items-center p-4 hover:opacity-90">
-                    <div class="flex justify-between items-center gap-5">
-                        <img src="https://via.placeholder.com/70x50" alt="Curso 1" class="rounded-lg ">
-                        <p class="text-gray-500">Introduccion</p>                           
-                    </div>
-                </li>
-                <li class="element-list-level min-w-[250px] flex justify-between items-center p-4 hover:opacity-90">
-                    <div class="flex justify-between items-center gap-5">
-                        <img src="https://via.placeholder.com/70x50" alt="Curso 1" class="rounded-lg ">
-                        <p class="text-gray-500">Introduccion</p>                           
-                    </div>
-                </li>
-                <li class="element-list-level min-w-[250px] flex justify-between items-center p-4 hover:opacity-90">
-                    <div class="flex justify-between items-center gap-5">
-                        <img src="https://via.placeholder.com/70x50" alt="Curso 1" class="rounded-lg ">
-                        <p class="text-gray-500">Introduccion</p>                           
-                    </div>
-                </li>
-                <li class="element-list-level min-w-[250px] flex justify-between items-center p-4 hover:opacity-90">
-                    <div class="flex justify-between items-center gap-5">
-                        <img src="https://via.placeholder.com/70x50" alt="Curso 1" class="rounded-lg ">
-                        <p class="text-gray-500">Introduccion</p>                           
-                    </div>
-                </li>
+        </section>
+        <aside class="mx-5 divide-y divide-gray-300 hidden lg:block">
+            <h1 class="text-4xl	font-bold text-gray-9 mb-2">Niveles</h1>
+            <ul id="lista-niveles" class="max-h-[500px] w-full divide-y divide-gray-300 bg-white rounded-xl shadow-md p-6 overflow-y-auto flex flex-col items-center ">
+               
                 
             </ul>
         </aside>
@@ -306,6 +253,9 @@
     </div>
 
 </body>
+
+<script src="./Niveles.js"></script>
+<script src="./CourseVideoApi.js"></script>
 
 <script>
     const btnOverview = document.getElementById("btnOverview");
@@ -441,23 +391,23 @@
         }
 
 
-    // Manejar el envío de la calificación
-    submitRating.addEventListener('click', function () {
-        const selectedValue = progressBar.value;
-        alert(`Has seleccionado ${selectedValue}% como tu nivel de satisfacción con el video.`);
+    // // Manejar el envío de la calificación
+    // submitRating.addEventListener('click', function () {
+    //     const selectedValue = progressBar.value;
+    //     alert(`Has seleccionado ${selectedValue}% como tu nivel de satisfacción con el video.`);
         
-        // Aquí podrías enviar el valor seleccionado a tu backend utilizando una solicitud AJAX, fetch, etc.
-        // Por ejemplo:
-        // fetch('/ruta-al-backend', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({ rating: selectedValue })
-        // }).then(response => response.json())
-        //   .then(data => console.log(data))
-        //   .catch(error => console.error('Error:', error));
-    });
+    //     // Aquí podrías enviar el valor seleccionado a tu backend utilizando una solicitud AJAX, fetch, etc.
+    //     // Por ejemplo:
+    //     // fetch('/ruta-al-backend', {
+    //     //     method: 'POST',
+    //     //     headers: {
+    //     //         'Content-Type': 'application/json'
+    //     //     },
+    //     //     body: JSON.stringify({ rating: selectedValue })
+    //     // }).then(response => response.json())
+    //     //   .then(data => console.log(data))
+    //     //   .catch(error => console.error('Error:', error));
+    // });
 
 
 
