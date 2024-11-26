@@ -20,6 +20,26 @@ class Nivel {
     /////
     // Método para obtener los datos del administrador
     /////
+
+    public function CrearNivel() {
+        // Consulta para llamar al procedimiento almacenado
+        $query = "CALL sp_insertar_nivel(?, ?, ?, ?)";
+    
+        // Preparar la declaración
+        $stmt = $this->db->prepare($query);
+    
+        // Enlazar los parámetros
+        $stmt->bind_param("isss", $this->curso_id, $this->titulo, $this->contenido, $this->video);
+    
+        // Ejecutar la declaración
+        if ($stmt->execute()) {
+            return true;
+        }
+    
+        return false;
+    }
+    
+
         public function ObtenerNivel($id) {
             $query = "
                     SELECT * FROM {$this->table_name} WHERE id = ?;

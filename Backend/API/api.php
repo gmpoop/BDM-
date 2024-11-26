@@ -37,38 +37,28 @@ $method = $_SERVER['REQUEST_METHOD'];
 $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 // Rutas de la API
-switch ($request) {
-    case '/BDM-/Backend/API/api.php/nivel': {
+switch ($request) { 
 
-            $headers = getallheaders();
-    
-            switch ($method) {
-                case 'PUT':
-                    $NivelControlador->GetNivel();
-                    break;
-                default:
-                    http_response_code(405);
-                    echo json_encode(array("message" => "Método no permitido"));
+    case '/BDM-/Backend/API/api.php/verfiyToken': {
+        if ($method == 'GET') {
+        $headers = getallheaders();
+                
+            if (isset($headers['Authorization'])) {
+                $token = str_replace('Bearer ', '', $headers['Authorization']);
+
+                try {
+                    $decoded = JWT::decode($token, new Key($_ENV['JWT_SECRET_KEY'], 'HS256'));
+                    echo json_encode(array("message" => "Token resuelto", "data" => $decoded));
+                    
+                } catch (Exception $e) {
+                    http_response_code(401);
+                    echo json_encode(array("message" => "Token no válido"));
+                }
             }
-    
         }
-            break;
-     case '/BDM-/Backend/API/api.php/niveles': {
-
-            $headers = getallheaders();
-    
-            switch ($method) {
-                case 'PUT':
-                    $NivelControlador->GetNiveles();
-                    break;
-                default:
-                    http_response_code(405);
-                    echo json_encode(array("message" => "Método no permitido"));
-            }
-    
-        }
-            break;
-
+       
+    }
+    break;
     case '/BDM-/Backend/API/api.php/register': {
         if ($method == 'POST') {
             $userController->register();
