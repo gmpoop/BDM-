@@ -15,7 +15,7 @@ $database = new Database();
 $db = $database->getConnection();
 
 // Controlador de comentarios
-$controller = new comentariosController($db);
+$controller = new comentarioController($db);
 
 // Obtener método HTTP y ruta
 $method = $_SERVER['REQUEST_METHOD'];

@@ -57,6 +57,61 @@ DELIMITER ;
 
 DELIMITER $$
 
+CREATE VIEW vista_comentarios_cursos AS
+SELECT 
+    u.nombre_completo AS usuario_nombre,
+    c.comentario,
+    c.fecha_creacion
+FROM 
+    comentarios c
+JOIN 
+    cursos cu ON c.curso_id = cu.id
+JOIN 
+    usuarios u ON c.usuario_id = u.id
+ORDER BY 
+    cu.titulo, c.fecha_creacion;
+
+DELIMITER ;;
+
+DELIMITER $$
+
+CREATE VIEW vista_conversaciones AS
+SELECT 
+    u.remitente.nombre_completo AS usuario_nombre,
+    m.mensaje,
+    m.fecha_envio
+FROM 
+    mensajes m
+JOIN 
+    usuarios u.remitente ON m.remitente_id = u.remitente.id
+JOIN 
+    usuarios u.destinatario ON m.destinatario_id = u.destinatario.id
+ORDER BY 
+    GREATEST(m.remitente_id, m.destinatario_id), 
+    LEAST(m.remitente_id, m.destinatario_id), 
+    m.fecha_envio;
+
+--SELECT * 
+--FROM vista_conversaciones 
+--WHERE 
+--    (remitente_id = 1 AND destinatario_id = 2) 
+--    OR 
+--    (remitente_id = 2 AND destinatario_id = 1)
+--ORDER BY fecha_envio;
+
+DELIMITER ;;
+
+DELIMITER $$
+
+CREATE VIEW personas_interactuadas AS
+SELECT DISTINCT u.nombre_completo, u.foto, u.ruta_foto
+FROM usuarios u
+JOIN mensajes m ON (m.remitente_id = u.id OR m.destinatario_id = u.id)
+WHERE m.remitente_id = :user_id OR m.destinatario_id = :user_id;
+ -- SELECT * FROM personas_interactuadas WHERE persona_id != :user_id;
+
+DELIMITER ;;
+
 CREATE VIEW `kardexusuario` AS
     SELECT 
         `u`.`id` AS `usuario_id`,
@@ -85,18 +140,6 @@ DELIMITER ;
 
 DELIMITER $$
 
-CREATE VIEW vista_categorias_con_creador AS
-SELECT 
-    c.nombre AS categoria_nombre,
-    c.fecha_creacion AS categoria_fecha_creacion,
-    u.email AS creador_email
-FROM 
-    categorias c
-JOIN 
-    usuarios u ON c.usuario_creador_id = u.id;
-
-DELIMITER ;
-
 CREATE VIEW vista_certificado AS
 SELECT 
     i.usuario_id AS id_usuario,
@@ -113,3 +156,5 @@ JOIN
     cursos c ON i.curso_id = c.id
 JOIN 
     usuarios ui ON c.instructor_id = ui.id;
+
+DELIMETER ;
