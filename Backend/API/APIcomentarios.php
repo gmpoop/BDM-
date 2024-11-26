@@ -23,7 +23,7 @@ $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 // Rutas
 switch ($request) {
-    case '/BDM/iCraft/Backend/API/APIcomentarios.php/comentarios': 
+    case '/BDM/iCraft/Backend/API/APIcomentarios.php/comentarios':
         if ($method == 'GET') {
             $controller->getAllComentarios();
         } elseif ($method == 'POST') {
@@ -42,6 +42,17 @@ switch ($request) {
             $controller->updateComentario($id);
         } elseif ($method == 'DELETE') {
             $controller->deleteComentario($id);
+        } else {
+            http_response_code(405);
+            echo json_encode(array("message" => "Método no permitido"));
+        }
+        break;
+
+    // Nueva ruta para obtener comentarios por curso
+    case preg_match('/^\/BDM\/iCraft\/Backend\/API\/APIcomentarios.php\/comentarios\/curso\/(\d+)$/', $request, $matches) ? true : false:
+        $curso_id = $matches[1];
+        if ($method == 'GET') {
+            $controller->getComentariosPorCurso($curso_id);
         } else {
             http_response_code(405);
             echo json_encode(array("message" => "Método no permitido"));

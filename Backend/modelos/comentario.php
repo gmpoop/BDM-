@@ -51,7 +51,13 @@ class Comentario {
         $stmt->execute();
         return $stmt;
     }
-
+    public function getperCurso($curso_id) {
+        $query = "SELECT * FROM comentarios WHERE curso_id = ?"; 
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('i', $curso_id);
+        $stmt->execute();
+        return $stmt;
+    }
     // Actualizar un comentario
     public function update() {
         $query = "CALL sp_modificar_comentario(?, ?, ?, ?, ?)";

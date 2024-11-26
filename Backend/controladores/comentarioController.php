@@ -66,6 +66,22 @@ class ComentariosController {
             echo json_encode(array("message" => "Comentario no encontrado."));
         }
     }
+    public function getComentariosPorCurso($curso_id) {
+        // Llamar a la función getperCurso de la clase Comentario
+        $comentarios = $this->comentario->getperCurso($curso_id);
+    
+        // Verificar si se obtuvieron resultados
+        if (!empty($comentarios)) {
+            // Si hay comentarios, devolver la respuesta con código 200
+            http_response_code(200);
+            echo json_encode($comentarios);
+        } else {
+            // Si no hay comentarios, devolver un error 404
+            http_response_code(404);
+            echo json_encode(array("message" => "No se encontraron comentarios para el curso especificado."));
+        }
+    }
+    
 
     public function createComentario() {
         $data = json_decode(file_get_contents("php://input"));

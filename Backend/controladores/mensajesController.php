@@ -81,6 +81,22 @@ class MensajesController {
             echo json_encode(array("message" => "Datos incompletos."));
         }
     }
+    public function getConversation($remitente_id, $destinatario_id) {
+        // Llamar a la función getConversation de la clase Mensaje
+        $mensajes = $this->mensaje->getConversation($remitente_id, $destinatario_id);
+    
+        // Verificar si se obtuvieron resultados
+        if (!empty($mensajes)) {
+            // Si hay mensajes, devolver la respuesta con código 200
+            http_response_code(200);
+            echo json_encode($mensajes);
+        } else {
+            // Si no hay mensajes, devolver un error 404
+            http_response_code(404);
+            echo json_encode(array("message" => "No se encontraron mensajes para la conversación especificada."));
+        }
+    }
+    
 
     public function updateMensaje($id) {
         $data = json_decode(file_get_contents("php://input"));

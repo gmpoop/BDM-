@@ -39,7 +39,27 @@ class Mensaje {
         return $stmt;
     }
 
-    // Obtener un mensaje por ID
+// Obtener una conversación entre remitente y destinatario
+public function getConversation($remitente_id, $destinatario_id) {
+    $query = "SELECT * FROM mensajes WHERE remitente_id = ? AND destinatario_id = ?"; 
+    $stmt = $this->conn->prepare($query);
+    
+    // Aquí debes pasar ambos parámetros al método bind_param
+    $stmt->bind_param('ii', $remitente_id, $destinatario_id);
+    
+    // Ejecutar la consulta
+    $stmt->execute();
+    
+    // Obtener el resultado
+    $result = $stmt->get_result();
+    
+    // Retornar los datos como un array asociativo
+    $mensajes = $result->fetch_all(MYSQLI_ASSOC);
+    
+    return $mensajes;
+}
+
+
     public function getOne($id) {
         $query = "SELECT * FROM mensajes WHERE id = ?"; 
         $stmt = $this->conn->prepare($query);
@@ -47,6 +67,7 @@ class Mensaje {
         $stmt->execute();
         return $stmt;
     }
+
 
     // Actualizar un mensaje
     public function update() {
