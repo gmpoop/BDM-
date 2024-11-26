@@ -1,7 +1,10 @@
 DELIMITER $$
 
+DROP VIEW IF EXISTS view_reporte_usuario_estudiantes;
+
 CREATE VIEW view_reporte_usuario_estudiantes AS
 SELECT 
+    u.id AS usuario_id, -- Agregamos el ID del usuario
     u.email AS correo,
     u.nombre_completo,
     r.fecha_ingreso,
@@ -18,10 +21,14 @@ DELIMITER ;
 
 DELIMITER $$
 
+DROP VIEW IF EXISTS view_reporte_usuario_tutores;
+
 CREATE VIEW view_reporte_usuario_tutores AS
 SELECT 
+    u.id AS usuario_id, -- Agregamos el ID del usuario
     u.email AS correo,
     u.nombre_completo,
+    u.ultimo_cambio,
     r.fecha_ingreso,
     r.cantidad_cursos_ofrecidos AS cursos_ofrecidos,
     r.total_ganancias
@@ -104,3 +111,50 @@ WHERE m.remitente_id = :user_id OR m.destinatario_id = :user_id;
  -- SELECT * FROM personas_interactuadas WHERE persona_id != :user_id;
 
 DELIMITER ;;
+
+CREATE VIEW `kardexusuario` AS
+    SELECT 
+        `u`.`id` AS `usuario_id`,
+        `u`.`nombre_completo` AS `usuario`,
+        `c`.`id` AS `curso_id`,
+        `c`.`titulo` AS `curso`,
+        `c`.`categoria_id` AS `categoria_id`,
+        `cat`.`nombre` AS `categoria`,
+        `i`.`fecha_inscripcion` AS `fecha_inscripcion`,
+        `i`.`progreso` AS `progreso`,
+        CASE 
+            WHEN `i`.`progreso` = 100 THEN 'Completado'
+            ELSE 'En progreso'
+        END AS `estatus`,
+        `i`.`fecha_terminacion` AS `fecha_terminacion`
+    FROM 
+        `usuarios` `u`
+    JOIN 
+        `inscripciones` `i` ON (`u`.`id` = `i`.`usuario_id`)
+    JOIN 
+        `cursos` `c` ON (`i`.`curso_id` = `c`.`id`)
+    JOIN 
+        `categorias` `cat` ON (`c`.`categoria_id` = `cat`.`id`);
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE VIEW vista_certificado AS
+SELECT 
+    i.usuario_id AS id_usuario,
+    i.curso_id AS id_curso,
+    u.nombre_completo AS nombre_usuario,
+    c.titulo AS nombre_curso,
+    i.fecha_terminacion AS fecha_fin,
+    CONCAT(ui.nombre_completo) AS nombre_instructor
+FROM 
+    inscripciones i
+JOIN 
+    usuarios u ON i.usuario_id = u.id
+JOIN 
+    cursos c ON i.curso_id = c.id
+JOIN 
+    usuarios ui ON c.instructor_id = ui.id;
+
+DELIMETER ;

@@ -15,7 +15,7 @@ const getNivelData = async (idUrl) => {
         id: idUrl,
     };
     
-    const response = await fetch('http://localhost/BDM-/Backend/API/api.php/nivel', {
+    const response = await fetch('http://localhost/BDM-/Backend/API/ApiNiveles.php/nivel', {
         method: 'PUT',
         headers: {
             'Authorization': `Bearer ${jwtToken}`,
@@ -35,7 +35,7 @@ const getNivelData = async (idUrl) => {
     if (nivel === null) {
         throw new Error('No se encontraron usuarios.');
     }
-    console.log(nivel);
+    console.log(nivel);  
     document.getElementById('video').src = nivel.video || '';  // document.getElementById('email-usuario').textContent = nivel.email || '';
     document.getElementById('description_corta_text').textContent = nivel.titulo || 'Masculino';
     document.getElementById('description_larga_text').textContent = nivel.contenido || 'Masculino';

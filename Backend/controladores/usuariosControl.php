@@ -31,7 +31,7 @@ class usuariosControl
             $this->user->contraseña = $data->contraseña;
             $this->user->genero = $data->genero ?? null;
             $this->user->fecha_nacimiento = $data->fecha_nacimiento ?? null;
-            $this->user->rol_id = $data->rol_id ?? 2;
+            $this->user->rol_id = $data->rol_id ?? null;
 
             // Manejar la imagen en base64
             if (!empty($data->foto)) {
