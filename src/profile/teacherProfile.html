@@ -17,6 +17,11 @@
             width: 100%;
             
         }
+        button {
+            background-color: initial;
+            color: initial;
+        }
+
 
         .container {
             background-color: white;
@@ -121,55 +126,94 @@
     </style>
 </head>
 <body>
+
+    <div class="navbar fixed top-0 left-0 w-full bg-white shadow-md z-50">
+        <div class="flex items-center justify-between px-10 py-2">
+            <a href="../dashboard/home.html">
+                <img class="h-10 w-auto" src="../resources/images/logo.png" alt="Logo">
+            </a>
+        </div>
+
+        
+    </div>
+    
     <div class="container">
-        <!-- Ficha del Tutor -->
-        <div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg mt-10">
-            <div class="flex items-center space-x-6">
-                <!-- Avatar del Tutor -->
-                <img class="w-24 h-24 rounded-full" src="https://via.placeholder.com/150" alt="Tutor Avatar">
-        
-                <div class="flex-1">
-                    <!-- Nombre del Tutor -->
-                    <h2 class="text-2xl font-semibold text-gray-800">Jane Doe</h2>
-                    <!-- Correo -->
-                    <p class="text-gray-600">janedoe@example.com</p>
+<!-- Ficha del Tutor -->
+<div class="max-w-5xl mx-auto p-2 bg-gray-50 rounded-lg shadow-lg mt-10">
+    <!-- Encabezado del Tutor -->
+    <div class="flex flex-col md:flex-row items-center md:items-start md:space-x-8 border-b pb-6">
+        <!-- Avatar del Tutor -->
+        <div class="flex-shrink-0">
+            <img class="w-28 h-28 rounded-full shadow-md" id="avatar" alt="Tutor Avatar">
+        </div>
+
+        <!-- Información Principal -->
+        <div class="flex-1 text-center md:text-left mt-4 md:mt-0">
+            <h1 id="nombre-usuario" class="text-3xl font-bold text-gray-800">Cargando...</h1>
+            <p id="email-usuario" class="text-gray-500 text-sm mt-2"><span id="userEmail">...</span></p>
+        </div>
+
+        <!-- Botones -->
+        <div class="flex flex-col space-y-3 mt-6 md:mt-0">
+            <a href="./userEdit.html">
+                <button class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 flex items-center justify-center w-40">
+                    <i class="fas fa-edit mr-2"></i> Editar Perfil
+                </button>
+            </a>
+            <button id="cerrarSesionBtn" class="bg-red-500 text-white px-4 py-3 rounded-lg hover:bg-red-600 flex items-center justify-center w-40">
+                <i class="fas fa-sign-out-alt mr-2"></i> Cerrar Sesión
+            </button>
+        </div>
+    </div>
+
+    <!-- Información Desplegable -->
+    <div class="mt-8">
+        <!-- Botón de Despliegue -->
+        <button id="toggle-info-btn" class="bg-gray-100 w-full text-left px-6 py-3 rounded-lg shadow-md text-gray-800 font-semibold flex items-center justify-between hover:bg-gray-200 transition">
+            <span>Información del Tutor</span>
+            <svg id="arrow-icon" class="w-5 h-5 transform transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+        </button>
+
+        <!-- Contenido Desplegable -->
+        <div id="tutor-info" class="mt-4 hidden">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h4 class="text-gray-600 font-semibold">Número de Cursos Ofrecidos</h4>
+                    <p id="num-cursos" class="text-gray-900 text-xl font-bold mt-2">...</p>
                 </div>
-        
-                <!-- Botones -->
-                <div class="flex-col items-center justify-center space-y-2">
-                    <button class="bg-[#4821ea] text-white px-4 py-2 w-full rounded-md hover:bg-blue-800">Editar Perfil</button>
-                    <button class="bg-red-500 text-white px-4 py-2  w-full rounded-md hover:bg-red-600 ">Cerrar Sesión</button>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h4 class="text-gray-600 font-semibold">Fecha de Registro</h4>
+                    <p id="registro" class="text-gray-900 text-xl font-bold mt-2">...</p>
                 </div>
-            </div>
-        
-            <div class="mt-8">
-                <!-- Información adicional del perfil del tutor -->
-                <h3 class="text-xl font-semibold text-gray-800">Información del Tutor</h3>
-                <div class="grid grid-cols-2 gap-6 mt-4  ">
-                    <div>
-                        <label class="text-gray-600">Número de Cursos Ofrecidos</label>
-                        <p class="text-gray-800">5</p>
-                    </div>
-                    <div>
-                        <label class="text-gray-600">Fecha de Registro</label>
-                        <p class="text-gray-800">01/08/2024</p>
-                    </div>
-                    <div>
-                        <label class="text-gray-600">Última Modificación</label>
-                        <p class="text-gray-800">05/09/2024</p>
-                    </div>
-                    <div>
-                        <label class="text-gray-600">Ingresos Totales</label>
-                        <p class="text-gray-800">$12,000 USD</p>
-                    </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h4 class="text-gray-600 font-semibold">Última Modificación</h4>
+                    <p id="fecha-modificacion" class="text-gray-900 text-xl font-bold mt-2">....</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h4 class="text-gray-600 font-semibold">Ingresos Totales</h4>
+                    <p id="Ingresos" class="text-gray-900 text-xl font-bold mt-2">$ USD</p>
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
         <!-- Carrusel de Cursos Ofrecidos -->
         <div class="course-container mt-10 space-y-3    " x-data="{ activeSlide: 0 }">
             <h2 class="text-2xl font-semibold text-gray-800 text-center">Cursos Ofrecidos</h2>
 
+            <!-- Botón para crear curso -->
+            <div class="flex justify-center">
+                <a href="../Subir curso/subirCurso2.html">
+                    <button class="bg-[#4821ea] text-white px-6 py-3 rounded-lg hover:bg-blue-800 flex items-center justify-center w-40">
+                    + Crear Curso
+                    </button>
+                </a>
+            </div>
+            
+    
             <div class="carousel overflow-hidden relative">
                 <div class="flex transition-transform duration-500" :style="{ transform: `translateX(-${activeSlide * 100}%)` }">
                     <!-- Curso 1 -->
@@ -439,6 +483,20 @@
     function hideModal() {
         document.getElementById('default-modal').classList.add('hidden');
     }
+    document.addEventListener('DOMContentLoaded', () => {
+    const toggleButton = document.getElementById('toggle-info-btn');
+    const tutorInfo = document.getElementById('tutor-info');
+    const arrowIcon = document.getElementById('arrow-icon');
+
+    toggleButton.addEventListener('click', () => {
+        // Alternar la visibilidad de la información
+        tutorInfo.classList.toggle('hidden');
+
+        // Rotar el ícono de flecha
+        arrowIcon.classList.toggle('rotate-180');
+    });
+});
     </script>
+    <script src="profile.js"></script>
 </body>
 </html>
