@@ -2,7 +2,8 @@
 require_once '../../clases/Database.php';
 require_once '../../modelos/curso.php';
 require_once '../../controladores/cursosControlador.php';
-require_once 'C:/xampp/htdocs/BDM-/vendor/autoload.php';
+require_once '../Middleware/Middleware.php';
+require_once 'C:/xampp/htdocs/iCraft/vendor/autoload.php';
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
@@ -17,15 +18,18 @@ $db = $database->getConnection();
 
 //Agrear controlador de cursos
 $controller = new cursosControlador($db);
-
+$middleware = new Middleware();
 
 
 // Obtener método HTTP y ruta
 $method = $_SERVER['REQUEST_METHOD'];
 $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
+
+$middleware->verifyToken(getallheaders());
+
 switch ($request) {
-    case '/BDM-/Backend/API/Cursos/APICursos.php/cursos':
+    case '/iCraft/Backend/API/Cursos/APICursos.php/cursos':        
         if ($method == 'GET') {
             $controller->getAllCursos();
         } elseif ($method == 'POST') {
@@ -37,7 +41,7 @@ switch ($request) {
         }
         break;
 
-    case  '/BDM-/Backend/API/Cursos/APICursos.php/CursosCategorias':{
+    case  '/iCraft/Backend/API/Cursos/APICursos.php/CursosCategorias':{
         if ($method == 'GET') {
 
             $controller->getCursosPorCategoria();
@@ -48,7 +52,7 @@ switch ($request) {
         break;
     }
 
-    case '/BDM-/Backend/API/Cursos/APICursos.php/CursosDetalle': {
+    case '/iCraft/Backend/API/Cursos/APICursos.php/CursosDetalle': {
         if ($method == 'GET') {
             // Obtener el idCurso desde la URL
             if (isset($_GET['curso_id'])) {
