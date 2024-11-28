@@ -6,10 +6,7 @@ require_once '../controladores/usuariosControl.php';
 require_once '../modelos/Nivel.php';
 require_once '../controladores/nivelControlador.php';
 
-require_once 'C:/xampp/htdocs/BDM-/vendor/autoload.php';
-
-
-
+require_once 'C:/xampp/htdocs/iCraft/vendor/autoload.php';
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -39,7 +36,7 @@ $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 // Rutas de la API
 switch ($request) { 
 
-    case '/BDM-/Backend/API/api.php/verfiyToken': {
+    case '/iCraft/Backend/API/api.php/verfiyToken': {
         if ($method == 'GET') {
         $headers = getallheaders();
                 
@@ -59,7 +56,17 @@ switch ($request) {
        
     }
     break;
-    case '/BDM-/Backend/API/api.php/register': {
+    case '/iCraft/Backend/API/api.php/send_email': {
+        if ($method == 'POST') {
+
+            $userController->send_email();            
+
+        } else {
+            http_response_code(405);
+        }
+    }
+    break;
+    case '/iCraft/Backend/API/api.php/register': {
         if ($method == 'POST') {
             $userController->register();
         } else {
@@ -69,7 +76,7 @@ switch ($request) {
     }
         break;
 
-    case '/BDM-/Backend/API/api.php/login': {
+    case '/iCraft/Backend/API/api.php/login': {
         if ($method == 'POST') {
             $userController->login();
         } else {
@@ -80,7 +87,7 @@ switch ($request) {
         break;
 
         
-    case '/BDM-/Backend/API/api.php/users': {
+    case '/iCraft/Backend/API/api.php/users': {
         if ($method == 'GET') {
             // Verificar el token JWT
             $headers = getallheaders();
@@ -115,7 +122,7 @@ switch ($request) {
     }
         break;
 
-    case (preg_match('/^\/BDM-\/Backend\/API\/api.php\/user\/(\d+)$/', $request, $matches) ? true : false): {
+    case (preg_match('/^\/iCraft\/Backend\/API\/api.php\/user\/(\d+)$/', $request, $matches) ? true : false): {
         // Verificar el token JWT
         $headers = getallheaders();
         if (isset($headers['Authorization'])) {

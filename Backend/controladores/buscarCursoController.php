@@ -21,13 +21,45 @@ class buscarCursoController {
         $end_date = isset($_GET['end_date']) ? $_GET['end_date'] : null;
 
         // Realizar la búsqueda con los parámetros obtenidos
-        $resultados = $this->cursoModel->buscarCursos($titulo, $categoria_id, $instructor_id, $estado, $start_date, $end_date);
+        $stmt = $this->cursoModel->buscarCursos($titulo, $categoria_id, $instructor_id, $estado, $start_date, $end_date);
 
         // Devolver resultados en formato JSON
-        if ($resultados) {
-            echo json_encode($resultados);
+        if ($stmt) {
+            $stmt->store_result(); // Asegúrate de almacenar el resultado para obtener el número de filas
+            $num = $stmt->num_rows;
+
+            if ($num > 0) {
+                $cursos_arr = array();
+                $cursos_arr["records"] = array();
+
+                $stmt->bind_result($categoria_id, $nombre_categoria, $id_curso, $titulo, $descripcion, $imagen, $costo);
+                while ($stmt->fetch()) {
+                    $imagenBase64 = base64_encode($imagen);
+
+                    // Crear una URL de datos para la imagen
+                    $imagenSrc = 'data:image/jpeg;base64,' . $imagenBase64;
+
+                    $curso_item = array(
+                        "categoria_id" => $categoria_id,
+                        "nombre_categoria" => $nombre_categoria,
+                        "id_curso" => $id_curso,
+                        "titulo" => $titulo,
+                        "descripcion" => $descripcion,
+                        "imagen" => $imagenSrc,
+                        "costo" => $costo
+                    );
+                    array_push($cursos_arr["records"], $curso_item);
+                }
+
+                http_response_code(200);
+                echo json_encode($cursos_arr);
+            } else {
+                http_response_code(404);
+                echo json_encode(array("message" => "No se encontraron cursos."));
+            }
         } else {
-            echo json_encode(["message" => "No se encontraron cursos con los filtros aplicados."]);
+            http_response_code(500);
+            echo json_encode(array("message" => "Error al obtener los cursos."));
         }
     }
 }

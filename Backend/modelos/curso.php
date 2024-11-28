@@ -24,7 +24,6 @@ class Curso {
         // Sanitizar
         $this->titulo = htmlspecialchars(strip_tags($this->titulo));
         $this->descripcion = htmlspecialchars(strip_tags($this->descripcion));
-        $this->imagen = htmlspecialchars(strip_tags($this->imagen));
         $this->ruta_imagen = htmlspecialchars(strip_tags($this->ruta_imagen));
         $this->costo = htmlspecialchars(strip_tags($this->costo));
         $this->categoria_id = htmlspecialchars(strip_tags($this->categoria_id));
@@ -47,6 +46,56 @@ class Curso {
         return $stmt;
     }
 
+    public function GetAllByCourse() {
+        $query = "SELECT cur.categoria_id, cat.nombre as nombre_categoria, cur.id as id_curso, cur.titulo, cur.descripcion, cur.imagen, cur.costo 
+                  FROM cursos cur 
+                  JOIN categorias cat ON cur.categoria_id = cat.id 
+                  WHERE cur.estado LIKE '%activo%'";
+    
+        $stmt = $this->conn->prepare($query);
+    
+        if ($stmt) {
+            // Ejecutar la declaración
+            $stmt->execute();
+    
+            // Retornar el statement
+            return $stmt;
+        } else {
+            // Manejar el error de preparación
+            echo "Error en la preparación de la declaración: " . $this->conn->error;
+            return false;
+        }
+    }
+    
+    public function getCoursesDetails($curso_id) {
+        $query = "SELECT cur.id as idCurso, cur.titulo as titulo_curso, cur.descripcion, cur.imagen, 
+                  us.id as idUsuario, us.nombre_completo, us.email, 
+                  niv.id as idNivel, niv.titulo as titulo_nivel 
+                  FROM cursos cur 
+                  JOIN usuarios us ON cur.instructor_id = us.id 
+                  JOIN niveles niv ON cur.id = niv.curso_id 
+                  WHERE cur.id = ?";
+    
+        $stmt = $this->conn->prepare($query);
+    
+        if ($stmt) {
+            // Enlazar parámetros para proteger contra inyecciones SQL
+            $stmt->bind_param('i', $curso_id);
+    
+            // Ejecutar la declaración
+            $stmt->execute();
+            
+            return $stmt;
+
+        } else {
+            // Manejar error de preparación
+            echo "Error en la preparación de la declaración: " . $this->conn->error;
+            return false;
+        }
+    }
+    
+    
+
     // Obtener una categoría por ID
     public function getOne($id) {
         $query = "SELECT * FROM cursps WHERE id = ?"; // No requiere un SP aquí
@@ -56,22 +105,39 @@ class Curso {
         return $stmt;
     }
 
-    public function getOneBy($title, $instructor_id) {
-        // Consulta para seleccionar el curso basado en título e ID de instructor
-        $query = "SELECT * FROM cursos WHERE titulo = ? AND instructor_id = ?";
+    function getOneBy($title, $instructor_id) {
+        // Añadir comodines para LIKE
+        $title = '%' . $title . '%'; 
+        $query = "SELECT * FROM cursos WHERE titulo LIKE ? AND instructor_id = ?";
     
         // Preparar la declaración
-        $stmt = $this->conn->prepare($query);
+        if ($stmt = $this->conn->prepare($query)) {
+            // Enlazar los parámetros a los marcadores de posición
+            $stmt->bind_param('si', $title, $instructor_id);
     
-        // Enlazar los parámetros a los marcadores de posición
-        $stmt->bind_param('si', $title, $instructor_id);
+            // Ejecutar la declaración
+            if ($stmt->execute()) {
+                // Obtener el resultado
+                $result = $stmt->get_result();
     
-        // Ejecutar la declaración
-        $stmt->execute();
-    
-        // Retornar el statement para el manejo posterior de los resultados
-        return $stmt;
+                // Verificar si hay resultados
+                if ($result->num_rows > 0) {
+                    // Obtener el primer resultado
+                    $course = $result->fetch_assoc();
+                    return $course;
+                } else {
+                    return null; // No hay resultados
+                }
+            } else {
+                echo "Error en la ejecución: " . $stmt->error;
+                return false;
+            }
+        } else {
+            echo "Error en la preparación de la declaración: " . $this->conn->error;
+            return false;
+        }
     }
+    
     
 
     // Actualizar una categoría

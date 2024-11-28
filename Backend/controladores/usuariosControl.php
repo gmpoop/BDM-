@@ -1,17 +1,89 @@
 <?php
+
 use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
-;
+use Firebase\JWT\Key;;
 
 class usuariosControl
 {
     private $db;
     private $user;
+    private $sendgrid;
+
 
     public function __construct($db)
     {
         $this->db = $db;
         $this->user = new Usuario($db);
+    }
+
+    public function send_email()
+    {
+        // Obtener datos POST
+        $sendgrid = new \SendGrid('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');
+
+        $data = json_decode(file_get_contents("php://input"));
+        $name = $data->nombre_completo;
+        $to = $data->email;
+
+        // Crear contenido de email
+        $htmlContent = "
+        <!DOCTYPE html>
+        <html lang='en'>
+        <head>
+
+            <meta charset='UTF-8'>
+            <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+            <title>¡Gracias por registrarte!</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f7f7f7; }
+
+                h1{
+                    font-size: x-large;
+                }
+
+                .container { width: 100%; max-width: 450px; margin: 0 auto; background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); }
+
+                .header { background-color: #4821ea; color: #ffffff; text-align: center; padding: 20px; border-radius: 10px 10px 0 0; }
+
+                .content { padding: 20px; text-align: center; font-size: larger; }
+
+                .footer { text-align: center; padding: 10px; color: #aaaaaa; font-size: 12px; }
+            </style>
+        </head>
+        <body>
+            <div class='container ' >
+                <div class='header'>
+                    <h1>¡Gracias por registrarte!</h1>
+                </div>
+                <div class='content'>
+                    <p>Hola {$name},</p>
+                    <p>¡Gracias por registrarte en nuestro sitio web! Estamos emocionados de tenerte a bordo.</p>
+                    <p>Disfruta explorando y no dudes en contactarnos si tienes alguna pregunta.</p>
+                </div>
+                <div class='footer'>
+                    <p>© 2024 iCraft. Todos los derechos reservados.</p>
+                </div>
+            </div>
+        </body>
+ </html>
+        ";
+
+        $emailContent = new \SendGrid\Mail\Mail();
+        $emailContent->setFrom("carlos.basskame@gmail.com", "Carlos");
+        $emailContent->setSubject("¡Gracias por registrarte!");
+        $emailContent->addTo($to, $name);
+        $emailContent->addContent("text/html", $htmlContent);
+
+        try {
+            $response = $sendgrid->send($emailContent);
+            if ($response->statusCode() >= 200 && $response->statusCode() < 300) {
+                echo json_encode(['success' => true]);
+            } else {
+                echo json_encode(['success' => false, 'error' => $response->body()]);
+            }
+        } catch (Exception $e) {
+            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+        }
     }
 
     public function register()
@@ -176,7 +248,7 @@ class usuariosControl
         $this->user->nombre_completo = $data->nombre_completo ?? null;
         $this->user->genero = $data->genero ?? null;
         $this->user->fecha_nacimiento = $data->fecha_nacimiento ?? null;
-        $this->user->foto = $data->foto ?? null;    
+        $this->user->foto = $data->foto ?? null;
         $this->user->ruta_foto = $data->ruta_foto ?? null;
         $this->user->email = $data->email ?? null;
         $this->user->contraseña = $data->contraseña ?? null;
@@ -195,7 +267,7 @@ class usuariosControl
     }
     public function deleteUser()
     {
-     // Obtener datos del cuerpo de la solicitud
+        // Obtener datos del cuerpo de la solicitud
         $data = json_decode(file_get_contents("php://input"));
 
         // Verificar que se recibieron datos
@@ -205,7 +277,7 @@ class usuariosControl
             return;
         }
 
-        $this->user->email = $data->email;    
+        $this->user->email = $data->email;
 
 
         if ($this->user->delete()) {
@@ -215,7 +287,6 @@ class usuariosControl
             http_response_code(503);
             echo json_encode(array("message" => "No se pudo eliminar el usuario."));
         }
-        
     }
     public function getAllUsers()
     {
