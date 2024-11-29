@@ -9,7 +9,7 @@ const idUrl = url.searchParams.get('curso_id');
 // Obtén el token JWT del local storage
 const jwtToken = localStorage.getItem('jwtToken');
 
-const PORT = "http://localhost/BDM-/Backend/API/";
+const PORT = "http://localhost/iCraft/Backend/API/";
 
 const verifyToken = async () => {
     try {
@@ -73,18 +73,18 @@ async function getCourseData() {
             // Añadir los niveles
             data.records.forEach(nivel => {
                 const itemNivel = document.createElement('li');
-                itemNivel.classList.add('min-w-[250px]', 'flex', 'justify-between', 'items-center', 'p-4');
+                itemNivel.classList.add('h-auto', 'min-h-[300px]', 'min-w-[250px]', 'flex-col', 'items-start', 'items-center', 'p-4', 'relattive');
                 
                 const nivelDiv = document.createElement('div');
                 nivelDiv.classList.add('flex', 'flex-col', 'items-start');
                 
                 const nivelImg = document.createElement('img');
                 nivelImg.src = "https://via.placeholder.com/300x200";  // Puedes actualizar esto para la imagen real si está disponible
-                nivelImg.alt = `Nivel ${nivel.titulo_nivel}`;
-                nivelImg.classList.add('rounded-lg', 'mb-4');
+                nivelImg.alt = `Nivel `;
+                nivelImg.classList.add('rounded-lg', 'mb-4', 'object-scale-down');
 
                 const nivelTitulo = document.createElement('p');
-                nivelTitulo.classList.add('text-gray-500');
+                nivelTitulo.classList.add('text-gray-500', 'max-x-full', 'overlow-hidden', 'text-sm');
                 nivelTitulo.textContent = "Titulo del nivel: " + nivel.titulo_nivel;
 
                 nivelDiv.appendChild(nivelImg);

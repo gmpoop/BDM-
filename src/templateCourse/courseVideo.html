@@ -32,9 +32,6 @@
                     <li class="element-list-video_menu">
                         <button id="btnComments" class="focus:outline-none focus:text-gray-900">Comentarios</button>
                     </li>
-                    <li class="element-list-video_menu">
-                        <button id="btnStatistics" class="focus:outline-none focus:text-gray-900">Estadísticas</button>
-                    </li>
                 </ul>
             </div>
             
@@ -120,127 +117,10 @@
                         <input type="checkbox" id="termsCheckbox" class="termsCheckbox hidden form-checkbox h-5 w-5 text-indigo-600"> 
                     </div>
                 </div>
-                <div id="comments-container"  class="comments-container bg-gray-100 p-4 rounded-lg mb-4">
-                    <div class="flex justify-between">
-                        <div class="flex items-center mb-2">
-                            <div class="bg-[#4821ea] w-10 h-10 rounded-full flex items-center justify-center text-white font-bold mr-3">JD</div>
-                            <h3 class="text-lg font-semibold text-gray-700">Juan Díaz</h3>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <h3 class="text-lg font-bold text-gray-900 ">Calificación:</h3><span></span>%
-                        </div>
-                    </div>
-                    <div class="mb-5">
-                        <p class="text-gray-600">Este curso ha sido realmente útil. Me ha ayudado a entender conceptos que antes no comprendía. ¡Recomendado!</p>
-                    </div>
-
-                    <div class="flex justify-between text-sm text-gray-500 mt-2">
-                        Hace 2 horas
-                        <input type="checkbox" id="termsCheckbox" class="termsCheckbox hidden form-checkbox h-5 w-5 text-indigo-600"> 
-                    </div>
-                </div>
-                <div id="comments-container"  class="comments-container bg-gray-100 p-4 rounded-lg mb-4">
-                    <div class="flex justify-between">
-                        <div class="flex items-center mb-2">
-                            <div class="bg-[#4821ea] w-10 h-10 rounded-full flex items-center justify-center text-white font-bold mr-3">JD</div>
-                            <h3 class="text-lg font-semibold text-gray-700">Juan Díaz</h3>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <h3 class="text-lg font-bold text-gray-900 ">Calificación:</h3><span></span>%
-                        </div>
-                    </div>
-                    <div class="mb-5">
-                        <p class="text-gray-600">Este curso ha sido realmente útil. Me ha ayudado a entender conceptos que antes no comprendía. ¡Recomendado!</p>
-                    </div>
-
-                    <div class="flex justify-between text-sm text-gray-500 mt-2">
-                        Hace 2 horas
-                        <input type="checkbox" id="termsCheckbox" class="termsCheckbox hidden form-checkbox h-5 w-5 text-indigo-600"> 
-                    </div>
-                </div>
+                
             </div>
 
-            <!-- Statistics Section -->
-            <div id="statistics" class="hidden w-full space-y-5">
-                    <div class=" w-full overflow-x-auto bg-white border border-gray-100 shadow-md p-6 rounded-md ">
-                        <table class="items-center w-full bg-transparent border-collapse">
-                            <thead>
-                              <tr>
-                                <th class="px-4 bg-gray-100 light:bg-gray-600 text-gray-500 light:text-gray-100 align-middle border border-solid border-gray-200 light:border-gray-500 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Role</th>
-                                <th class="px-4 bg-gray-100 light:bg-gray-600 text-gray-500 light:text-gray-100 align-middle border border-solid border-gray-200 light:border-gray-500 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Amount</th>
-                                <th class="px-4 bg-gray-100 light:bg-gray-600 text-gray-500 light:text-gray-100 align-middle border border-solid border-gray-200 light:border-gray-500 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left min-w-140-px"></th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr class="text-gray-700 light:text-gray-100">
-                                <th class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">Administrator</th>
-                                <td class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">1</td>
-                                <td class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                  <div class="flex items-center">
-                                    <span class="mr-2">70%</span>
-                                    <div class="relative w-full">
-                                      <div class="overflow-hidden h-2 text-xs flex rounded bg-gray-200">
-                                        <div style="width: 70%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-[#4821ea]"></div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr class="text-gray-700 light:text-gray-100">
-                                <th class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">User</th>
-                                <td class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">6</td>
-                                <td class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                  <div class="flex items-center">
-                                    <span class="mr-2">40%</span>
-                                    <div class="relative w-full">
-                                      <div class="overflow-hidden h-2 text-xs flex rounded bg-gray-200">
-                                        <div style="width: 40%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-[#4821ea]"></div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr class="text-gray-700 light:text-gray-100">
-                                <th class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">User</th>
-                                <td class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">5</td>
-                                <td class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                  <div class="flex items-center">
-                                    <span class="mr-2">45%</span>
-                                    <div class="relative w-full">
-                                      <div class="overflow-hidden h-2 text-xs flex rounded bg-gray-100">
-                                        <div style="width: 45%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-[#7a59ff]"></div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr class="text-gray-700 light:text-gray-100">
-                                <th class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">User</th>
-                                <td class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">4</td>
-                                <td class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                  <div class="flex items-center">
-                                    <span class="mr-2">60%</span>
-                                    <div class="relative w-full">
-                                      <div class="overflow-hidden h-2 text-xs flex rounded bg-gray-100">
-                                        <div style="width: 60%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-[#7a59ff]"></div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                    </div>
-                 
-                    <div class="w-full mb-6 " >
-                        <div class="bg-white border border-gray-100 shadow-md p-6 rounded-md w-full">
-                            <div class="w-full flex justify-center">
-                                <canvas id="order-chart" ></canvas>
-                            </div>
-                        </div>
-                    </div>
-            </div>
-
+     
         </section>
         <aside class="mx-5 divide-y divide-gray-300 hidden lg:block">
             <h1 class="text-4xl	font-bold text-gray-9 mb-2">Niveles</h1>
@@ -327,13 +207,6 @@
         statisticsSection.classList.add("hidden");
     });
 
-    btnStatistics.addEventListener("click", () => {
-        commentsSection.classList.add("hidden");
-        overviewSection.classList.add("hidden");
-        statisticsSection.classList.remove("hidden");
-    });
-
-
 
     const progressBar = document.getElementById('progressBar');
     const progressValue = document.getElementById('progressValue');
@@ -343,96 +216,6 @@
     progressBar.addEventListener('input', function () {
         progressValue.textContent = `${this.value}%`; // Actualizar el texto con el valor seleccionado
     });
-
-    new Chart(document.getElementById('order-chart'), {
-            type: 'line',
-            data: {
-                labels: generateNDays(7),
-                datasets: [
-                    {
-                        label: 'Comentarios',
-                        data: 2,
-                        borderWidth: 1,
-                        fill: true,
-                        pointBackgroundColor: 'rgb(59, 130, 246)',
-                        borderColor: 'rgb(59, 130, 246)',
-                        backgroundColor: 'rgb(59 130 246 / .05)',
-                        tension: .2
-                    },
-                    {
-                        label: 'Vistas',
-                        data: [0,1,0,0,0,10],
-                        borderWidth: 1,
-                        fill: true,
-                        pointBackgroundColor: 'rgb(16, 185, 129)',
-                        borderColor: 'rgb(16, 185, 129)',
-                        backgroundColor: 'rgb(16 185 129 / .05)',
-                        tension: .2
-                    },
-                    {
-                        label: 'Comprados',
-                        data: 2,
-                        borderWidth: 1,
-                        fill: true,
-                        pointBackgroundColor: 'rgb(244, 63, 94)',
-                        borderColor: 'rgb(244, 63, 94)',
-                        backgroundColor: 'rgb(244 63 94 / .05)',
-                        tension: .2
-                    },
-                    {
-                        label: 'Completados',
-                        data: [2,3,4,5,6],
-                        borderWidth: 1,
-                        fill: true,
-                        pointBackgroundColor: 'rgb(0, 0, 0)',
-                        borderColor: 'rgb(0, 0, 0)',
-                        backgroundColor: 'rgb(244 63 94 / .05)',
-                        tension: .2
-                    },
-                ]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
-        function generateNDays(n) {
-            const data = []
-            for(let i=0; i<n; i++) {
-                const date = new Date()
-                date.setDate(date.getDate()-i)
-                data.push(date.toLocaleString('en-US', {
-                    month: 'short',
-                    day: 'numeric'
-                }))
-            }
-            return data
-        }
-
-
-    // // Manejar el envío de la calificación
-    // submitRating.addEventListener('click', function () {
-    //     const selectedValue = progressBar.value;
-    //     alert(`Has seleccionado ${selectedValue}% como tu nivel de satisfacción con el video.`);
-        
-    //     // Aquí podrías enviar el valor seleccionado a tu backend utilizando una solicitud AJAX, fetch, etc.
-    //     // Por ejemplo:
-    //     // fetch('/ruta-al-backend', {
-    //     //     method: 'POST',
-    //     //     headers: {
-    //     //         'Content-Type': 'application/json'
-    //     //     },
-    //     //     body: JSON.stringify({ rating: selectedValue })
-    //     // }).then(response => response.json())
-    //     //   .then(data => console.log(data))
-    //     //   .catch(error => console.error('Error:', error));
-    // });
-
-
 
 </script>
 <style>

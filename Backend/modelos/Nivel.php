@@ -49,22 +49,8 @@ class Nivel {
             $stmt->bind_param("i", $id);  // Usa el marcador de posición y enlaza el parámetro
 
             $stmt->execute();
-            $result = $stmt->get_result();
-            $data = $result->fetch_assoc();
-
-            if ($data) {
-                // Asignar valores a las propiedades
-                $this->id = $data['id'];
-                $this->curso_id = $data['curso_id'];
-                $this->titulo = $data['titulo'];
-                $this->contenido = $data['contenido'];
-                $this->video = $data['video'] ?? 'https://i.pinimg.com/474x/38/6c/c3/386cc3135db08ffff59778f34f056199.jpg';
-                $this->estado = $data['estado'];  // Ruta predeterminada
             
-                return $data; // También retorna el arreglo asociativo si se necesita
-            }
-
-            return false; // Retorna false si no se encontró un administrador activo
+            return $stmt; // Retorna false si no se encontró un administrador activo
     }
 
         public function ObtenerNiveles($id) {
@@ -77,21 +63,8 @@ class Nivel {
 
             $stmt->execute();
             $result = $stmt->get_result();
-            $data = $result->fetch_assoc();
-
-            if ($data) {
-                // Asignar valores a las propiedades
-                $this->id = $data['id'];
-                $this->curso_id = $data['curso_id'];
-                $this->titulo = $data['titulo'];
-                $this->contenido = $data['contenido'];
-                $this->video = $data['video'] ?? 'https://i.pinimg.com/474x/38/6c/c3/386cc3135db08ffff59778f34f056199.jpg';
-                $this->estado = $data['estado'];  // Ruta predeterminada
             
-                return $data; // También retorna el arreglo asociativo si se necesita
-            }
-
-            return false; // Retorna false si no se encontró un administrador activo
+            return $result; // Retorna false si no se encontró un administrador activo
     }
     
 }

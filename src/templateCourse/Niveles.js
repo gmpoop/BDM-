@@ -15,7 +15,7 @@ const getNiveles = async (idCurso) => {
         id: idCurso,
     };
     
-    const response = await fetch('http://localhost/BDM-/Backend/API/api.php/niveles', {
+    const response = await fetch('http://localhost/iCraft/Backend/API/ApiNiveles.php/niveles', {
         method: 'PUT',
         headers: {
             'Authorization': `Bearer ${jwtToken}`,
@@ -36,7 +36,6 @@ const getNiveles = async (idCurso) => {
     if (niveles.length === 0) {
         throw new Error('No se encontraron niveles.');
     }
-    console.log(niveles);
 
 
     document.getElementById('lista-niveles').innerHTML = niveles.map(nivel => `
