@@ -15,6 +15,7 @@ function getUserData() {
             
         },
     })
+
         .then(response => {
             if (!response.ok) {
                 return response.json().then(err => {
@@ -34,8 +35,10 @@ function getUserData() {
             document.getElementById('email-usuario').textContent = user.email || '';
             document.getElementById('birthdate').textContent = user.fecha_nacimiento || '';
             document.getElementById('gender').textContent = user.genero || 'Masculino';
-            document.getElementById('registro').textContent = user.fecha_registro || '';
-            document.getElementById('avatar').src = data.ruta_foto;
+            document.getElementById('fecha_registro').textContent = user.fecha_registro || '';
+
+            
+            document.getElementById('imagen-perfil').src = user.ruta_foto;
 
         })
         .catch(error => {

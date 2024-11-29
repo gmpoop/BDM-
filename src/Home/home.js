@@ -136,7 +136,7 @@ function ProcesarCursos(cursos){
             console.log(nombreCategoria, cursos);
 
             const categoriaDiv = document.createElement('div');
-            categoriaDiv.classList.add('w-full', 'h-auto', 'bg-white', 'rounded-xl', 'flex-col', 'm-5', 'overflow-x-auto');
+            categoriaDiv.classList.add('w-full', 'h-auto', 'bg-white', 'rounded-xl', 'flex-col', 'overflow-x-auto');
 
             const tituloCategoria = document.createElement('h1');
             tituloCategoria.classList.add('text-3xl', 'font-bold', 'ml-4', 'mb-4', 'text-[#000000]');

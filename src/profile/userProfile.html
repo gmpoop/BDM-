@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,41 +8,70 @@
     <link rel="stylesheet" href="../styles/userProfile.css">
     <title>Perfil de Usuario</title>
 </head>
-<body>
+
+<body class="max-w-screen">
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 ">
+        <div class="flex justify-between items-center h-16">
+            <div class="flex-shrink-0 flex items-center ">
+                <a href="../dashboard/dash.html">
+                    <img class="h-10 w-auto" src="../resources/images/logo.png" alt="">
+                </a>
+            </div>
+            <div class="hidden md:flex items-center space-x-6">
+
+                <div class="flex items-center space-x-4">
+                    <a class="relative">
+                        <svg class="w-6 h-6 text-gray-700 hover:text-purple-500" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1 5h11a1 1 0 00.92-.62l1.65-3.92M9 21h6m-3-3v3">
+                            </path>
+                        </svg>
+
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <div class="container_main">
         <div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg mt-10">
             <div class="flex items-center">
                 <!-- Imagen de Perfil -->
                 <div class="w-24 h-24 rounded-full overflow-hidden border-2 border-gray-300">
-                    <img id="imagen-perfil" src="https://via.placeholder.com/150" alt="Avatar de Usuario" class="object-cover w-full h-full">
+                    <img id="imagen-perfil" src="https://via.placeholder.com/150" alt="Avatar de Usuario"
+                        class="object-cover w-full h-full">
                 </div>
-    
+
                 <!-- Información del Usuario -->
                 <div class="ml-6">
                     <h1 id="nombre-usuario" class="text-2xl font-semibold text-gray-800">Cargando...</h1>
-                    <span
-                    class="flex gap-2">
+                    <span class="flex gap-2">
                         <p id="email-usuario" class="text-gray-600 text-sm"> id="userEmail">...</p>
                     </span>
                     <p id="email-usuario" class="text-gray-600 text-sm"><span id="userEmail">...
-                        
-                    </span></p>
+
+                        </span></p>
 
                 </div>
-    
+
                 <!-- Botones de Acción -->
                 <div class="ml-auto flex space-x-4">
                     <a href="./userEdit.html">
-                        <button class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 flex items-center justify-center w-40">
+                        <button
+                            class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 flex items-center justify-center w-40">
                             <i class="fas fa-edit mr-2"></i> Editar Perfil
                         </button>
                     </a>
-                    <button id="cerrarSesionBtn" class="bg-red-500 text-white px-4 py-3 rounded-lg hover:bg-red-600 flex items-center justify-center w-40">
+                    <button id="cerrarSesionBtn"
+                        class="bg-red-500 text-white px-4 py-3 rounded-lg hover:bg-red-600 flex items-center justify-center w-40">
                         <i class="fas fa-sign-out-alt mr-2"></i> Cerrar Sesión
                     </button>
                 </div>
             </div>
-    
+
             <!-- Información Personal -->
             <div class="mt-8">
                 <h3 class="text-xl font-semibold text-gray-800">Información Personal</h3>
@@ -56,14 +86,14 @@
                     </div>
                     <div>
                         <label class="text-gray-600">Fecha de Registro</label>
-                        <p class="text-gray-800" data-created-at>...</p>
+                        <p id="fecha_registro" class="text-gray-800" data-created-at>...</p>
                     </div>
                     <div>
                         <label class="text-gray-600">Última Modificación</label>
                         <p class="text-gray-800" data-updated-at>...</p>
                     </div>
                 </div>
-    
+
                 <!-- Botones Adicionales -->
                 <div class="text-center mt-8">
                     <a href="../Chat/chat.html">
@@ -71,7 +101,8 @@
                             <i class="fas fa-comments mr-2"></i> Ir al Chat
                         </button>
                     </a>
-                    <button id="solicitudTutor" class="bg-indigo-500 text-white px-6 py-3 rounded-lg hover:bg-indigo-600">
+                    <button id="solicitudTutor"
+                        class="bg-indigo-500 text-white px-6 py-3 rounded-lg hover:bg-indigo-600">
                         <i class="fas fa-chalkboard-teacher mr-2"></i> Solicitar ser Tutor
                     </button>
                     <a href="../Kardex/kardex.html">
@@ -83,17 +114,18 @@
             </div>
         </div>
     </div>
-    
-        <div class="course-container_main">
-            <h2>Cursos Inscritos</h2>
-            <div class="course-list">
-                <!-- Cursos se actualizarán dinámicamente -->
-            </div>
+
+    <div class="course-container_main">
+        <h2>Cursos Inscritos</h2>
+        <div class="course-list">
+            <!-- Cursos se actualizarán dinámicamente -->
         </div>
+    </div>
     </div>
 
     <script src="profile.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
+
 </html>
