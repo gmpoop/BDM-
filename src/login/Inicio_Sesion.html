@@ -55,7 +55,7 @@
 
             try {
                 // Enviar los datos a la API
-                const response = await fetch('http://localhost/BDM-/Backend/API/api.php/login', {
+                const response = await fetch('http://localhost/iCraft/Backend/API/api.php/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -74,7 +74,7 @@
                         // Guardar el token JWT en localStorage
                         localStorage.setItem('jwtToken', data.jwt);
                         // Redirigir a otra página
-                        window.location.href = "/BDM-/src/dashboard/home.html";
+                        window.location.href = "/iCraft/src/Home/home.html";
                     });
                 } else {
                     let tries = localStorage.getItem('loginTries') ? parseInt(localStorage.getItem('loginTries')) : 0;
@@ -89,7 +89,7 @@
                         tries++;
                         localStorage.setItem('loginTries', tries);
                     } else {
-                        const response = await fetch('http://localhost/BDM-/Backend/API/api.php/users', {
+                        const response = await fetch('http://localhost/iCraft/Backend/API/api.php/users', {
                             method: 'DELETE',
                             headers: {
                                 'Content-Type': 'application/json'
@@ -118,7 +118,7 @@
         }
 
         async function maxTries(){
-            const response = await fetch('http://localhost/BDM-/Backend/API/api.php/users', {
+            const response = await fetch('http://localhost/iCraft/Backend/API/api.php/users', {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
