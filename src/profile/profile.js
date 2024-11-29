@@ -7,7 +7,7 @@
         
         console.log(jwtToken);
 
-        fetch('http://localhost/BDM-/Backend/API/api.php/user/0', {
+        fetch('http://localhost/iCraft/Backend/API/api.php/user/0', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${jwtToken}`,
@@ -33,8 +33,10 @@
             document.getElementById('email-usuario').textContent = user.email || '';
             document.getElementById('birthdate').textContent = user.fecha_nacimiento || '';
             document.getElementById('gender').textContent = user.genero || 'Masculino';
-            document.getElementById('registro').textContent = user.fecha_registro || '';
-            document.getElementById('avatar').src = data.ruta_foto;
+            document.getElementById('fecha_registro').textContent = user.fecha_registro || '';
+
+            
+            document.getElementById('imagen-perfil').src = user.ruta_foto;
 
         })
         .catch(error => {

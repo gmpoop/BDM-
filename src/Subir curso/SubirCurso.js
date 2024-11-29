@@ -3,7 +3,7 @@
 // Obtén el token JWT del local storage
 const jwtToken = localStorage.getItem('jwtToken');
 
-const PORT = "http://localhost/BDM-/Backend/API/";
+const PORT = "http://localhost/iCraft/Backend/API/";
 
 let RecentCourse = null;
 
@@ -34,7 +34,7 @@ const verifyToken = async () => {
 const CreateFolder = async () => {
     const courseTitle = $('#titulo').val().replace(/\s+/g, '_'); // Reemplazar espacios por guiones bajos
     console.log("Título del curso", courseTitle);
-    const courseFolder = `C:/xampp/htdocs/BDM-/src/resources/videos/${courseTitle}`;
+    const courseFolder = `C:/xampp/htdocs/iCraft/src/resources/videos/${courseTitle}`;
 
     // Crear la carpeta en el servidor
     await fetch(PORT + "Cursos/create_folder.php", {
@@ -80,11 +80,6 @@ const CreateCourse = async (formData) => {
     const data = await response.json();
 
     if (data) {
-        Swal.fire({
-            icon: 'success',
-            title: '¡Curso creado!',
-            text: 'El curso ha sido creado exitosamente.',
-        });
         return data.curso_id;
 
     } else {
@@ -146,24 +141,29 @@ GetCategories = async () => {
 
 $(document).ready(function () {
 
+    const InitComboCategorias = async () => {
+        const categoriaSelect = document.getElementById('categoria');
+    
+        const Categories =  await GetCategories();
+        
+        console.log("Categorias", Categories);  
+    
+        // Crear las nuevas opciones
+        Categories.forEach(category => {
+            const option = document.createElement('option');
+            option.value = category.id;
+            option.textContent = category.nombre;
+            categoriaSelect.appendChild(option);
+        });
+    }   
+
+    InitComboCategorias();
+
+
     document.getElementById('categoria').addEventListener('click', async function () {
         // Aquí va tu lógica para manejar el evento de cambio
         try {   
 
-            const categoriaSelect = document.getElementById('categoria');
-
-            const Categories = await GetCategories();
-            
-            console.log("Categorias", Categories);  
-            categoriaSelect.innerHTML = '';
-
-            // Crear las nuevas opciones
-            Categories.forEach(category => {
-                const option = document.createElement('option');
-                option.value = category.id;
-                option.textContent = category.nombre;
-                categoriaSelect.appendChild(option);
-            });
             
         } catch (error) {
             console.error('Error manejando el cambio de categoría:', error);
@@ -325,13 +325,14 @@ $(document).ready(function () {
             }
                         // Enviar datos al servidor
             
-    
+            const curso_id = await CreateCourse(CourseFormData);
+
             try {
                 for (let i = 1; i <= $('#niveles').val(); i++) {
                     const NivelFormData = new FormData();
                     const videoFile = $('#video' + i)[0].files[0]; // Obtener el archivo de video
             
-                    NivelFormData.append('curso_id', await CreateCourse(CourseFormData));
+                    NivelFormData.append('curso_id', curso_id);
                     NivelFormData.append('titulo', $('#titulo_video' + i).val());
                     NivelFormData.append('contenido', $('#contenido_video' + i).val());
                     if (videoFile) {
