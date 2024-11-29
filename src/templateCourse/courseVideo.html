@@ -278,7 +278,7 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             const cursoId = 1; // Asegúrate de establecer el curso_id correcto.
-            fetch(`http://localhost/BDM/iCraft/Backend/API/APIcomentarios.php/comentarios/curso/${cursoId}`)
+            fetch(`http://localhost/BDM/BDM-/Backend/API/APIcomentarios.php/comentarios/curso/${cursoId}`)
                 .then(response => response.json())
                 .then(data => {
                     const comentariosContainer = document.getElementById('comments');

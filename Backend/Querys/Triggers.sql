@@ -44,18 +44,38 @@ END$$
 
 DELIMITER ;
 
-DELIMITER $$
+DELIMITER //
 
 CREATE TRIGGER after_venta_insert
 AFTER INSERT ON ventas
 FOR EACH ROW
 BEGIN
-    -- Verificar si el instructor asociado al curso tiene el rol de "Tutor"
-    IF (SELECT nombre FROM roles WHERE id = (SELECT rol_id FROM usuarios WHERE id = (SELECT instructor_id FROM cursos WHERE id = NEW.curso_id))) = 'Tutor' THEN
-        UPDATE reporte_usuarios
-        SET total_ganancias = total_ganancias + NEW.ingreso
-        WHERE usuario_id = (SELECT instructor_id FROM cursos WHERE id = NEW.curso_id);
-    END IF;
-END$$
+    -- Insertar un nuevo registro en la tabla inscripciones
+    INSERT INTO inscripciones (usuario_id, curso_id, progreso, fecha_terminacion)
+    VALUES (NEW.comprador_id, NEW.curso_id, 0.0, NULL);
+END;
+
+//
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER after_venta_update_reporte
+AFTER INSERT ON ventas
+FOR EACH ROW
+BEGIN
+    -- Actualizar el reporte del usuario que vendió
+    UPDATE reporte_usuarios
+    SET total_ganancias = total_ganancias + NEW.ingreso
+    WHERE usuario_id = NEW.usuario_id;
+
+    -- Actualizar el reporte del usuario que compró
+    UPDATE reporte_usuarios
+    SET cantidad_cursos_inscritos = cantidad_cursos_inscritos + 1
+    WHERE usuario_id = NEW.comprador_id;
+END;
+
+//
 
 DELIMITER ;

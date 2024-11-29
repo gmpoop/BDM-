@@ -58,7 +58,7 @@
                 const response = await fetch('http://localhost/BDM-/Backend/API/api.php/login', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({ email: email, contraseña: password })
                 });

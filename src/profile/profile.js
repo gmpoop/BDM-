@@ -1,19 +1,20 @@
 // Obtener el token del localStorage
+const jwtToken = localStorage.getItem('jwtToken');
+
+// Función para obtener los datos del usuario
+function getUserData() {
     const jwtToken = localStorage.getItem('jwtToken');
 
-    // Función para obtener los datos del usuario
-    function getUserData() {
-        const jwtToken = localStorage.getItem('jwtToken');
-        
-        console.log(jwtToken);
+    console.log(jwtToken);
 
-        fetch('http://localhost/BDM-/Backend/API/api.php/user/0', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${jwtToken}`,
-                'Content-Type': 'application/json',
-            },
-        })
+    fetch('http://localhost/BDM-/Backend/API/api.php/user/0', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwtToken}` 
+            
+        },
+    })
         .then(response => {
             if (!response.ok) {
                 return response.json().then(err => {
@@ -45,9 +46,9 @@
                 text: error.message || 'Hubo un error al obtener los datos del usuario.',
             });
         });
-    }
-    document.addEventListener('DOMContentLoaded', getUserData);
-    
+}
+document.addEventListener('DOMContentLoaded', getUserData);
+
 
 
 // Función para manejar el cierre de sesión

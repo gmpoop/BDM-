@@ -2,7 +2,7 @@
 use \Firebase\JWT\JWT;
 use \Firebase\JWT\Key;
 
-require_once 'C:/xampp/htdocs/iCraft/vendor/autoload.php';
+require_once 'C:/xampp/htdocs/BDM-/vendor/autoload.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../../');
 $dotenv->load();

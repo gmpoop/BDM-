@@ -3,7 +3,7 @@ require_once '../../clases/Database.php';
 require_once '../../modelos/curso.php';
 require_once '../../controladores/cursosControlador.php';
 require_once '../Middleware/Middleware.php';
-require_once 'C:/xampp/htdocs/iCraft/vendor/autoload.php';
+require_once 'C:/xampp/htdocs/BDM-/vendor/autoload.php';
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
@@ -29,7 +29,7 @@ $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $middleware->verifyToken(getallheaders());
 
 switch ($request) {
-    case '/iCraft/Backend/API/Cursos/APICursos.php/cursos':        
+    case '/BDM-/Backend/API/Cursos/APICursos.php/cursos':
         if ($method == 'GET') {
             $controller->getAllCursos();
         } elseif ($method == 'POST') {
@@ -41,7 +41,7 @@ switch ($request) {
         }
         break;
 
-    case  '/iCraft/Backend/API/Cursos/APICursos.php/CursosCategorias':{
+    case '/BDM-/Backend/API/Cursos/APICursos.php/CursosCategorias': {
         if ($method == 'GET') {
 
             $controller->getCursosPorCategoria();
@@ -52,7 +52,7 @@ switch ($request) {
         break;
     }
 
-    case '/iCraft/Backend/API/Cursos/APICursos.php/CursosDetalle': {
+    case '/BDM-/Backend/API/Cursos/APICursos.php/CursosDetalle': {
         if ($method == 'GET') {
             // Obtener el idCurso desde la URL
             if (isset($_GET['curso_id'])) {
@@ -68,10 +68,27 @@ switch ($request) {
         }
         break;
     }
-    
+
+    // Obtener curso por ID
+    case '/BDM-/Backend/API/Cursos/APICursos.php/cursobyid':
+        if ($method == 'GET') {
+            // Obtener el idCurso desde la URL
+            if (isset($_GET['curso_id'])) {
+                $idCurso = intval($_GET['curso_id']); // Convertir a entero para mayor seguridad
+                $controller->getCursoById($idCurso);
+            } else {
+                http_response_code(400); // Bad Request
+                echo json_encode(array("message" => "idCurso no proporcionado"));
+            }
+        } else {
+            http_response_code(405); // Method Not Allowed
+            echo json_encode(array("message" => "Método no permitido"));
+        }
+        break;
+
 
     default:
-    http_response_code(404);
-    echo json_encode(array("message" => "Ruta no encontrada"));
-    break;
+        http_response_code(404);
+        echo json_encode(array("message" => "Ruta no encontrada"));
+        break;
 }

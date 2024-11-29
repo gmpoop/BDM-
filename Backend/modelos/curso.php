@@ -1,5 +1,6 @@
 <?php
-class Curso {
+class Curso
+{
     private $conn;
 
     public $id;
@@ -12,15 +13,17 @@ class Curso {
     public $categoria_id;
     public $instructor_id;
 
-    public function __construct($db) {
+    public function __construct($db)
+    {
         $this->conn = $db;
     }
 
     // Crear una nueva categoría
-    public function create() {
+    public function create()
+    {
         $query = "CALL sp_insertar_curso(?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
-    
+
         // Sanitizar
         $this->titulo = htmlspecialchars(strip_tags($this->titulo));
         $this->descripcion = htmlspecialchars(strip_tags($this->descripcion));
@@ -28,36 +31,51 @@ class Curso {
         $this->costo = htmlspecialchars(strip_tags($this->costo));
         $this->categoria_id = htmlspecialchars(strip_tags($this->categoria_id));
         $this->instructor_id = htmlspecialchars(strip_tags($this->instructor_id));
-    
+
         // Bind
         $stmt->bind_param('ssssiii', $this->titulo, $this->descripcion, $this->imagen, $this->ruta_imagen, $this->costo, $this->categoria_id, $this->instructor_id);
-    
+
         if ($stmt->execute()) {
             return true;
         }
         return false;
     }
-    
+
     // Obtener todas las categorías
-    public function getAll() {
-        $query = "SELECT * FROM cursos"; // No requiere un SP aquí
+    public function getAll()
+    {
+        // Consulta SQL para obtener los cursos
+        $query = "SELECT id, titulo, descripcion, ruta_imagen, costo, estado, categoria_id, instructor_id FROM cursos";
         $stmt = $this->conn->prepare($query);
+
+        // Verificar si la preparación de la consulta fue exitosa
+        if ($stmt === false) {
+            // Captura el error y lo muestra
+            die('Error en la preparación de la consulta: ' . $this->conn->error);
+        }
+
         $stmt->execute();
+
+        // Verificar si la ejecución fue exitosa
+        if ($stmt->errno) {
+            die('Error al ejecutar la consulta: ' . $stmt->error);
+        }
+
         return $stmt;
     }
-
-    public function GetAllByCourse() {
+    public function GetAllByCourse()
+    {
         $query = "SELECT cur.categoria_id, cat.nombre as nombre_categoria, cur.id as id_curso, cur.titulo, cur.descripcion, cur.imagen, cur.costo 
                   FROM cursos cur 
                   JOIN categorias cat ON cur.categoria_id = cat.id 
                   WHERE cur.estado LIKE '%activo%'";
-    
+
         $stmt = $this->conn->prepare($query);
-    
+
         if ($stmt) {
             // Ejecutar la declaración
             $stmt->execute();
-    
+
             // Retornar el statement
             return $stmt;
         } else {
@@ -66,8 +84,8 @@ class Curso {
             return false;
         }
     }
-    
-    public function getCoursesDetails($curso_id) {
+    public function getCoursesDetails($curso_id)
+    {
         $query = "SELECT cur.id as idCurso, cur.titulo as titulo_curso, cur.descripcion, cur.imagen, 
                   us.id as idUsuario, us.nombre_completo, us.email, 
                   niv.id as idNivel, niv.titulo as titulo_nivel 
@@ -75,16 +93,16 @@ class Curso {
                   JOIN usuarios us ON cur.instructor_id = us.id 
                   JOIN niveles niv ON cur.id = niv.curso_id 
                   WHERE cur.id = ?";
-    
+
         $stmt = $this->conn->prepare($query);
-    
+
         if ($stmt) {
             // Enlazar parámetros para proteger contra inyecciones SQL
             $stmt->bind_param('i', $curso_id);
-    
+
             // Ejecutar la declaración
             $stmt->execute();
-            
+
             return $stmt;
 
         } else {
@@ -93,33 +111,31 @@ class Curso {
             return false;
         }
     }
-    
-    
-
     // Obtener una categoría por ID
-    public function getOne($id) {
-        $query = "SELECT * FROM cursps WHERE id = ?"; // No requiere un SP aquí
+    public function getOne($id)
+    {
+        $query = "SELECT * FROM cursos WHERE id = ?"; // No requiere un SP aquí
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param('i', $id);
         $stmt->execute();
         return $stmt;
     }
-
-    function getOneBy($title, $instructor_id) {
+    function getOneBy($title, $instructor_id)
+    {
         // Añadir comodines para LIKE
-        $title = '%' . $title . '%'; 
+        $title = '%' . $title . '%';
         $query = "SELECT * FROM cursos WHERE titulo LIKE ? AND instructor_id = ?";
-    
+
         // Preparar la declaración
         if ($stmt = $this->conn->prepare($query)) {
             // Enlazar los parámetros a los marcadores de posición
             $stmt->bind_param('si', $title, $instructor_id);
-    
+
             // Ejecutar la declaración
             if ($stmt->execute()) {
                 // Obtener el resultado
                 $result = $stmt->get_result();
-    
+
                 // Verificar si hay resultados
                 if ($result->num_rows > 0) {
                     // Obtener el primer resultado
@@ -137,8 +153,6 @@ class Curso {
             return false;
         }
     }
-    
-    
 
     // Actualizar una categoría
     // public function update() {
@@ -170,4 +184,27 @@ class Curso {
     //     }
     //     return false;
     // }
+
+    // Método para obtener un curso por ID
+    public function getById($id) {
+        $query = "
+            SELECT 
+                c.id, 
+                c.titulo, 
+                c.descripcion, 
+                c.ruta_imagen, 
+                c.costo, 
+                c.estado, 
+                c.categoria_id, 
+                cat.nombre AS categoria_nombre, 
+                c.instructor_id 
+            FROM cursos c
+            JOIN categorias cat ON c.categoria_id = cat.id
+            WHERE c.id = ?";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $id); // Vinculamos el parámetro id
+        $stmt->execute(); // Ejecutamos la consulta
+        return $stmt;
+    }
 }

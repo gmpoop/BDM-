@@ -90,6 +90,7 @@ CREATE TABLE ventas (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     curso_id BIGINT REFERENCES cursos(id),
     usuario_id BIGINT REFERENCES usuarios(id),
+    comprador_id BIGINT REFERENCES usuarios(id),
     fecha_venta TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     forma_pago VARCHAR(50),
     ingreso DECIMAL(10, 2)
@@ -117,4 +118,3 @@ CREATE TABLE reporte_usuarios (
     cantidad_cursos_inscritos INT,
     porcentaje_cursos_terminados DECIMAL(5, 2)
 );
-

@@ -1,7 +1,7 @@
 
 const jwtToken = localStorage.getItem('jwtToken');
 
-const PORT = "http://localhost/iCraft/Backend/API/";
+const PORT = "http://localhost/BDM-/Backend/API/";
 
 
 const verifyToken = async () => {
@@ -78,7 +78,7 @@ async function BuscarCursos() {
     const status = document.getElementById('statusFilter').value;
 
     // Construir la URL de la API con parámetros
-    let url = `/iCraft/Backend/API/APIbusqueda.php/cursos/buscar?`;
+    let url = `/BDM-/Backend/API/APIbusqueda.php/cursos/buscar?`;
 
     if (searchQuery) url += `titulo=${encodeURIComponent(searchQuery)}&`;
     if (startDate) url += `start_date=${encodeURIComponent(startDate)}&`;
@@ -99,6 +99,7 @@ async function BuscarCursos() {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
+                
             },
         });
 
@@ -167,8 +168,6 @@ function ProcesarCursos(cursos){
                 contenedorImagen.classList.add('flex', 'justify-center')
                 contenedorImagen.appendChild(imagenCurso);
 
-
-                
                 const descripcionCurso = document.createElement('p');
                 descripcionCurso.classList.add('text-gray-400', 'h-[100px]','max-h-[100px]', 'overflow-hidden');
                 descripcionCurso.textContent = curso.descripcion;
@@ -176,7 +175,21 @@ function ProcesarCursos(cursos){
                 const botonCarrito = document.createElement('button');
                 botonCarrito.classList.add('bg-[#4821ea]', 'text-white', 'py-2', 'px-4', 'rounded', 'hover:bg-[#3d1bc8]');
                 botonCarrito.textContent = 'Agregar al carrito';
-                botonCarrito.onclick = () => agregarAlCarrito(curso.id_curso);
+                
+                // Verificar si el curso ya está en el carrito
+                const carrito = cargarCarrito();
+                if (carrito.some(item => item.id === curso.id_curso)) {
+                    botonCarrito.textContent = 'Agregado';
+                    botonCarrito.disabled = true;
+                }
+                
+                botonCarrito.onclick = () => {
+                    AgregarAlCarrito(curso);
+                    botonCarrito.textContent = 'Agregado';
+                    botonCarrito.disabled = true;
+                    actualizarContadorCarrito(); // Actualiza el contador del carrito
+                };
+                
 
                 enlaceCurso.appendChild(tituloCurso);
                 enlaceCurso.appendChild(contenedorImagen);
@@ -213,6 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }  
 
+    actualizarContadorCarrito();
     verifyToken();
     InitComboCategorias();
     cargarCursos();
@@ -225,3 +239,47 @@ document.getElementById("searchInput").addEventListener("change", () => {
     BuscarCursos();
 });
 
+function cargarCarrito() {
+    return JSON.parse(localStorage.getItem('carrito')) || [];
+}
+function guardarCarrito(carrito) {
+    localStorage.setItem('carrito', JSON.stringify(carrito));
+}
+function actualizarContadorCarrito() {
+    const carrito = cargarCarrito();
+    const contador = document.querySelector('.carrito-contador'); // Asegúrate de usar esta clase en el span del ícono
+    contador.textContent = carrito.length;
+}
+function AgregarAlCarrito(curso) {
+    const carrito = cargarCarrito();
+
+    // Si el curso no está en el carrito, agregarlo
+    if (!carrito.some(item => item.id === curso.id_curso)) {
+        carrito.push({
+            id: curso.id_curso,
+            titulo: curso.titulo,
+            precio: curso.precio,
+            imagen: curso.imagen,
+            descripcion: curso.descripcion
+        });
+        guardarCarrito(carrito);
+
+        // SweetAlert para confirmar que se agregó el curso
+        Swal.fire({
+            title: '¡Agregado al carrito!',
+            text: `${curso.titulo} ha sido agregado.`,
+            icon: 'success',
+            confirmButtonText: 'Aceptar',
+            timer: 1000, // Mensaje desaparece automáticamente después de 2 segundos
+            timerProgressBar: true
+        });
+    } else {
+        // SweetAlert para indicar que el curso ya estaba en el carrito
+        Swal.fire({
+            title: 'Curso ya en el carrito',
+            text: 'Este curso ya está en tu carrito.',
+            icon: 'info',
+            confirmButtonText: 'Aceptar'
+        });
+    }
+}

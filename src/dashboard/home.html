@@ -24,7 +24,7 @@
         <div class="flex justify-between items-center h-16">
 
             <div class="flex-shrink-0 flex items-center">
-                <a href="./dashboard/dash.html">
+                <a href="../dashboard/dash.html">
                     <img class="h-10 w-auto" src="../resources/images/logo.png" alt="">
                 </a>
             </div>
@@ -76,14 +76,14 @@
                 });
 
                 // Función para aplicar la búsqueda y los filtros
-               
+
             </script>
 
 
             <div class="hidden md:flex items-center space-x-6">
-
                 <div class="flex items-center space-x-4">
-                    <a href="./shooping_menu/shooping_menu.html" class="relative">
+
+                    <a href="../shooping_menu/shooping_menu.html" class="relative">
                         <svg class="w-6 h-6 text-gray-700 hover:text-purple-400" fill="none" stroke="currentColor"
                             viewBox="0 0 24 24" xmlns="http://www.w3.org/4000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -91,7 +91,7 @@
                             </path>
                         </svg>
                         <span
-                            class="absolute top-0 right-0 inline-flex items-center justify-center px-1 py-0.5 text-xs font-bold leading-none text-red-100 bg-red-400 rounded-full">2</span>
+                            class="carrito-contador absolute top-0 right-0 inline-flex items-center justify-center px-1 py-0.5 text-xs font-bold leading-none text-red-100 bg-red-400 rounded-full"></span>
                     </a>
 
                     <button id="profileButton" class="flex items-center space-x-2">
@@ -124,14 +124,12 @@
 
     <div id="categorias-contenedor" class="w-full h-auto bg-white rounded-xl flex-col m-5 overflow-x-auto">
         <div class="m-5">
-          
+
         </div>
     </div>
 
 
-    <script src="./home.js"></script>
     <script>
-
         // Función para obtener el rol del usuario
         async function getUserRole() {
             const jwtToken = localStorage.getItem('jwtToken');
@@ -147,7 +145,7 @@
             }
 
             try {
-                const response = await fetch('http://localhost/iCraft/Backend/API/api.php/user/0', {
+                const response = await fetch('http://localhost/BDM-/Backend/API/api.php/user/0', {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${jwtToken}`,
@@ -180,13 +178,13 @@
             if (userRole) {
                 switch (userRole) {
                     case 1: // Administrador
-                        window.location.href = "http://localhost/bdm-/src/profile/Admininistrator/Administrator.html";
+                        window.location.href = "http://localhost/BDM-/src/profile/Admininistrator/Administrator.html";
                         break;
                     case 2: // Usuario
-                        window.location.href = "http://localhost/bdm-/src/profile/userProfile.html";
+                        window.location.href = "http://localhost/BDM-/src/profile/userProfile.html";
                         break;
                     case 3: // Instructor
-                        window.location.href = "http://localhost/bdm-/src/profile/teacherProfile.html";
+                        window.location.href = "http://localhost/BDM-/src/profile/teacherProfile.html";
                         break;
                     default:
                         console.error('Rol desconocido:', userRole);
@@ -209,7 +207,7 @@
 
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <script src="home.js"></script>
 
 </body>
 

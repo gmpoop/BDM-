@@ -47,7 +47,7 @@ async function getCourseData() {
         });
 
         const data = await response.json();
-        
+
         if (data.records && data.records.length > 0) {
             // Tomar el primer registro de curso
             const curso = data.records[0];
@@ -74,18 +74,13 @@ async function getCourseData() {
             data.records.forEach(nivel => {
                 const itemNivel = document.createElement('li');
                 itemNivel.classList.add('min-w-[250px]', 'flex', 'justify-between', 'items-center', 'p-4');
-                
+
                 const nivelDiv = document.createElement('div');
                 nivelDiv.classList.add('flex', 'flex-col', 'items-start');
-                
-                const nivelImg = document.createElement('img');
-                nivelImg.src = "https://via.placeholder.com/300x200";  // Puedes actualizar esto para la imagen real si está disponible
-                nivelImg.alt = `Nivel ${nivel.titulo_nivel}`;
-                nivelImg.classList.add('rounded-lg', 'mb-4');
 
                 const nivelTitulo = document.createElement('p');
                 nivelTitulo.classList.add('text-gray-500');
-                nivelTitulo.textContent = "Titulo del nivel: " + nivel.titulo_nivel;
+                nivelTitulo.textContent = "Nivel" + nivel.titulo_nivel;
 
                 nivelDiv.appendChild(nivelImg);
                 nivelDiv.appendChild(nivelTitulo);
