@@ -1,7 +1,7 @@
 <?php
 require_once '../clases/Database.php';
 require_once '../modelos/comentario.php';
-require_once '../controladores/comentariosControl.php';
+require_once '../controladores/comentarioController.php';
 require_once 'C:/xampp/htdocs/BDM-/vendor/autoload.php';
 
 header("Access-Control-Allow-Origin: *");
@@ -23,36 +23,19 @@ $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 // Rutas
 switch ($request) {
-    case '/BDM-/Backend/API/APIcomentarios.php/comentarios':
-        if ($method == 'GET') {
-            $controller->getAllComentarios();
-        } elseif ($method == 'POST') {
-            $controller->createComentario();
-        } else {
-            http_response_code(405);
-            echo json_encode(array("message" => "Método no permitido"));
-        }
-        break;
-
-    case preg_match('/^\/BDM\/iCraft\/Backend\/API\/APIcomentarios.php\/comentario\/(\d+)$/', $request, $matches) ? true : false:
-        $id = $matches[1];
-        if ($method == 'GET') {
-            $controller->getComentario($id);
-        } elseif ($method == 'PUT') {
-            $controller->updateComentario($id);
-        } elseif ($method == 'DELETE') {
-            $controller->deleteComentario($id);
-        } else {
-            http_response_code(405);
-            echo json_encode(array("message" => "Método no permitido"));
-        }
-        break;
-
-    // Nueva ruta para obtener comentarios por curso
-    case preg_match('/^\/BDM\/iCraft\/Backend\/API\/APIcomentarios.php\/comentarios\/curso\/(\d+)$/', $request, $matches) ? true : false:
+    case preg_match('/^\/BDM-\/Backend\/API\/APIcomentarios.php\/comentarios\/curso\/(\d+)$/', $request, $matches) ? true : false:
         $curso_id = $matches[1];
         if ($method == 'GET') {
             $controller->getComentariosPorCurso($curso_id);
+        } else {
+            http_response_code(405);
+            echo json_encode(array("message" => "Método no permitido"));
+        }
+        break;
+
+    case '/BDM-/Backend/API/APIcomentarios.php/comentarios':
+        if ($method == 'POST') {
+            $controller->insertarComentario();
         } else {
             http_response_code(405);
             echo json_encode(array("message" => "Método no permitido"));

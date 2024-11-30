@@ -1,102 +1,63 @@
 <?php
-class Mensaje {
-    private $conn;
 
+class Message
+{
+    private $conn;
+    private $table_name = "mensajes";
+
+    // Propiedades
     public $id;
     public $remitente_id;
     public $destinatario_id;
     public $mensaje;
-    public $fecha_envio;
+    public $chat_id;
 
-    public function __construct($db) {
+    // Constructor con la conexión a la base de datos
+    public function __construct($db)
+    {
         $this->conn = $db;
     }
 
-    // Crear un nuevo mensaje
-    public function create() {
-        $query = "CALL sp_insertar_mensaje(?, ?, ?)";
+    // Método para crear un nuevo mensaje
+    public function create()
+    {
+        $query = "INSERT INTO " . $this->table_name . " (remitente_id, destinatario_id, mensaje, chat_id) VALUES (?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
 
-        // Sanitizar
+        // Sanitizar datos
         $this->remitente_id = htmlspecialchars(strip_tags($this->remitente_id));
         $this->destinatario_id = htmlspecialchars(strip_tags($this->destinatario_id));
         $this->mensaje = htmlspecialchars(strip_tags($this->mensaje));
+        $this->chat_id = htmlspecialchars(strip_tags($this->chat_id));
 
-        // Bind
-        $stmt->bind_param('iis', $this->remitente_id, $this->destinatario_id, $this->mensaje);
+        // Bind de los parámetros
+        $stmt->bind_param('iisi', $this->remitente_id, $this->destinatario_id, $this->mensaje, $this->chat_id);
 
+        // Ejecutar la consulta
         if ($stmt->execute()) {
             return true;
         }
         return false;
     }
 
-    // Obtener todos los mensajes
-    public function getAll() {
-        $query = "SELECT * FROM mensajes"; 
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt;
-    }
-
-// Obtener una conversación entre remitente y destinatario
-public function getConversation($remitente_id, $destinatario_id) {
-    $query = "SELECT * FROM mensajes WHERE remitente_id = ? AND destinatario_id = ?"; 
-    $stmt = $this->conn->prepare($query);
-    
-    // Aquí debes pasar ambos parámetros al método bind_param
-    $stmt->bind_param('ii', $remitente_id, $destinatario_id);
-    
-    // Ejecutar la consulta
-    $stmt->execute();
-    
-    // Obtener el resultado
-    $result = $stmt->get_result();
-    
-    // Retornar los datos como un array asociativo
-    $mensajes = $result->fetch_all(MYSQLI_ASSOC);
-    
-    return $mensajes;
-}
-
-
-    public function getOne($id) {
-        $query = "SELECT * FROM mensajes WHERE id = ?"; 
+    // Método para obtener datos del remitente
+    public function getDatosRemitente($id)
+    {
+        $query = "SELECT * FROM curso_instructor_view WHERE id_curso = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param('i', $id);
         $stmt->execute();
-        return $stmt;
+        return $stmt->get_result();
     }
 
-
-    // Actualizar un mensaje
-    public function update() {
-        $query = "CALL sp_modificar_mensaje(?, ?, ?, ?)";
+    // Método para obtener los datos del chat
+    public function getDatosChat($id)
+    {
+        $query = "SELECT * FROM chats WHERE curso_perteneciente = ?";
         $stmt = $this->conn->prepare($query);
-
-        // Sanitizar
-        $this->remitente_id = htmlspecialchars(strip_tags($this->remitente_id));
-        $this->destinatario_id = htmlspecialchars(strip_tags($this->destinatario_id));
-        $this->mensaje = htmlspecialchars(strip_tags($this->mensaje));
-
-        // Bind
-        $stmt->bind_param('iisi', $this->id, $this->remitente_id, $this->destinatario_id, $this->mensaje); 
-
-        if ($stmt->execute()) {
-            return true;
-        }
-        return false;
-    }
-
-    // Eliminar un mensaje
-    public function delete() {
-        $query = "CALL sp_borrar_mensaje(?)";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param('i', $this->id);
-
-        if ($stmt->execute()) {
-            return true;
-        }
-        return false;
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        return $stmt->get_result();
     }
 }
+?>

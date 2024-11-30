@@ -1,35 +1,72 @@
 <?php
 
-class MessageController {
+class MessageController
+{
     private $conn;
+    private $message;
 
-    public function __construct($db) {
+    // Constructor con la conexión a la base de datos
+    public function __construct($db)
+    {
         $this->conn = $db;
+        $this->message = new Message($db); // Inicializamos el modelo Message
     }
 
-    public function getMessages($userId, $personaId) {
-        $query = "SELECT m.mensaje, m.fecha_envio,
-                         CASE 
-                             WHEN m.remitente_id = ? THEN 'Tú'
-                             ELSE u.nombre_completo
-                         END AS usuario_nombre
-                  FROM mensajes m
-                  JOIN usuarios u ON m.remitente_id = u.id
-                  WHERE (m.remitente_id = ? AND m.destinatario_id = ?)
-                     OR (m.remitente_id = ? AND m.destinatario_id = ?)
-                  ORDER BY m.fecha_envio";
+    // Método para crear un nuevo mensaje
+    public function create()
+    {
+        // Obtener datos de la solicitud POST
+        $data = json_decode(file_get_contents("php://input"));
 
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("iiii", $userId, $userId, $personaId, $personaId, $userId);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        // Verificar si los datos necesarios están presentes
+        if (isset($data->remitente_id) && isset($data->destinatario_id) && isset($data->mensaje) && isset($data->chat_id)) {
 
-        $messages = [];
-        while ($row = $result->fetch_assoc()) {
-            $messages[] = $row;
+            // Asignar los datos al modelo
+            $this->message->remitente_id = $data->remitente_id;
+            $this->message->destinatario_id = $data->destinatario_id;
+            $this->message->mensaje = $data->mensaje;
+            $this->message->chat_id = $data->chat_id;
+
+            // Llamar al método para crear el mensaje
+            if ($this->message->create()) {
+                echo json_encode(array("message" => "Mensaje creado correctamente."));
+            } else {
+                echo json_encode(array("message" => "Error al crear el mensaje."));
+            }
+        } else {
+            echo json_encode(array("message" => "Faltan parámetros en la solicitud."));
         }
+    }
 
-        echo json_encode($messages);
+    // Método para obtener los datos del remitente
+    public function getDatosRemitente($id)
+    {
+        $result = $this->message->getDatosRemitente($id);
+
+        // Si hay resultados, devolverlos en JSON
+        if ($result->num_rows > 0) {
+            $data = $result->fetch_assoc();
+            echo json_encode($data);
+        } else {
+            echo json_encode(array("message" => "No se encontraron datos para el id_curso: " . $id));
+        }
+    }
+
+    // Método para obtener los mensajes del chat
+    public function getDatosChat($id)
+    {
+        $result = $this->message->getDatosChat($id);
+
+        // Si hay resultados, devolverlos en JSON
+        if ($result->num_rows > 0) {
+            $chats = array();
+            while ($row = $result->fetch_assoc()) {
+                $chats[] = $row;
+            }
+            echo json_encode($chats);
+        } else {
+            echo json_encode(array("message" => "No se encontraron mensajes para el curso ID: " . $id));
+        }
     }
 }
 ?>

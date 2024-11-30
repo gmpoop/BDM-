@@ -72,7 +72,7 @@ CREATE TABLE comentarios (
     comentario TEXT,
     calificacion INT,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    fecha_eliminacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_eliminacion TIMESTAMP NULL,
     causa_eliminacion TEXT
 );
 
@@ -117,4 +117,10 @@ CREATE TABLE reporte_usuarios (
     total_ganancias DECIMAL(10, 2),
     cantidad_cursos_inscritos INT,
     porcentaje_cursos_terminados DECIMAL(5, 2)
+);
+
+CREATE TABLE chats (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    curso_perteneciente BIGINT REFERENCES cursos(id),  -- Relacionada con la tabla de cursos
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

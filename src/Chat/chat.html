@@ -2,132 +2,47 @@
 
 <head>
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Definir las variables
-            const chatList = document.querySelector('.chat-list');
-            const chatArea = document.querySelector('.chat-area');
-            const userId = 1; // Aquí debes poner el ID del usuario logueado
-            const token = localStorage.getItem('jwt_token'); // Asumiendo que el JWT se guarda en el localStorage
-            
-            // Función para obtener los chats del usuario
-            const getChats = async () => {
-                try {
-                    const response = await fetch('http://localhost/BDM-/Backend/API/apiChats.php/chats', {
-                        method: 'GET',
-                        headers: {
-                            'Authorization': `Bearer ${token}`
-                        }
-                    });
-                    if (!response.ok) {
-                        throw new Error('Error al obtener los chats');
-                    }
-                    const chats = await response.json();
-                    displayChats(chats);
-                } catch (error) {
-                    console.error('Error fetching chats:', error);
-                }
-            };
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-            // Función para mostrar los chats en el sidebar
-            const displayChats = (chats) => {
-                chatList.innerHTML = ''; // Limpiar la lista antes de agregar los nuevos chats
-                chats.forEach(chat => {
-                    const chatItem = document.createElement('div');
-                    chatItem.classList.add('chat-item', 'flex', 'items-center', 'p-2', 'cursor-pointer');
-                    chatItem.setAttribute('data-id', chat.id); // Almacenar el ID del chat
-                    chatItem.innerHTML = `
-                        <img alt="Profile picture of ${chat.nombre_completo}" class="w-12 h-12 rounded-full mr-4" src="${chat.ruta_foto || 'https://via.placeholder.com/50'}" />
-                        <div>
-                            <p class="font-bold">${chat.nombre_completo}</p>
-                            <p class="text-gray-500">Pesquisar chat</p>
-                        </div>
-                    `;
-                    chatItem.addEventListener('click', () => selectChat(chat.id, chat.nombre_completo, chat.ruta_foto));
-                    chatList.appendChild(chatItem);
-                });
-            };
-
-            // Función para seleccionar un chat y cargar los mensajes
-            const selectChat = async (chatId, chatName, chatImage) => {
-                // Limpiar la conversación
-                chatArea.innerHTML = '';
-                const chatTitle = document.querySelector('.chat-title');
-                const chatImg = document.querySelector('.chat-img');
-                chatTitle.innerText = chatName;
-                chatImg.src = chatImage || 'https://via.placeholder.com/50';
-
-                try {
-                    const response = await fetch(`http://localhost/BDM-/Backend/API/apiChats.php/messages?persona_id=${chatId}`, {
-                        method: 'GET',
-                        headers: {
-                            'Authorization': `Bearer ${token}`
-                        }
-                    });
-                    if (!response.ok) {
-                        throw new Error('Error al obtener los mensajes');
-                    }
-                    const messages = await response.json();
-                    displayMessages(messages);
-                } catch (error) {
-                    console.error('Error fetching messages:', error);
-                }
-            };
-
-            // Función para mostrar los mensajes en el área de chat
-            const displayMessages = (messages) => {
-                messages.forEach(message => {
-                    const messageElement = document.createElement('div');
-                    messageElement.classList.add('flex', 'items-start');
-                    messageElement.innerHTML = `
-                        <div class="w-8 h-8 bg-blue-200 text-blue-600 rounded-full flex items-center justify-center mr-4">
-                            ${message.usuario_nombre.charAt(0)}
-                        </div>
-                        <div>
-                            <div class="bg-blue-50 p-4 rounded-lg shadow-md">
-                                <p>${message.mensaje}</p>
-                            </div>
-                            <p class="text-gray-500 text-sm mt-1">${message.fecha_envio}</p>
-                        </div>
-                    `;
-                    chatArea.appendChild(messageElement);
-                });
-            };
-
-            // Obtener los chats al cargar la página
-            getChats();
-        });
-    </script>
 </head>
 
-<body class="bg-gray-100 font-roboto">
-    <div class="flex h-screen">
-        <!-- Sidebar -->
-        <div class="w-1/3 bg-white shadow-lg rounded-lg p-4">
-            <h2 class="text-xl font-bold mb-4">Mensajes</h2>
-            <div class="space-y-4 chat-list">
-                <!-- Los chats se cargarán aquí dinámicamente -->
+<body id="chat-contenedor" class="w-screen h-screen bg-gray-100 flex justify-center items-center">
+    <div class="w-full max-w-4xl bg-white rounded-lg shadow-lg p-6 h-[80vh] flex flex-col">
+        <!-- Título del Chat -->
+        <div class="flex items-center border-b pb-4 mb-4">
+            <div id="profile-picture-container" class="w-12 h-12 rounded-full mr-4 chat-img-container">
+                <!-- Iniciales del usuario (se agrega si no hay imagen) -->
+                <img id="profile-picture" alt="Profile picture" class="w-12 h-12 rounded-full hidden"
+                    src="https://via.placeholder.com/50" width="50" height="50" />
+                <div id="user-initials"
+                    class="bg-[#4821ea] w-12 h-12 rounded-full flex items-center justify-center text-white font-bold hidden">
+                    <!-- Las iniciales se agregarán aquí -->
+                </div>
+            </div>
+            <div>
+                <h2 id="chat-title" class="text-xl font-bold chat-title">Instructor</h2>
+                <p id="chat-course" class="text-sm text-gray-600 mt-1">Curso</p>
             </div>
         </div>
-        <!-- Chat Section -->
-        <div class="w-2/3 bg-white shadow-lg rounded-lg p-4 flex flex-col">
-            <div class="flex items-center border-b pb-4 mb-4">
-                <img alt="Profile picture" class="w-12 h-12 rounded-full mr-4 chat-img" src="https://via.placeholder.com/50" width="50" height="50" />
-                <h2 class="text-xl font-bold chat-title">Seleccione un chat</h2>
-            </div>
-            <div class="flex-1 overflow-y-auto space-y-4 chat-area">
-                <!-- Los mensajes se cargarán aquí dinámicamente -->
-            </div>
-            <div class="flex items-center border-t pt-4 mt-4">
-                <input class="flex-1 border rounded-full p-2 mr-4" placeholder="Envia un mensaje..." type="text" />
-                <button class="bg-[#4821ea] text-white p-2 rounded-full">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
-            </div>
+
+        <!-- Área del Chat -->
+        <div class="flex-1 overflow-y-auto space-y-4 chat-area mb-4">
+            <!-- Los mensajes se cargarán aquí dinámicamente -->
+        </div>
+
+        <!-- Campo para escribir un mensaje -->
+        <div class="flex items-center border-t pt-4 mt-4">
+            <input id="mensaje-input" class="flex-1 border rounded-full p-2 mr-4" placeholder="Envia un mensaje..." type="text" />
+            <button id="send-message-btn" class="bg-[#4821ea] text-white p-2 rounded-full">
+                <i class="fas fa-paper-plane"></i>
+            </button>
         </div>
     </div>
+    <script src="chat.js"></script>
 </body>
 
 </html>
