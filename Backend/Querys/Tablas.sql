@@ -72,7 +72,7 @@ CREATE TABLE comentarios (
     comentario TEXT,
     calificacion INT,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    fecha_eliminacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_eliminacion TIMESTAMP NULL,
     causa_eliminacion TEXT
 );
 

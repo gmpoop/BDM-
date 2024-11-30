@@ -59,9 +59,12 @@ DELIMITER $$
 
 CREATE VIEW vista_comentarios_cursos AS
 SELECT 
+    cu.id AS curso_id,
     u.nombre_completo AS usuario_nombre,
     c.comentario,
-    c.fecha_creacion
+    c.fecha_creacion,
+    c.fecha_eliminacion,
+    c.calificacion
 FROM 
     comentarios c
 JOIN 
@@ -71,7 +74,7 @@ JOIN
 ORDER BY 
     cu.titulo, c.fecha_creacion;
 
-DELIMITER ;;
+DELIMITER ;
 
 DELIMITER $$
 
