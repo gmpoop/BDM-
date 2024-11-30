@@ -232,7 +232,6 @@ stars.forEach((star, index) => {
     });
 });
 
-
 // Obtener el token del localStorage
 const token = localStorage.getItem('jwtToken'); // Suponiendo que el token se guarda bajo la clave 'token'
 
