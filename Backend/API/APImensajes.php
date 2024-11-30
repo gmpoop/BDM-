@@ -50,15 +50,17 @@ switch ($request) {
 
     case '/BDM-/Backend/API/APImensajes.php/chat':
         if ($method == 'GET') {
-            // Verificar si los parámetros 'usuario_id' y 'curso_id' están presentes
-            if (isset($_GET['usuario_id']) && isset($_GET['curso_id'])) {
+            // Verificar si los parámetros 'usuario_id', 'curso_id' y 'usuario_2_id' están presentes
+            if (isset($_GET['usuario_id']) && isset($_GET['curso_id']) && isset($_GET['usuario_2_id'])) {
                 $usuario_id = $_GET['usuario_id'];
                 $curso_id = $_GET['curso_id'];
+                $usuario_2_id = $_GET['usuario_2_id']; // Segundo usuario_id
+
                 // Llamar al método para obtener los datos del chat
-                $controller->getChatData($usuario_id, $curso_id);
+                $controller->getChatData($usuario_id, $usuario_2_id, $curso_id);
             } else {
                 // Si faltan los parámetros, devolver un error
-                echo json_encode(array("message" => "Faltan parámetros (usuario_id o curso_id)."));
+                echo json_encode(array("message" => "Faltan parámetros (usuario_id, usuario_2_id o curso_id)."));
             }
         } else {
             // Si el método no es GET, devolver un error
@@ -66,6 +68,26 @@ switch ($request) {
             echo json_encode(array("message" => "Método no permitido"));
         }
         break;
+
+
+    case '/BDM-/Backend/API/APImensajes.php/allmensajes':
+        if ($method == 'GET') {
+            // Verificar si el parámetro 'chat_id' está presente
+            if (isset($_GET['chat_id'])) {
+                $chat_id = $_GET['chat_id'];
+                // Llamar al método para obtener los mensajes del chat
+                $controller->obtenerMensajes($chat_id);
+            } else {
+                // Si falta el parámetro 'chat_id', devolver un error
+                echo json_encode(array("message" => "Falta el parámetro 'chat_id'."));
+            }
+        } else {
+            // Si el método no es GET, devolver un error
+            http_response_code(405);  // Método no permitido
+            echo json_encode(array("message" => "Método no permitido"));
+        }
+        break;
+
 
     default:
         http_response_code(404);

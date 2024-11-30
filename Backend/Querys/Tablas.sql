@@ -83,6 +83,7 @@ CREATE TABLE mensajes (
     destinatario_id BIGINT REFERENCES usuarios(id),
     mensaje TEXT,
     fecha_envio TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    chat_id BIGINT REFERENCES chats(id),
 );
 
 -- Tabla de ventas

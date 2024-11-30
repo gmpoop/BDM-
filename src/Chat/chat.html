@@ -7,7 +7,55 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
 
+        .message {
+            display: inline-block;
+            max-width: 70%;
+            padding: 12px;
+            border-radius: 20px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            line-height: 1.4;
+            word-wrap: break-word;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sent {
+            align-self: flex-end;
+            background-color: #007bff;
+            /* Fondo azul claro */
+            color: white;
+            border-radius: 20px 20px 0 20px;
+            /* Bordes redondeados en el lado derecho */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .received {
+            align-self: flex-start;
+            background-color: #e9ecef;
+            /* Fondo gris claro */
+            color: #333;
+            border-radius: 20px 20px 20px 0;
+            /* Bordes redondeados en el lado izquierdo */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .message-text {
+            margin-bottom: 6px;
+        }
+
+        .message-time {
+            font-size: 12px;
+            color: #777;
+            text-align: right;
+            position: absolute;
+            bottom: -18px;
+            right: 5px;
+        }
+    </style>
 </head>
 
 <body id="chat-contenedor" class="w-screen h-screen bg-gray-100 flex justify-center items-center">
@@ -36,7 +84,8 @@
 
         <!-- Campo para escribir un mensaje -->
         <div class="flex items-center border-t pt-4 mt-4">
-            <input id="mensaje-input" class="flex-1 border rounded-full p-2 mr-4" placeholder="Envia un mensaje..." type="text" />
+            <input id="mensaje-input" class="flex-1 border rounded-full p-2 mr-4" placeholder="Envia un mensaje..."
+                type="text" />
             <button id="send-message-btn" class="bg-[#4821ea] text-white p-2 rounded-full">
                 <i class="fas fa-paper-plane"></i>
             </button>
