@@ -2,57 +2,42 @@
 const urlParams = new URLSearchParams(window.location.search);
 let idCurso = urlParams.get('idCurso');  // idCurso es el parámetro que llega en la URL
 let idInstructor = urlParams.get('idInstructor');  // idInstructor es el nuevo parámetro
+let userId = urlParams.get('idCliente');  // Obtén tu ID desde la URL
 
-if (!idCurso || !idInstructor) {
-    console.error("ID del curso o ID del instructor no especificados en la URL.");
+if (!idCurso || !idInstructor || !userId) {
+    console.error("ID del curso, ID del instructor o ID del usuario no especificados en la URL.");
 } else {
-    // Quitar el signo de dólar si existe
+    // Quitar el signo de dólar si existe en idCurso
     idCurso = idCurso.replace('$', '');
-
+    userId = userId.replace('$', '')
+    // Quitar el signo de dólar si existe en idInstructor
     idInstructor = idInstructor.replace('$', '');
-    // Decodificar el token almacenado en el localStorage
-    const token = localStorage.getItem('jwtToken');  // Asegúrate de que el token esté almacenado con esta clave
-    if (!token) {
-        console.error("Token no encontrado en el localStorage.");
-    } else {
-        let userId;
-        try {
-            const payloadBase64 = token.split('.')[1];  // Obtener la parte del payload del token
-            const decodedPayload = atob(payloadBase64);  // Decodificar la parte base64
-            const payload = JSON.parse(decodedPayload);  // Convertir el payload en objeto JSON
-            userId = payload.data.id;  // Extraer el ID del usuario
-        } catch (error) {
-            console.error("Error al decodificar el token: ", error);
-        }
 
-        if (userId) {
-            // Llamar a la API para obtener los datos del chat con los tres parámetros
-            const apiUrl = `http://localhost/BDM-/Backend/API/APImensajes.php/chat?usuario_id=${idInstructor}&curso_id=${idCurso}&usuario_2_id=${userId}`;
+    // Llamar a la API para obtener los datos del chat con los tres parámetros
+    const apiUrl = `http://localhost/BDM-/Backend/API/APImensajes.php/chat?usuario_id=${idInstructor}&curso_id=${idCurso}&usuario_2_id=${userId}`;
 
-            console.log(apiUrl);
-            fetch(apiUrl)
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error(`Error en la solicitud: ${response.statusText}`);
-                    }
-                    return response.json();  // Convertir la respuesta en JSON
-                })
-                .then((data) => {
-                    if (data && Array.isArray(data)) {
-                        // Guardar la información del chat en localStorage
-                        localStorage.setItem('chatData', JSON.stringify(data));
-                        console.log("Información del chat guardada en localStorage:", data);
-                    } else if (data.message) {
-                        console.warn("Mensaje de la API: ", data.message);
-                    } else {
-                        console.warn("Respuesta inesperada de la API:", data);
-                    }
-                })
-                .catch((error) => {
-                    console.error("Error al llamar a la API:", error);
-                });
-        }
-    }
+    console.log(apiUrl);
+    fetch(apiUrl)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`Error en la solicitud: ${response.statusText}`);
+            }
+            return response.json();  // Convertir la respuesta en JSON
+        })
+        .then((data) => {
+            if (data && Array.isArray(data)) {
+                // Guardar la información del chat en localStorage
+                localStorage.setItem('chatData', JSON.stringify(data));
+                console.log("Información del chat guardada en localStorage:", data);
+            } else if (data.message) {
+                console.warn("Mensaje de la API: ", data.message);
+            } else {
+                console.warn("Respuesta inesperada de la API:", data);
+            }
+        })
+        .catch((error) => {
+            console.error("Error al llamar a la API:", error);
+        });
 }
 
 // Función para llenar el frontend del chat
@@ -61,8 +46,7 @@ function fillChatData() {
     const chatData = JSON.parse(localStorage.getItem('chatData'));
 
     // Obtener el ID del usuario actual desde el token almacenado en localStorage
-    const token = JSON.parse(localStorage.getItem('token')); // Asume que se llama 'token'
-    const currentUserId = token?.data?.id;
+    const currentUserId = obtenerUsuarioIdDesdeJWT(); // Usar la función para obtener el ID del usuario
 
     // Verificar si existe data válida en localStorage
     if (chatData && Array.isArray(chatData) && chatData.length > 0) {
@@ -181,7 +165,7 @@ function enviarMensaje() {
 }
 
 // Asignar el evento al botón
-document.getElementById('send-message-btn').addEventListener('click', enviarMensaje,cargarMensajes);
+document.getElementById('send-message-btn').addEventListener('click', enviarMensaje, cargarMensajes);
 
 // Enviar mensaje al presionar Enter en el input
 document.getElementById('mensaje-input').addEventListener('keypress', (e) => {
@@ -230,7 +214,7 @@ function obtenerChatIdDesdeLocalStorage() {
 // Cargar los mensajes del chat
 function cargarMensajes() {
     const chat_id = obtenerChatIdDesdeLocalStorage(); // Obtener el chat_id desde localStorage
-
+    const usuario_id = obtenerUsuarioIdDesdeJWT(); // Obtener el usuario_id desde el JWT
     if (chat_id) {
         fetch(`http://localhost/BDM-/Backend/API/APImensajes.php/allmensajes?chat_id=${chat_id}`, {
             method: 'GET',
@@ -252,7 +236,7 @@ function cargarMensajes() {
                         mensajeDiv.classList.add('message');
 
                         // Verificar si el mensaje lo envió el usuario actual (si es necesario mostrar esa distinción)
-                        if (mensaje.remitente_id === chat_id) {
+                        if (mensaje.remitente_id === usuario_id) {
                             // Si lo envió el usuario, es un mensaje enviado
                             mensajeDiv.classList.add('sent');
                         } else {
