@@ -9,7 +9,7 @@ const idUrl = url.searchParams.get('curso_id');
 // Obtén el token JWT del local storage
 const jwtToken = localStorage.getItem('jwtToken');
 
-const PORT = "http://localhost/iCraft/Backend/API/";
+const PORT = "http://localhost/BDM-/Backend/API/";
 
 const verifyToken = async () => {
     try {

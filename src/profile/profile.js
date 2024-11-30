@@ -143,6 +143,12 @@ async function cargarCursos() {
                             <p class="text-sm text-gray-500">Progreso: <span class="font-semibold text-[#4821ea]">${course.progreso}%</span></p>
                             <p class="text-sm text-gray-500">Fecha de Inscripción: <span class="font-semibold text-[#4821ea]">${new Date(course.fecha_inscripcion).toLocaleDateString()}</span></p>
                         </div>
+                        <div class="flex justify-center mt-6">
+                            <button onclick="window.location.href='http://localhost/iCraft/src/templateCourse/courseVideo.html?idCurso=${course.id_curso}'"
+                                    class="bg-[#4821ea] text-white py-2 px-6 rounded-lg hover:bg-[#3415b8]">
+                                Ver Detalles del Curso
+                            </button>
+                        </div>
                     </div>
                 `;
 

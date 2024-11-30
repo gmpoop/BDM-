@@ -2,7 +2,7 @@
 
 <head>
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
@@ -14,12 +14,18 @@
     <div class="w-full max-w-4xl bg-white rounded-lg shadow-lg p-6 h-[80vh] flex flex-col">
         <!-- Título del Chat -->
         <div class="flex items-center border-b pb-4 mb-4">
-            <img alt="Profile picture" class="w-12 h-12 rounded-full mr-4 chat-img" src="https://via.placeholder.com/50"
-                width="50" height="50" />
+            <div id="profile-picture-container" class="w-12 h-12 rounded-full mr-4 chat-img-container">
+                <!-- Iniciales del usuario (se agrega si no hay imagen) -->
+                <img id="profile-picture" alt="Profile picture" class="w-12 h-12 rounded-full hidden"
+                    src="https://via.placeholder.com/50" width="50" height="50" />
+                <div id="user-initials"
+                    class="bg-[#4821ea] w-12 h-12 rounded-full flex items-center justify-center text-white font-bold hidden">
+                    <!-- Las iniciales se agregarán aquí -->
+                </div>
+            </div>
             <div>
-                <h2 class="text-xl font-bold chat-title">Instructor</h2>
-                <!-- Separación entre tutor y curso -->
-                <p class="text-sm text-gray-600 mt-1">Curso</p>
+                <h2 id="chat-title" class="text-xl font-bold chat-title">Instructor</h2>
+                <p id="chat-course" class="text-sm text-gray-600 mt-1">Curso</p>
             </div>
         </div>
 
@@ -30,13 +36,13 @@
 
         <!-- Campo para escribir un mensaje -->
         <div class="flex items-center border-t pt-4 mt-4">
-            <input class="flex-1 border rounded-full p-2 mr-4" placeholder="Envía un mensaje..." type="text" />
-            <button class="bg-[#4821ea] text-white p-2 rounded-full">
+            <input id="mensaje-input" class="flex-1 border rounded-full p-2 mr-4" placeholder="Envia un mensaje..." type="text" />
+            <button id="send-message-btn" class="bg-[#4821ea] text-white p-2 rounded-full">
                 <i class="fas fa-paper-plane"></i>
             </button>
         </div>
     </div>
+    <script src="chat.js"></script>
 </body>
-
 
 </html>

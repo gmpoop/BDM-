@@ -161,3 +161,18 @@ JOIN
     usuarios ui ON c.instructor_id = ui.id;
 
 DELIMETER ;
+
+DELIMETER $$
+
+CREATE VIEW curso_instructor_view AS
+SELECT 
+    cursos.id AS id_curso,
+    cursos.titulo AS nombre_curso, 
+    usuarios.nombre_completo AS instructor_nombre,
+    usuarios.id AS instructor_id
+FROM 
+    cursos
+JOIN 
+    usuarios ON cursos.instructor_id = usuarios.id;
+
+DELIMETER;

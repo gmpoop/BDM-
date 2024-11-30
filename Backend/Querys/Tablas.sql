@@ -118,3 +118,9 @@ CREATE TABLE reporte_usuarios (
     cantidad_cursos_inscritos INT,
     porcentaje_cursos_terminados DECIMAL(5, 2)
 );
+
+CREATE TABLE chats (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    curso_perteneciente BIGINT REFERENCES cursos(id),  -- Relacionada con la tabla de cursos
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
