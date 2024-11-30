@@ -86,9 +86,8 @@ CREATE TRIGGER crear_chat_curso
 AFTER INSERT ON ventas
 FOR EACH ROW
 BEGIN
-    -- Insertar un nuevo chat con el curso_id de la venta
-    INSERT INTO chats (curso_perteneciente)
-    VALUES (NEW.curso_id);
+    INSERT INTO chats (curso_perteneciente, usuario_1_id, usuario_2_id, fecha_creacion)
+    VALUES (NEW.curso_id, NEW.usuario_id, NEW.comprador_id, CURRENT_TIMESTAMP);
 END $$
 
 DELIMITER ;

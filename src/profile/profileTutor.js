@@ -79,6 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <th class="text-left border-b py-2">Email</th>
                         <th class="text-left border-b py-2">Fecha Compra</th>
                         <th class="text-left border-b py-2">Progreso</th>
+                        <th class="text-left border-b py-2">Acciones</th> 
                     </tr>
                 </thead>
                 <tbody>
@@ -90,6 +91,12 @@ document.addEventListener("DOMContentLoaded", () => {
                             <td class="py-2">${usuario.comprador_email}</td>
                             <td class="py-2">${usuario.fecha_compra}</td>
                             <td class="py-2">${usuario.progreso}%</td>
+                            <td class="py-2">
+                                <button class="btn-redirigir" onclick="window.location.href='../Chat/chat.html?idCurso=${usuario.curso_id}&idInstructor=${instructorId}&idCliente=${usuario.cliente_id}'">
+                                    Ir al chat
+                                </button>
+                            </td>
+
                         </tr>
                     `
                     )

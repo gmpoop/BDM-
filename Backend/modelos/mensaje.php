@@ -59,5 +59,37 @@ class Message
         $stmt->execute();
         return $stmt->get_result();
     }
+
+    // Método para obtener los datos del chat según el usuario y el curso
+    public function getChatDataByUserAndCourse($usuario_id, $usuario_2_id, $curso_id)
+    {
+        $query = "
+        SELECT * FROM datachat
+        WHERE 
+            usuario_1_id = ? AND usuario_2_id = ? 
+            AND curso_perteneciente = ?
+    ";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('iii', $usuario_id, $usuario_2_id, $curso_id);  // Enlazar los parámetros
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC); // Retorna los resultados como un array asociativo
+    }
+
+    // Método para obtener los mensajes de un chat// Método para obtener los mensajes de un chat
+    public function obtenerTodosMensajes($chat_id)
+    {
+        // Consulta SQL corregida
+        $query = "SELECT * FROM mensajes WHERE chat_id = ? ORDER BY fecha_envio ASC";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('i', $chat_id);  // Enlazar los parámetros
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC); // Retorna los resultados como un array asociativo
+    }
+
 }
 ?>

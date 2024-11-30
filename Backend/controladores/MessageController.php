@@ -68,5 +68,32 @@ class MessageController
             echo json_encode(array("message" => "No se encontraron mensajes para el curso ID: " . $id));
         }
     }
+    public function getChatData($usuario_id, $usuario_2_id, $curso_id)
+    {
+        $data = $this->message->getChatDataByUserAndCourse($usuario_id, $usuario_2_id, $curso_id);
+
+        // Verificar si se obtuvieron resultados
+        if ($data) {
+            echo json_encode($data);  // Enviar los resultados en formato JSON
+        } else {
+            echo json_encode(array("message" => "No se encontraron chats para estos usuarios en este curso."));
+        }
+    }
+
+
+    // Función para obtener los mensajes de un chat específico
+    public function obtenerMensajes($chat_id)
+    {
+        // Llamar a la función del modelo para obtener los mensajes del chat
+        $data = $this->message->obtenerTodosMensajes($chat_id);
+
+        // Verificar si hay mensajes
+        if ($data) {
+            echo json_encode($data);  // Enviar los resultados en formato JSON
+        } else {
+            echo json_encode(array("message" => "No se encontraron chats para este usuario y curso."));
+        }
+    }
+
 }
 ?>

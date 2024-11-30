@@ -83,6 +83,7 @@ CREATE TABLE mensajes (
     destinatario_id BIGINT REFERENCES usuarios(id),
     mensaje TEXT,
     fecha_envio TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    chat_id BIGINT REFERENCES chats(id),
 );
 
 -- Tabla de ventas
@@ -122,5 +123,7 @@ CREATE TABLE reporte_usuarios (
 CREATE TABLE chats (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     curso_perteneciente BIGINT REFERENCES cursos(id),  -- Relacionada con la tabla de cursos
+    usuario_1_id BIGINT REFERENCES usuarios(id),  -- Referencia al primer usuario
+    usuario_2_id BIGINT REFERENCES usuarios(id),  -- Referencia al segundo usuario
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

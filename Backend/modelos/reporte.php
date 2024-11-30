@@ -67,6 +67,7 @@ class Reporte
     public function getReporteCadaCurso($id_instructor) {
         $query = "
                 SELECT DISTINCT
+                    u.id AS cliente_id,
                     c.id AS curso_id,
                     c.titulo AS curso,
                     u.nombre_completo AS comprador_nombre,
@@ -104,7 +105,6 @@ class Reporte
 
         return $result->fetch_all(MYSQLI_ASSOC);
     }
-
     public function reporteCursos($instructor_id) {
         $sql = "
             SELECT 
