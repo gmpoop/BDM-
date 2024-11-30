@@ -11,27 +11,25 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
-<body class="w-screen mx-auto">
-
-    <div id="curso-contenedor" class="w-screen mx-auto flex flex-wrap md:flex-nowrap justify-center ">
-        <aside class="m-5">
+<body class="w-screen h-screen max-h-screen mx-auto">
+    
+    <div id="curso-contenedor" class="w-screen mx-auto flex flex-wrap md:flex-nowrap  ">
+        <aside class="m-5 ">
             <div class="min-w-[300px] lg:max-w-sm bg-white rounded-xl shadow-md p-6 flex flex-col items-start">
                 <img id="curso-imagen" src="./images/cursos/python.jpg" alt="Curso 1" class="rounded-lg mb-4">
                 <h3 id="curso-titulo" class="text-lg font-bold text-gray-900 mb-2">Curso de Desarrollo Web</h3>
-                <p id="curso-instructor" class="text-gray-600 mb-4">Creado por: Agustin</p>
-                <a href="#" class=" bg-[#4821ea] text-white py-2 px-4 rounded-lg hover:bg-[#3415b8]">Empezar</a>
+                <p id="curso-instructor" class="text-gray-600 mb-4">Creado por: Agustin</p> 
             </div>
         </aside>
-        <main id="curso-detalles"
-            class="w-full max-w-lg bg-white rounded-xl shadow-md p-6 flex flex-col items-start m-5">
+        <div id="curso-detalles" class="w-full bg-white rounded-xl shadow-md flex flex-col items-start m-5 p-6">
             <h1 id="curso-detalle-titulo" class="text-4xl font-bold text-[#4821ea] mb-2">Curso de Desarrollo Web</h1>
             <h3 id="curso-descripcion" class="text-lg text-gray-600 mb-4">
                 <strong> Lorem ipsum dolor sit amet consectetur adipisicing elit.</strong>
             </h3>
-        </main>
+        </div>
     </div>
     <lower>
-        <div class="w-auto h-auto max-w-lg bg-white rounded-xl shadow-md p-6 flex m-5 overflow-x-auto">
+        <div class="w-auto max-h-full h-auto max-w-lg bg-white rounded-xl shadow-md p-6 flex overflow-x-auto">
             <ul id="niveles-lista" class="divide-x divide-gray-300 flex overflow-x-auto ">
                 <!-- Niveles se agregarán aquí dinámicamente -->
             </ul>
