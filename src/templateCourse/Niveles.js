@@ -33,6 +33,7 @@ const getNiveles = async (idCurso) => {
     console.log('Datos del nivel:', data);
     const niveles = Array.isArray(data) ? data : [data];
 
+    localStorage.setItem("instructor_id", niveles[0].instructor_id);
     if (niveles.length === 0) {
         throw new Error('No se encontraron niveles.');
     }
@@ -151,8 +152,8 @@ document.querySelectorAll('li').forEach(li => {
 });
 
 document.getElementById('chat').addEventListener('click', () => {
-    window.location.href = `../Chat/chat.html?idCurso=${idCurso}`;
-    localStorage.setItem('idCurso', idCurso);
+    instructor_id = localStorage.getItem("instructor_id");
+    window.location.href = `../Chat/chat.html?idCurso=${idCurso}&idInstructor=${instructor_id}`;
 });
 
 
