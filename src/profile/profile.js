@@ -52,8 +52,6 @@ function getUserData() {
 }
 document.addEventListener('DOMContentLoaded', getUserData);
 
-
-
 // Función para manejar el cierre de sesión
 function configurarCierreSesion() {
     const cerrarSesionBtn = document.getElementById("cerrarSesionBtn");
@@ -90,5 +88,74 @@ function configurarCierreSesion() {
 // Configurar eventos y cargar datos al iniciar
 document.addEventListener('DOMContentLoaded', () => {
     getUserData(); // Cargar la información del usuario
-    configurarCierreSesion(); // Configurar el botón de cierre de sesión
+    configurarCierreSesion();
+    cargarCursos(); // Configurar el botón de cierre de sesión
 });
+
+
+async function cargarCursos() {
+    try {
+        // Obtener el token del localStorage
+        const jwtToken = localStorage.getItem('jwtToken');
+        
+        if (!jwtToken) {
+            console.error('No se encontró el token en el localStorage');
+            return;
+        }
+
+        // Decodificar el token usando jwt-decode para obtener el ID del usuario
+        const decodedToken = jwt_decode(jwtToken);
+        const userId = decodedToken.data.id;
+
+        if (!userId) {
+            console.error('No se pudo obtener el ID del usuario del token');
+            return;
+        }
+
+        // Llamada a la API para obtener los cursos del usuario usando su ID
+        const response = await fetch(`http://localhost/BDM-/Backend/API/APIReportes.php/reporte/inscripciones?id=${userId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwtToken}` // Incluir el token en la cabecera
+            }
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // Limpiar la lista de cursos antes de agregar los nuevos
+            const courseList = document.getElementById('course-list');
+            courseList.innerHTML = ''; // Limpiar contenido
+
+            // Iterar sobre los cursos obtenidos de la API
+            data.forEach(course => {
+                // Crear el contenedor para la card del curso
+                const courseCard = document.createElement('div');
+                courseCard.classList.add('bg-white', 'shadow-lg', 'rounded-lg', 'overflow-hidden');
+
+                // Crear el contenido de la card
+                const courseContent = `
+                    <div class="p-6">
+                        <h2 class="text-2xl font-bold text-[#4821ea]">${course.nombre_curso}</h2>
+                        <p class="text-gray-600 mt-2">${course.descripcion_curso}</p>
+                        <div class="mt-4">
+                            <p class="text-sm text-gray-500">Progreso: <span class="font-semibold text-[#4821ea]">${course.progreso}%</span></p>
+                            <p class="text-sm text-gray-500">Fecha de Inscripción: <span class="font-semibold text-[#4821ea]">${new Date(course.fecha_inscripcion).toLocaleDateString()}</span></p>
+                        </div>
+                    </div>
+                `;
+
+                // Añadir el contenido a la card
+                courseCard.innerHTML = courseContent;
+
+                // Agregar la card a la lista de cursos
+                courseList.appendChild(courseCard);
+            });
+        } else {
+            console.error('Error al obtener los cursos:', data.message);
+        }
+    } catch (error) {
+        console.error('Error al hacer la solicitud a la API:', error);
+    }
+}

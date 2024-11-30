@@ -143,5 +143,16 @@ class Reporte
         // Devolver los resultados como un arreglo asociativo
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+
+    public function getReporteInscripcionesUser($id)
+    {
+        $query = "SELECT * FROM vista_cursos_usuario  WHERE id_usuario = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result;
+    }
 }
 ?>
