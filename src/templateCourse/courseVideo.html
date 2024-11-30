@@ -24,6 +24,9 @@
             <div class="w-full h-full">
                 <video id="video" class="" src="" autoplay muted controls></video>
             </div>
+            <div id="video_completado"  class=" w-full flex justify-end items-center m-2">
+                <a id="" href="#" class="bg-[#4821ea] text-white py-2 px-6 rounded-lg hover:bg-[#3d1bc8]">¡Completado!</a>
+            </div>
             <div class="menuVideo">
                 <ul class="flex gap-5 font-bold text-gray-500">
                     <li class="element-list-video_menu">
@@ -123,9 +126,14 @@
      
         </section>
         <aside class="mx-5 divide-y divide-gray-300 hidden lg:block">
-            <h1 class="text-4xl	font-bold text-gray-9 mb-2">Niveles</h1>
+            <div class="flex justify-between items-center">
+                <h1 class="text-4xl	font-bold text-gray-9 mb-2">Niveles</h1>
+                <div class="flex justify-center m-2">
+                    <a id="chat" href="#" class="bg-[#4821ea] text-white py-2 px-6 rounded-lg hover:bg-[#3d1bc8]">Ir al Chat</a>
+                </div>
+            </div>
             <ul id="lista-niveles" class="max-h-[500px] w-full divide-y divide-gray-300 bg-white rounded-xl shadow-md p-6 overflow-y-auto flex flex-col items-center ">
-               
+            
                 
             </ul>
         </aside>
@@ -138,6 +146,9 @@
 <script src="./CourseVideoApi.js"></script>
 
 <script>
+
+    
+
     const btnOverview = document.getElementById("btnOverview");
     const btnComments = document.getElementById("btnComments");
     const btnStatistics = document.getElementById("btnStatistics");
@@ -158,7 +169,7 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             const cursoId = 1; // Asegúrate de establecer el curso_id correcto.
-            fetch(`http://localhost/BDM/BDM-/Backend/API/APIcomentarios.php/comentarios/curso/${cursoId}`)
+            fetch(`http://localhost/BDM/iCraft/Backend/API/APIcomentarios.php/comentarios/curso/${cursoId}`)
                 .then(response => response.json())
                 .then(data => {
                     const comentariosContainer = document.getElementById('comments');

@@ -945,28 +945,24 @@ video {
   max-height: 500px;
 }
 
-.max-h-screen {
-  max-height: 100vh;
-}
-
 .max-h-full {
   max-height: 100%;
+}
+
+.max-h-screen {
+  max-height: 100vh;
 }
 
 .min-h-\[1200px\] {
   min-height: 1200px;
 }
 
-.min-h-screen {
-  min-height: 100vh;
-}
-
 .min-h-\[300px\] {
   min-height: 300px;
 }
 
-.min-h-\[200px\] {
-  min-height: 200px;
+.min-h-screen {
+  min-height: 100vh;
 }
 
 .w-1\/2 {
@@ -1093,10 +1089,6 @@ video {
   min-width: 100%;
 }
 
-.min-w-\[400px\] {
-  min-width: 400px;
-}
-
 .max-w-4xl {
   max-width: 56rem;
 }
@@ -1151,6 +1143,10 @@ video {
 
 .flex-grow {
   flex-grow: 1;
+}
+
+.table-auto {
+  table-layout: auto;
 }
 
 .border-collapse {
@@ -1279,12 +1275,6 @@ video {
 
 .gap-8 {
   gap: 2rem;
-}
-
-.space-x-1 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-x-reverse: 0;
-  margin-right: calc(0.25rem * var(--tw-space-x-reverse));
-  margin-left: calc(0.25rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
 .space-x-2 > :not([hidden]) ~ :not([hidden]) {
@@ -1537,11 +1527,6 @@ video {
   background-color: rgb(72 33 234 / var(--tw-bg-opacity, 1));
 }
 
-.bg-\[\#7a59ff\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(122 89 255 / var(--tw-bg-opacity, 1));
-}
-
 .bg-\[\#f6f7fa\] {
   --tw-bg-opacity: 1;
   background-color: rgb(246 247 250 / var(--tw-bg-opacity, 1));
@@ -1704,6 +1689,11 @@ video {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
+}
+
+.bg-green-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(74 222 128 / var(--tw-bg-opacity, 1));
 }
 
 .bg-opacity-50 {
@@ -2270,6 +2260,11 @@ video {
   background-color: rgb(220 38 38 / var(--tw-bg-opacity, 1));
 }
 
+.hover\:bg-green-500:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(34 197 94 / var(--tw-bg-opacity, 1));
+}
+
 .hover\:text-\[\#4821ea\]:hover {
   --tw-text-opacity: 1;
   color: rgb(72 33 234 / var(--tw-text-opacity, 1));
@@ -2301,6 +2296,10 @@ video {
 
 .hover\:opacity-90:hover {
   opacity: 0.9;
+}
+
+.hover\:opacity-100:hover {
+  opacity: 1;
 }
 
 .hover\:shadow-2xl:hover {
@@ -2383,10 +2382,6 @@ video {
 
   .md\:max-w-\[50\%\] {
     max-width: 50%;
-  }
-
-  .md\:grid-cols-2 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .md\:grid-cols-3 {
