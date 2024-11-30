@@ -12,7 +12,9 @@
 <body class="bg-gray-100 w-full">
     <div class="flex justify-center items-center h-screen w-full">
         <div class="bg-white p-8 rounded-lg shadow-lg w-[70%] m-5">
-            <div class="flex justify-center mb-4">
+            <div class="flex justify-between mb-4">
+                <a href="../dashboard/dash.html"
+                class="text-2xl m-2 font-thin">Regresar</a>
                 <img src="../resources/images/logo.png" alt="Título de la Página" style="width: 200px;">
             </div>
             <h1 class="text-2xl font-bold text-gray-800 mb-6">Registrar Usuario</h1>
@@ -23,21 +25,21 @@
                         <div class="mb-4">
                             <label for="nombre" class="block text-gray-700 text-sm font-bold mb-2">Nombre</label>
                             <input type="text" id="nombre_completo" name="nombre_completo"
-                                placeholder="Nombre del usuario" 
+                                placeholder="Nombre del usuario"
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                         </div>
 
                         <div class="mb-4">
                             <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Correo
                                 electrónico</label>
-                            <input type="email" id="email" name="email" placeholder="email@ejemplo.com"  
+                            <input type="email" id="email" name="email" placeholder="email@ejemplo.com"
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                         </div>
 
                         <div class="mb-4">
                             <label for="birthdate" class="block text-gray-700 text-sm font-bold mb-2">Fecha de
                                 nacimiento</label>
-                            <input type="date" id="fecha_nacimiento" name="fecha_nacimiento"  
+                            <input type="date" id="fecha_nacimiento" name="fecha_nacimiento"
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                         </div>
 
@@ -55,25 +57,25 @@
                     <div class="w-full">
                         <div class="mb-4">
                             <label for="foto" class="block text-gray-700 text-sm font-bold mb-2">Foto de perfil</label>
-                            <input type="file" id="foto" name="foto" accept="image/*"  
+                            <input type="file" id="foto" name="foto" accept="image/*"
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                         </div>
 
                         <div class="mb-4">
                             <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Contraseña</label>
                             <input type="password" id="password" name="contraseña" placeholder="Al menos 8 caracteres"
-                                 
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                         </div>
 
                         <div class="mb-4">
                             <label for="password-confirm" class="block text-gray-700 text-sm font-bold mb-2">Confirmar
                                 contraseña</label>
-                            <input type="password" id="password-confirm" name="password_confirmation"  
+                            <input type="password" id="password-confirm" name="password_confirmation"
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                         </div>
                         <div class="mb-4">
-                            <label for="rol-user" class="block text-gray-700 text-sm font-bold mb-2">Tipo de usuario</label>
+                            <label for="rol-user" class="block text-gray-700 text-sm font-bold mb-2">Tipo de
+                                usuario</label>
                             <select id="rol-user" name="Tipo"
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                                 <option value="2" selected>Estudiante</option>
@@ -89,139 +91,7 @@
             </form>
         </div>
     </div>
-    <script>
-
-        document.getElementById('registerForm').addEventListener('submit', function (event) {
-            event.preventDefault(); // Evitar envío estándar del formulario
-
-            // Obtener los valores de los campos
-            const nombreCompleto = document.getElementById('nombre_completo').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('password-confirm').value;
-            const fechaNacimiento = document.getElementById('fecha_nacimiento').value;
-            const genero = document.getElementById('gender').value;
-            const fileInput = document.getElementById('foto');
-            const rol_id = document.getElementById('rol-user').value;
-            
-
-            // Validar que ningún campo esté vacío
-            if (!nombreCompleto || !email || !password || !confirmPassword || !fechaNacimiento || !genero) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Todos los campos son obligatorios.',
-                });
-                return; // Salir si algún campo está vacío
-            }
-
-            // Validar formato de correo electrónico
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailPattern.test(email)) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'El correo electrónico no es válido.',
-                });
-                return; // Salir si el correo no es válido
-            }
-
-            // Validar fecha de nacimiento
-            const today = new Date();
-            const birthDate = new Date(fechaNacimiento);
-            if (birthDate > today) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'La fecha de nacimiento no puede ser mayor a la fecha actual.',
-                });
-                return; // Salir si la fecha de nacimiento es mayor a hoy
-            }
-
-            const passwordPattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-            // Si hay nueva contraseña, validar
-            if (password && !passwordPattern.test(password)) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'La nueva contraseña debe tener al menos 8 caracteres, incluir una mayúscula, un número y un carácter especial.',
-                });
-                return;
-            }
-
-            // Validar que las contraseñas coincidan
-            if (password !== confirmPassword) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Las contraseñas no coinciden.',
-                });
-                return; // Salir si las contraseñas no coinciden
-            }
-
-            // Crear un objeto con los datos del formulario
-            const formData = {
-                nombre_completo: nombreCompleto,
-                email: email,
-                contraseña: password, // Usar la contraseña ingresada
-                genero: genero,
-                fecha_nacimiento: fechaNacimiento,
-                rol_id: rol_id,
-            };
-
-            // Manejar la imagen como base64
-            if (fileInput.files.length > 0) {
-                const reader = new FileReader();
-                reader.onloadend = function () {
-                    formData.foto = reader.result; // Convertir la imagen a base64
-                    sendData(formData); // Enviar los datos
-                };
-                reader.readAsDataURL(fileInput.files[0]); // Leer el archivo como Data URL
-            } else {
-                formData.foto = null; // Si no hay foto, establecer en null
-                sendData(formData); // Enviar los datos
-            }
-        });
-
-        function sendData(data) {
-            console.log(data);
-            fetch('http://localhost/BDM-/Backend/API/api.php/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            })
-                .then(async response => {
-                    if (!response.ok) {
-                        const text = await response.text();
-                        throw new Error("Error en la respuesta: " + text);
-                    }
-                    const contentType = response.headers.get("content-type");
-                    if (!contentType || !contentType.includes("application/json")) {
-                        const text = await response.text();
-                        throw new Error("Respuesta no JSON: " + text);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log(data);
-                    Swal.fire({
-                        icon: 'success',
-                        title: '¡Registro exitoso!',
-                        text: data.message,
-                    });
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: error.message || 'Hubo un error al conectar con la API.',
-                    });
-                });
-        }
-    </script>
+    <script src="./Register.js"></script>
 </body>
 
 </html>
