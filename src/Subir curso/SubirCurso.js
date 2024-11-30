@@ -3,7 +3,7 @@
 // Obtén el token JWT del local storage
 const jwtToken = localStorage.getItem('jwtToken');
 
-const PORT = "http://localhost/iCraft/Backend/API/";
+const PORT = "http://localhost/BDM-/Backend/API/";
 
 let RecentCourse = null;
 
@@ -34,7 +34,7 @@ const verifyToken = async () => {
 const CreateFolder = async () => {
     const courseTitle = $('#titulo').val().replace(/\s+/g, '_'); // Reemplazar espacios por guiones bajos
     console.log("Título del curso", courseTitle);
-    const courseFolder = `C:/xampp/htdocs/iCraft/src/resources/videos/${courseTitle}`;
+    const courseFolder = `C:/xampp/htdocs/BDM-/src/resources/videos/${courseTitle}`;
 
     // Crear la carpeta en el servidor
     await fetch(PORT + "Cursos/create_folder.php", {

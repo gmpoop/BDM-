@@ -6,7 +6,7 @@ require_once '../controladores/usuariosControl.php';
 require_once '../modelos/Nivel.php';
 require_once '../controladores/nivelControlador.php';
 
-require_once 'C:/xampp/htdocs/iCraft/vendor/autoload.php';
+require_once 'C:/xampp/htdocs/BDM-/vendor/autoload.php';
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -34,39 +34,39 @@ $method = $_SERVER['REQUEST_METHOD'];
 $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 // Rutas de la API
-switch ($request) { 
+switch ($request) {
 
-    case '/iCraft/Backend/API/api.php/verfiyToken': {
+    case '/BDM-/Backend/API/api.php/verfiyToken': {
         if ($method == 'GET') {
-        $headers = getallheaders();
-                
+            $headers = getallheaders();
+
             if (isset($headers['Authorization'])) {
                 $token = str_replace('Bearer ', '', $headers['Authorization']);
 
                 try {
                     $decoded = JWT::decode($token, new Key($_ENV['JWT_SECRET_KEY'], 'HS256'));
                     echo json_encode(array("message" => "Token resuelto", "data" => $decoded));
-                    
+
                 } catch (Exception $e) {
                     http_response_code(401);
                     echo json_encode(array("message" => "Token no válido"));
                 }
             }
         }
-       
+
     }
-    break;
-    case '/iCraft/Backend/API/api.php/send_email': {
+        break;
+    case '/BDM-/Backend/API/api.php/send_email': {
         if ($method == 'POST') {
 
-            $userController->send_email();            
+            $userController->send_email();
 
         } else {
             http_response_code(405);
         }
     }
-    break;
-    case '/iCraft/Backend/API/api.php/register': {
+        break;
+    case '/BDM-/Backend/API/api.php/register': {
         if ($method == 'POST') {
             $userController->register();
         } else {
@@ -76,7 +76,7 @@ switch ($request) {
     }
         break;
 
-    case '/iCraft/Backend/API/api.php/login': {
+    case '/BDM-/Backend/API/api.php/login': {
         if ($method == 'POST') {
             $userController->login();
         } else {
@@ -86,8 +86,8 @@ switch ($request) {
     }
         break;
 
-        
-    case '/iCraft/Backend/API/api.php/users': {
+
+    case '/BDM-/Backend/API/api.php/users': {
         if ($method == 'GET') {
             // Verificar el token JWT
             $headers = getallheaders();
@@ -96,7 +96,7 @@ switch ($request) {
                 try {
                     // Decodificar el token
                     $decoded = JWT::decode($token, new Key($_ENV['JWT_SECRET_KEY'], 'HS256'));
-                    
+
                     $userController->getAllUsers();
                 } catch (Exception $e) {
                     http_response_code(401);
@@ -106,23 +106,20 @@ switch ($request) {
                 http_response_code(401);
                 echo json_encode(array("message" => "Se requiere autorización"));
             }
-        } 
-        else if ($method == 'PUT') {
+        } else if ($method == 'PUT') {
 
-                $userController->updateUser();
-        }
-        else if ($method == 'DELETE') {
+            $userController->updateUser();
+        } else if ($method == 'DELETE') {
 
-                $userController->deleteUser();
-        }
-        else {
+            $userController->deleteUser();
+        } else {
             http_response_code(405);
             echo json_encode(array("message" => "Método no permitido"));
         }
     }
         break;
 
-    case (preg_match('/^\/iCraft\/Backend\/API\/api.php\/user\/(\d+)$/', $request, $matches) ? true : false): {
+    case (preg_match('/^\/BDM-\/Backend\/API\/api.php\/user\/(\d+)$/', $request, $matches) ? true : false): {
         // Verificar el token JWT
         $headers = getallheaders();
         if (isset($headers['Authorization'])) {
@@ -133,7 +130,7 @@ switch ($request) {
                 error_log(print_r($decoded, true)); // Imprimir la variable en la consola
                 $userId = $decoded->data->id;
 
-                
+
                 switch ($method) {
                     case 'GET':
                         $userController->getUser($userId);
@@ -191,14 +188,14 @@ switch ($request) {
     }
         break;
 
-        
-
     default: {
         http_response_code(404);
-        echo json_encode(array("message" => "Ruta no encontrada",
-            "request" => $request));
+        echo json_encode(array(
+            "message" => "Ruta no encontrada",
+            "request" => $request
+        ));
     }
         break;
 
-   
+
 }

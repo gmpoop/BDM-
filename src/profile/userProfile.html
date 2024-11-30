@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles/output.css">
     <link rel="stylesheet" href="../styles/userProfile.css">
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
     <title>Perfil de Usuario</title>
 </head>
 
@@ -51,9 +52,6 @@
                     <span class="flex gap-2">
                         <p id="email-usuario" class="text-gray-600 text-sm"> id="userEmail">...</p>
                     </span>
-                    <p id="email-usuario" class="text-gray-600 text-sm"><span id="userEmail">...
-
-                        </span></p>
 
                 </div>
 
@@ -96,15 +94,6 @@
 
                 <!-- Botones Adicionales -->
                 <div class="text-center mt-8">
-                    <a href="../Chat/chat.html">
-                        <button class="bg-indigo-500 text-white px-6 py-3 rounded-lg hover:bg-indigo-600">
-                            <i class="fas fa-comments mr-2"></i> Ir al Chat
-                        </button>
-                    </a>
-                    <button id="solicitudTutor"
-                        class="bg-indigo-500 text-white px-6 py-3 rounded-lg hover:bg-indigo-600">
-                        <i class="fas fa-chalkboard-teacher mr-2"></i> Solicitar ser Tutor
-                    </button>
                     <a href="../Kardex/kardex.html">
                         <button class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600">
                             <i class="fas fa-file-alt mr-2"></i> Ver Kardex
@@ -116,11 +105,22 @@
     </div>
 
     <div class="course-container_main">
-        <h2>Cursos Inscritos</h2>
-        <div class="course-list">
-            <!-- Cursos se actualizarán dinámicamente -->
+        <h2 class="text-3xl font-bold text-[#4821ea] mb-6">Cursos Inscritos</h2>
+        <div class="course-list grid grid-cols-1 md:grid-cols-3 gap-3" id="course-list">
+            <!-- Cursos se actualizarán dinámicamente aquí -->
+            <!-- Plantilla para la card (dejaré un ejemplo para ilustrar el formato) -->
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden" id="course-template" style="display:none;">
+                <div class="p-6">
+                    <h2 class="text-2xl font-bold text-[#4821ea]" id="course-title">Desarrollo Web</h2>
+                    <p class="text-gray-600 mt-2" id="course-description">Aprende a crear sitios web interactivos con las últimas tecnologías.</p>
+                    <div class="mt-4">
+                        <p class="text-sm text-gray-500">Progreso: <span class="font-semibold text-[#4821ea]" id="course-progress">75%</span></p>
+                        <p class="text-sm text-gray-500">Fecha de Inscripción: <span class="font-semibold text-[#4821ea]" id="course-date">01/02/2024</span></p>
+                    </div>
+                </div>
+            </div>
+            <!-- Fin de la plantilla para la card -->
         </div>
-    </div>
     </div>
 
     <script src="profile.js"></script>

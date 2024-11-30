@@ -1,14 +1,17 @@
 <?php
 require_once '../modelos/comentario.php';
 
-class ComentarioController {
+class ComentarioController
+{
     private $comentario;
 
-    public function __construct($db) {
+    public function __construct($db)
+    {
         $this->comentario = new Comentario($db);
     }
 
-    public function getAllComentarios() {
+    public function getAllComentarios()
+    {
         $stmt = $this->comentario->getAll();
         $stmt->store_result(); // Necesario para contar las filas
         $num = $stmt->num_rows;
@@ -38,19 +41,19 @@ class ComentarioController {
             echo json_encode(array("message" => "No se encontraron comentarios."));
         }
     }
-
-    public function getComentariosPorCurso($curso_id) {
+    public function getComentariosPorCurso($curso_id)
+    {
         $query = "SELECT * FROM vista_comentarios_cursos WHERE curso_id = :curso_id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':curso_id', $curso_id);
         $stmt->execute();
-    
+
         $comentarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
+
         echo json_encode($comentarios);
     }
-    
-    public function getComentario($id) {
+    public function getComentario($id)
+    {
         $stmt = $this->comentario->getOne($id);
         $stmt->store_result();
         $num = $stmt->num_rows;
@@ -77,10 +80,11 @@ class ComentarioController {
             echo json_encode(array("message" => "Comentario no encontrado."));
         }
     }
-    public function getPorCurso($curso_id) {
+    public function getPorCurso($curso_id)
+    {
         // Llamar a la función getperCurso de la clase Comentario
         $comentarios = $this->comentario->getperCurso($curso_id);
-    
+
         // Verificar si se obtuvieron resultados
         if (!empty($comentarios)) {
             // Si hay comentarios, devolver la respuesta con código 200
@@ -92,9 +96,8 @@ class ComentarioController {
             echo json_encode(array("message" => "No se encontraron comentarios para el curso especificado."));
         }
     }
-    
-
-    public function createComentario() {
+    public function createComentario()
+    {
         $data = json_decode(file_get_contents("php://input"));
 
         if (!empty($data->curso_id) && !empty($data->usuario_id) && !empty($data->comentario) && isset($data->calificacion)) {
@@ -115,8 +118,8 @@ class ComentarioController {
             echo json_encode(array("message" => "Datos incompletos."));
         }
     }
-
-    public function updateComentario($id) {
+    public function updateComentario($id)
+    {
         $data = json_decode(file_get_contents("php://input"));
 
         if (!empty($data->curso_id) && !empty($data->usuario_id) && !empty($data->comentario) && isset($data->calificacion)) {
@@ -138,8 +141,8 @@ class ComentarioController {
             echo json_encode(array("message" => "Datos incompletos."));
         }
     }
-
-    public function deleteComentario($id) {
+    public function deleteComentario($id)
+    {
         $this->comentario->id = $id;
 
         if ($this->comentario->delete()) {

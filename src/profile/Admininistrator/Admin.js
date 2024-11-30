@@ -147,6 +147,7 @@ document.getElementById('categoriaSelect',).addEventListener('change', function 
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwtToken}` 
             }
         })
             .then(response => response.json())
