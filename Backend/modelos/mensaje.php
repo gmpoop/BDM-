@@ -59,5 +59,23 @@ class Message
         $stmt->execute();
         return $stmt->get_result();
     }
+
+    // Método para obtener los datos del chat según el usuario y el curso
+    public function getChatDataByUserAndCourse($usuario_id, $curso_id)
+    {
+        $query = "
+            SELECT * FROM datachat
+            WHERE 
+                (usuario_1_id = ? OR usuario_2_id = ?) AND curso_perteneciente = ?
+        ";
+    
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('iii', $usuario_id, $usuario_id, $curso_id);  // Enlazar los parámetros
+        $stmt->execute();
+    
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC); // Retorna los resultados como un array asociativo
+    }
+    
 }
 ?>

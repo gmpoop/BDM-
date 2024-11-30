@@ -50,19 +50,23 @@ switch ($request) {
 
     case '/BDM-/Backend/API/APImensajes.php/chat':
         if ($method == 'GET') {
-            if (isset($_GET['curso_id'])) {
-                $curso_id = $_GET['curso_id'];  // Obtener el id del curso desde la URL
-                $controller->getDatosChat($curso_id);  // Llamar al método para obtener los datos del chat
+            // Verificar si los parámetros 'usuario_id' y 'curso_id' están presentes
+            if (isset($_GET['usuario_id']) && isset($_GET['curso_id'])) {
+                $usuario_id = $_GET['usuario_id'];
+                $curso_id = $_GET['curso_id'];
+                // Llamar al método para obtener los datos del chat
+                $controller->getChatData($usuario_id, $curso_id);
             } else {
-                // Si no se pasa el curso_id, devolver un error
-                echo json_encode(array("message" => "Faltan parámetros (curso_id)."));
+                // Si faltan los parámetros, devolver un error
+                echo json_encode(array("message" => "Faltan parámetros (usuario_id o curso_id)."));
             }
         } else {
+            // Si el método no es GET, devolver un error
             http_response_code(405);  // Método no permitido
             echo json_encode(array("message" => "Método no permitido"));
         }
         break;
-        
+
     default:
         http_response_code(404);
         echo json_encode(array("message" => "Ruta no encontrada"));

@@ -1,127 +1,190 @@
-// Obtener el idCurso de la URL
+// Obtener el ID del curso desde la URL
 const urlParams = new URLSearchParams(window.location.search);
-let idCurso = urlParams.get('idCurso');  // idCurso es el parámetro que llega en la URL
-
-if (idCurso) {
-    // Limpiar el valor de idCurso eliminando el signo $
-    idCurso = idCurso.replace('$', '');
-
-    // Construir la URL correctamente usando el idCurso extraído
-    const apiUrl = `http://localhost/BDM-/Backend/API/APImensajes.php/DatosRemitente?id=${idCurso}`;
-
-    // Realizar una solicitud GET a la API para obtener los datos del remitente
-    fetch(apiUrl)
-        .then(response => {
-            return response.json();
-        })
-        .then(data => {
-            if (data) {
-                // Guardar los datos del remitente en localStorage
-                localStorage.setItem('DestinatarioData', JSON.stringify(data));
-
-                // Actualizar la interfaz de usuario con los datos del remitente
-                document.getElementById('profile-picture').src = `https://via.placeholder.com/50`; // Imagen por defecto
-                document.getElementById('chat-title').textContent = "Instructor " + data.instructor_nombre || 'Instructor';
-                document.getElementById('chat-course').textContent = "Del curso " + data.nombre_curso || 'Curso';
-
-                // Iniciales del instructor
-                const userInitials = document.createElement('div');
-                userInitials.classList.add('bg-[#4821ea]', 'w-12', 'h-12', 'rounded-full', 'flex', 'items-center', 'justify-center', 'text-white', 'font-bold', 'mr-3');
-                userInitials.textContent = data.instructor_nombre ? data.instructor_nombre.charAt(0).toUpperCase() : 'N/A';
-                document.getElementById('user-initials').textContent = userInitials.textContent;
-
-                // Mostrar las iniciales en lugar de la imagen de perfil
-                document.getElementById('user-initials').classList.remove('hidden');
-                document.getElementById('profile-picture').classList.add('hidden');
-            } else {
-                console.error('Datos del remitente no disponibles');
-            }
-        })
-        .catch(error => {
-            console.error('Error al obtener los datos del remitente:', error);
-        });
+let idCurso = urlParams.get('idCurso'); // idCurso es el parámetro que llega en la URL
+if (!idCurso) {
+    console.error("ID del curso no especificado en la URL.");
 } else {
-    console.error('No se proporcionó el idCurso en la URL');
+    idCurso = idCurso.replace('$', ''); // Quitar el signo de dólar si existe
+
+    // Decodificar el token almacenado en el localStorage
+    const token = localStorage.getItem('jwtToken'); // Asegúrate de que el token esté almacenado con esta clave
+    if (!token) {
+        console.error("Token no encontrado en el localStorage.");
+    } else {
+        let userId;
+        try {
+            const payloadBase64 = token.split('.')[1]; // Obtener la parte del payload del token
+            const decodedPayload = atob(payloadBase64); // Decodificar la parte base64
+            const payload = JSON.parse(decodedPayload); // Convertir el payload en objeto JSON
+            userId = payload.data.id; // Extraer el ID del usuario
+        } catch (error) {
+            console.error("Error al decodificar el token: ", error);
+        }
+
+        if (userId) {
+            // Llamar a la API para obtener los datos del chat
+            const apiUrl = `http://localhost/BDM-/Backend/API/APImensajes.php/chat?usuario_id=${userId}&curso_id=${idCurso}`;
+
+            fetch(apiUrl)
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`Error en la solicitud: ${response.statusText}`);
+                    }
+                    return response.json(); // Convertir la respuesta en JSON
+                })
+                .then((data) => {
+                    if (data && Array.isArray(data)) {
+                        // Guardar la información del chat en localStorage
+                        localStorage.setItem('chatData', JSON.stringify(data));
+                        console.log("Información del chat guardada en localStorage:", data);
+                    } else if (data.message) {
+                        console.warn("Mensaje de la API: ", data.message);
+                    } else {
+                        console.warn("Respuesta inesperada de la API:", data);
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error al llamar a la API:", error);
+                });
+        }
+    }
 }
+// Función para llenar el frontend del chat
+function fillChatData() {
+    // Recuperar datos de DataChat desde localStorage
+    const chatData = JSON.parse(localStorage.getItem('chatData'));
 
+    // Obtener el ID del usuario actual desde el token almacenado en localStorage
+    const token = JSON.parse(localStorage.getItem('token')); // Asume que se llama 'token'
+    const currentUserId = token?.data?.id;
 
-if (idCurso) {
-    // Limpiar el valor de idCurso eliminando el signo $
-    idCurso = idCurso.replace('$', '');
+    // Verificar si existe data válida en localStorage
+    if (chatData && Array.isArray(chatData) && chatData.length > 0) {
+        // Usaremos el primer chat de ejemplo (puedes adaptar para varios)
+        const chat = chatData[0];
 
-    // Construir la URL correctamente usando el idCurso extraído
-    const apiUrl = `http://localhost/BDM-/Backend/API/APImensajes.php/chat?curso_id=${idCurso}`;
+        // Determinar si el usuario actual es usuario_1 o usuario_2
+        const isUser1 = currentUserId === chat.usuario_1_id;
 
-    // Realizar una solicitud GET a la API para obtener los datos del chat
-    fetch(apiUrl)
-        .then(response => response.json())  // Convertir la respuesta a JSON
-        .then(data => {
-            console.log('Datos del chat recibidos:', data);  // Imprimir los datos en la consola
-            // Guardar los datos en localStorage
-            localStorage.setItem('chatData', JSON.stringify(data)); // Guardar los datos como string JSON
-        })
-        .catch(error => {
-            console.error('Error al obtener los datos del chat:', error);
-        });
-} else {
-    console.error('No se proporcionó el idCurso en la URL');
+        // Asignar datos del otro usuario dependiendo de la condición
+        const otherUserName = isUser1 ? chat.usuario_2_nombre : chat.usuario_1_nombre;
+        const otherUserRole = isUser1 ? chat.usuario_2_rol_nombre : chat.usuario_1_rol_nombre;
+
+        // Obtener elementos del DOM
+        const profilePictureContainer = document.getElementById('profile-picture-container');
+        const profilePicture = document.getElementById('profile-picture');
+        const userInitials = document.getElementById('user-initials');
+        const chatTitle = document.getElementById('chat-title');
+        const chatCourse = document.getElementById('chat-course');
+
+        // Verificar si el usuario tiene una foto de perfil (ajusta si tienes fotos por usuario)
+        if (isUser1 ? chat.usuario_2_imagen : chat.usuario_1_imagen) {
+            // Si hay ruta de imagen, mostrar la imagen y ocultar iniciales
+            profilePicture.src = isUser1 ? chat.usuario_2_imagen : chat.usuario_1_imagen || "https://via.placeholder.com/50";
+            profilePicture.classList.remove('hidden');
+            userInitials.classList.add('hidden');
+        } else {
+            // Si no hay imagen, mostrar iniciales
+            const initials = otherUserName
+                ? otherUserName.split(' ').map(name => name[0].toUpperCase()).join('')
+                : 'N/A';
+            userInitials.textContent = initials;
+            userInitials.classList.remove('hidden');
+            profilePicture.classList.add('hidden');
+        }
+
+        // Actualizar el título del chat con el nombre del otro usuario
+        chatTitle.textContent = `${otherUserName} (${otherUserRole})`;
+
+        // Actualizar el curso asociado al chat
+        chatCourse.textContent = `Curso: ${chat.nombre_curso}`;
+    } else {
+        console.error("No se encontró información válida en localStorage para llenar el chat.");
+    }
 }
+// Llamar a la función cuando el DOM esté completamente cargado
+document.addEventListener('DOMContentLoaded', fillChatData);
 
-// Escuchar el clic en el botón para enviar el mensaje
-document.getElementById('send-message-btn').addEventListener('click', () => {
-    const mensaje = document.getElementById('mensaje-input').value;
-    const destinatarioData = JSON.parse(localStorage.getItem('DestinatarioData'));  // Usar DestinatarioData
-    const ChatData = JSON.parse(localStorage.getItem('chatData'));  // Usar chatData
+// Función para enviar un mensaje
+function enviarMensaje() {
+    const mensajeInput = document.getElementById('mensaje-input');
+    const mensaje = mensajeInput.value.trim();
 
-    // Obtener el token JWT desde localStorage
-    const tokenJWT = localStorage.getItem('jwtToken');
-
-    if (!tokenJWT) {
-        console.error("No se encontró el token JWT.");
+    if (!mensaje) {
+        alert("Escribe un mensaje antes de enviar.");
         return;
     }
 
-    // Decodificar el JWT
-    const tokenParts = tokenJWT.split('.');
-    const payloadBase64 = tokenParts[1];
-    const decodedPayload = atob(payloadBase64);
+    const chatData = JSON.parse(localStorage.getItem('chatData'));
+    const tokenString = localStorage.getItem('jwtToken');
+
+    if (!chatData || !tokenString) {
+        alert("Faltan datos necesarios para enviar el mensaje.");
+        return;
+    }
+
     let tokenData;
     try {
-        tokenData = JSON.parse(decodedPayload);
+        tokenData = decodeJWT(tokenString);
     } catch (error) {
-        console.error("Error al decodificar el JWT:", error);
+        console.error("Error al decodificar el token:", error);
+        alert("Token inválido o mal formado.");
         return;
     }
 
-    // Obtener el id del remitente desde el token decodificado
-    const remitenteID = tokenData.data.id;
+    const remitenteId = tokenData?.data?.id;
+    const chatId = chatData[0]?.chat_id;
 
-    // Obtener el chat_id desde el primer elemento de ChatData (es un array)
-    const chatData = ChatData[0].id;  // Acceder al primer elemento y obtener el id
+    if (!chatId || !remitenteId) {
+        alert("Faltan parámetros en el chat o el token.");
+        return;
+    }
 
-    // Crear el objeto con los datos del mensaje
+    const destinatarioId = remitenteId === chatData[0]?.usuario_1_id
+        ? chatData[0]?.usuario_2_id
+        : chatData[0]?.usuario_1_id;
+
     const mensajeData = {
-        remitente_id: remitenteID, // ID del remitente (obtenido desde el token)
-        destinatario_id: destinatarioData.instructor_id, // ID del destinatario
-        mensaje: mensaje, // El mensaje escrito por el usuario
-        chat_id: chatData // El ID del chat
+        remitente_id: remitenteId,
+        destinatario_id: destinatarioId,
+        mensaje: mensaje,
+        chat_id: chatId
     };
 
-    // Enviar el mensaje a la API
+    console.log("Datos enviados a la API:", mensajeData);
+
     fetch('http://localhost/BDM-/Backend/API/APImensajes.php/mensaje', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(mensajeData) // Enviar el mensaje como JSON
+        body: JSON.stringify(mensajeData)
     })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Mensaje enviado con éxito:', data);
-            // Limpiar el campo de texto
-            document.getElementById('mensaje-input').value = '';
-        })
-        .catch(error => {
-            console.error('Error al enviar el mensaje:', error);
-        });
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log("Mensaje enviado correctamente.");
+            mensajeInput.value = '';
+        } else {
+            console.error(data.message || "Error al enviar el mensaje.");
+        }
+    })
+    .catch(error => {
+        console.error("Error en la solicitud:", error);
+    });
+}
+
+// Asignar el evento al botón
+document.getElementById('send-message-btn').addEventListener('click', enviarMensaje);
+
+// Enviar mensaje al presionar Enter en el input
+document.getElementById('mensaje-input').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        enviarMensaje();
+    }
 });
+function decodeJWT(token) {
+    const payloadBase64 = token.split('.')[1]; // Extraer la segunda parte (payload)
+    const payloadJson = atob(payloadBase64); // Decodificar de Base64
+    return JSON.parse(payloadJson); // Convertir a objeto JSON
+}
