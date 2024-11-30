@@ -131,4 +131,34 @@ class ReportesController
         }
     }
 
+    public function getReportePorcurso($id) {
+        if (!is_numeric($id)) {
+            http_response_code(400);
+            echo json_encode(array("message" => "El ID del instructor debe ser un número."));
+            return;
+        }
+
+        $result = $this->reporte->getReporteCadaCurso($id);
+
+        if (!empty($result)) {
+            http_response_code(200);
+            echo json_encode($result);
+        } else {
+            http_response_code(404);
+            echo json_encode(array("message" => "No se encontraron cursos o ventas para el instructor con ID $id."));
+        }
+    }
+
+    public function reportecadaCursos($id) {
+        // Obtener los cursos del instructor
+        $resultados = $this->reporte->reporteCursos($id);
+
+        // Comprobar si se encontraron cursos
+        if ($resultados) {
+            echo json_encode($resultados);
+        } else {
+            http_response_code(404);
+            echo json_encode(array("message" => "No se encontraron cursos para el instructor con ID $id."));
+        }
+    }
 }
