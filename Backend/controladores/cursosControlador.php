@@ -82,41 +82,41 @@ class cursosControlador
             echo json_encode(array("message" => "Usuario no encontrado."));
         }
     }
-
-
-    public function getAllCursos()
-    {
+    public function getAllCursos() {
+        // Ejecutar el método getAll() de la clase modelo
         $stmt = $this->curso->getAll();
-        $num = $stmt->num_rows;
-
+        $stmt->store_result(); // Necesario para contar las filas
+        $num = $stmt->num_rows; // Contamos las filas de resultados
+    
         if ($num > 0) {
-            $users_arr = array();
-            $users_arr["records"] = array();
-
-            while ($row = $stmt->fetch_assoc()) {
-                extract($row);
-                $user_item = array(
-                    "id" => $id,
-                    "nombre_completo" => $titulo,
-                    "email" => $descripcion,
-                    "genero" => $imagen,
-                    "fecha_nacimiento" => $ruta_imagen,
-                    "ruta_foto" => $costo,
-                    "fecha_registro" => $estado,
-                    "estado" => $categoria_id,
-                    "rol_id" => $instructor_id
+            $cursos_arr = array(); // Array donde almacenaremos los cursos
+            $stmt->bind_result($id, $titulo, $descripcion, $ruta_imagen, $costo, $estado, $categoria_id, $instructor_id); // Asegúrate de que los campos coincidan
+    
+            while ($stmt->fetch()) {
+                // Creamos un array para cada curso
+                $curso_item = array(
+                    "id_curso" => $id,
+                    "titulo" => $titulo,
+                    "descripcion" => $descripcion,
+                    "ruta_imagen" => $ruta_imagen,
+                    "costo" => $costo,
+                    "estado" => $estado,
+                    "categoria_id" => $categoria_id,
+                    "instructor_id" => $instructor_id
                 );
-                array_push($users_arr["records"], $user_item);
+                // Añadimos el curso al array de cursos
+                array_push($cursos_arr, $curso_item);
             }
-
+    
+            // Enviamos la respuesta con los cursos encontrados
             http_response_code(200);
-            echo json_encode($users_arr);
+            echo json_encode($cursos_arr);
         } else {
+            // Si no hay cursos, respondemos con un error 404
             http_response_code(404);
-            echo json_encode(array("message" => "No se encontraron usuarios."));
+            echo json_encode(array("message" => "No se encontraron cursos."));
         }
-    }
-
+    }    
     public function getCursosPorCategoria()
     {
         $stmt = $this->curso->GetAllByCourse();
@@ -159,7 +159,6 @@ class cursosControlador
             echo json_encode(array("message" => "Error al obtener los cursos."));
         }
     }
-
     public function getCursosDetalle($idCurso) {
         $stmt = $this->curso->getCoursesDetails($idCurso);
     
@@ -204,5 +203,40 @@ class cursosControlador
             echo json_encode(array("message" => "Error al obtener los cursos."));
         }
     }
+    public function getCursoById($id) {
+        // Ejecutamos el método getById() del modelo para obtener el curso por id
+        $stmt = $this->curso->getById($id);
+        $stmt->store_result(); // Necesario para contar las filas
+        $num = $stmt->num_rows; // Contamos las filas de resultados
     
+        if ($num > 0) {
+            $curso_arr = array(); // Array donde almacenaremos los cursos
+            $stmt->bind_result($id, $titulo, $descripcion, $ruta_imagen, $costo, $estado, $categoria_id, $categoria_nombre, $instructor_id); // Asegúrate de que los campos coincidan
+    
+            while ($stmt->fetch()) {
+                // Creamos un array para el curso
+                $curso_item = array(
+                    "id_curso" => $id,
+                    "titulo" => $titulo,
+                    "descripcion" => $descripcion,
+                    "ruta_imagen" => $ruta_imagen,
+                    "costo" => $costo,
+                    "estado" => $estado,
+                    "categoria_id" => $categoria_id,
+                    "categoria_nombre" => $categoria_nombre, // Añadimos el nombre de la categoría
+                    "instructor_id" => $instructor_id
+                );
+                // Añadimos el curso al array de cursos
+                array_push($curso_arr, $curso_item);
+            }
+    
+            // Enviamos la respuesta con el curso encontrado
+            http_response_code(200);
+            echo json_encode($curso_arr);
+        } else {
+            // Si no se encuentra el curso, respondemos con un error 404
+            http_response_code(404);
+            echo json_encode(array("message" => "Curso no encontrado"));
+        }
+    }
 }

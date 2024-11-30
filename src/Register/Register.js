@@ -1,5 +1,5 @@
 
-const PORT = "http://localhost/iCraft/Backend/API/";
+const PORT = "http://localhost/BDM-/Backend/API/";
 
 const API_KEY = "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"
 
@@ -41,7 +41,7 @@ const SendEmail = async () => {
 
 function sendData(data) {
     console.log(data);
-    fetch('http://localhost/iCraft/Backend/API/api.php/register', {
+    fetch('http://localhost/BDM-/Backend/API/api.php/register', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

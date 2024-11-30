@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <!-- Incluir SweetAlert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
+
 <body class="w-screen h-screen max-h-screen mx-auto">
     
     <div id="curso-contenedor" class="w-screen mx-auto flex flex-wrap md:flex-nowrap  ">
@@ -33,9 +35,126 @@
             </ul>
         </div>
     </lower>
-    
+
+    <!-- Comments Section -->
+    <div id="comments" class="flex-col items-center">
+        <div class="bg-gray-100 p-4 rounded-lg mb-4 space-y-4">
+            <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center">
+                    <div
+                        class="bg-[#4821ea] w-10 h-10 rounded-full flex items-center justify-center text-white font-bold mr-3">
+                        JD</div>
+                    <h3 class="text-lg font-semibold text-gray-700">Tu nombre</h3>
+                </div>
+                <!-- Barra de progreso -->
+                <div class="max-w-md p-4 min-w-[228px] flex flex-col items-start">
+
+                    <!-- Título de la sección -->
+                    <div class="hidden">
+                        <h2 class="text-lg font-semibold text-gray-700">Califica el video</h2>
+
+                        <!-- Barra de progreso -->
+                        <div class="w-full flex items-center gap-7">
+                            <input type="range" id="progressBar" min="1" max="100" value="50"
+                                class="w-full h-2 text-[#4821ea] bg-gray-300 rounded-lg appearance-none cursor-pointer progress-range focus:outline-none">
+                            <!-- Visualización del valor actual de la barra -->
+                            <div class=" text-center relative m-4">
+                                <span id="progressValue"
+                                    class="absolute -top-3 -left-3 text-xl font-semibold text-gray-700">50%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Acción cuando selecciona el valor -->
+                </div>
+
+            </div>
+            <div class="flex items-center mb-2 gap-2">
+                <input class="w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 rounded"
+                    placeholder="Añadir comentario..." type="text" name="" id="">
+                <button class="  bg-[#4821ea] text-white rounded hover:bg-[#3d1bc8] py-2 px-4 h-full">Añadir</button>
+            </div>
+        </div>
+        <div class="flex items-center justify-between mb-4">
+            <button id="comments_selects"
+                class="  bg-[#4821ea] text-white rounded hover:bg-[#3d1bc8] py-2 px-4 h-auto ">Seleccionar
+                comentarios</button>
+            <button id="delete_selects"
+                class="bg-red-500 text-white px-4 py-2  rounded-md hover:bg-red-600 hidden">Eliminar</button>
+        </div>
+
+        <div id="comments-container" class="comments-container bg-gray-100 p-4 rounded-lg mb-4">
+            <div class="flex justify-between">
+                <div class="flex items-center mb-2">
+                    <div
+                        class="bg-[#4821ea] w-10 h-10 rounded-full flex items-center justify-center text-white font-bold mr-3">
+                        JD</div>
+                    <h3 class="text-lg font-semibold text-gray-700">Juan Díaz</h3>
+                </div>
+                <div class="flex items-center gap-3">
+                    <h3 class="text-lg font-bold text-gray-900 ">Calificación:</h3><span></span>%
+                </div>
+            </div>
+            <div class="mb-5">
+                <p class="text-gray-600">Este curso ha sido realmente útil. Me ha ayudado a entender conceptos que antes
+                    no comprendía. ¡Recomendado!</p>
+            </div>
+
+            <div class="flex justify-between text-sm text-gray-500 mt-2">
+                Hace 2 horas
+                <input type="checkbox" id="termsCheckbox"
+                    class="termsCheckbox hidden form-checkbox h-5 w-5 text-indigo-600">
+            </div>
+        </div>
+        <div id="comments-container" class="comments-container bg-gray-100 p-4 rounded-lg mb-4">
+            <div class="flex justify-between">
+                <div class="flex items-center mb-2">
+                    <div
+                        class="bg-[#4821ea] w-10 h-10 rounded-full flex items-center justify-center text-white font-bold mr-3">
+                        JD</div>
+                    <h3 class="text-lg font-semibold text-gray-700">Juan Díaz</h3>
+                </div>
+                <div class="flex items-center gap-3">
+                    <h3 class="text-lg font-bold text-gray-900 ">Calificación:</h3><span></span>%
+                </div>
+            </div>
+            <div class="mb-5">
+                <p class="text-gray-600">Este curso ha sido realmente útil. Me ha ayudado a entender conceptos que antes
+                    no comprendía. ¡Recomendado!</p>
+            </div>
+
+            <div class="flex justify-between text-sm text-gray-500 mt-2">
+                Hace 2 horas
+                <input type="checkbox" id="termsCheckbox"
+                    class="termsCheckbox hidden form-checkbox h-5 w-5 text-indigo-600">
+            </div>
+        </div>
+        <div id="comments-container" class="comments-container bg-gray-100 p-4 rounded-lg mb-4">
+            <div class="flex justify-between">
+                <div class="flex items-center mb-2">
+                    <div
+                        class="bg-[#4821ea] w-10 h-10 rounded-full flex items-center justify-center text-white font-bold mr-3">
+                        JD</div>
+                    <h3 class="text-lg font-semibold text-gray-700">Juan Díaz</h3>
+                </div>
+                <div class="flex items-center gap-3">
+                    <h3 class="text-lg font-bold text-gray-900 ">Calificación:</h3><span></span>%
+                </div>
+            </div>
+            <div class="mb-5">
+                <p class="text-gray-600">Este curso ha sido realmente útil. Me ha ayudado a entender conceptos que antes
+                    no comprendía. ¡Recomendado!</p>
+            </div>
+
+            <div class="flex justify-between text-sm text-gray-500 mt-2">
+                Hace 2 horas
+                <input type="checkbox" id="termsCheckbox"
+                    class="termsCheckbox hidden form-checkbox h-5 w-5 text-indigo-600">
+            </div>
+        </div>
+    </div>
 </body>
 
-<script src="./Course.js"></script>
+<script src="Course.js"></script>
 
 </html>

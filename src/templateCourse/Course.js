@@ -47,7 +47,7 @@ async function getCourseData() {
         });
 
         const data = await response.json();
-        
+
         if (data.records && data.records.length > 0) {
             // Tomar el primer registro de curso
             const curso = data.records[0];
@@ -73,6 +73,7 @@ async function getCourseData() {
             // Añadir los niveles
             data.records.forEach(nivel => {
                 const itemNivel = document.createElement('li');
+
                 itemNivel.classList.add('h-auto', 'min-h-[300px]', 'min-w-[250px]', 'flex-col', 'items-start', 'items-center', 'p-4', 'relattive');
                 
                 const nivelDiv = document.createElement('div');

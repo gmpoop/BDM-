@@ -1,12 +1,21 @@
 const jwtToken = localStorage.getItem('jwtToken');
+const BACKEND_BASE_URL = "http://localhost/BDM-/Backend/"; // Base URL del backend
 
 // Función para obtener los datos del usuario
 function getUserData() {
     const jwtToken = localStorage.getItem('jwtToken');
     
-    console.log(jwtToken);
+    if (!jwtToken) {
+        console.error('No se encontró el token JWT en localStorage.');
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No estás autenticado. Por favor, inicia sesión nuevamente.',
+        });
+        return;
+    }
 
-    fetch('http://localhost/BDM-/Backend/API/APIreportes.php/user/0', {
+    fetch('http://localhost/BDM-/Backend/API/api.php/user/0', {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${jwtToken}`,
@@ -21,31 +30,27 @@ function getUserData() {
         }
         return response.json();
     })
-    .then(data => {
-        console.log('Datos del tutor:', data);
-        const user = data;
-        if (user === null) {
-            throw new Error('No se encontraron tutor.');
+    .then(user => {
+        if (!user || user.id === undefined) {
+            throw new Error('No se encontró información del usuario.');
         }
-        console.log(user);
-        document.getElementById('num-cursos').textContent = user.nombre_completo || '';
-        document.getElementById('registro').textContent = user.email || '';
-        document.getElementById('fecha-modificacion').textContent = user.fecha_nacimiento || '';
-        document.getElementById('Ingresos').textContent = user.genero || '';
 
+        // Construir la ruta completa de la imagen
+        const rutaImagenCompleta = `${BACKEND_BASE_URL}${user.ruta_foto.replace("../", "")}`;
+        // Actualizar los elementos de la interfaz con la información del usuario
+        document.getElementById('nombre-usuario').textContent = user.nombre_completo || 'Usuario desconocido';
+        document.getElementById('userEmail').textContent = user.email || 'Sin correo';
+        document.getElementById('avatar').src = rutaImagenCompleta || '../resources/images/UserAvatar.jpg'; // Ruta por defecto
     })
     .catch(error => {
         console.error('Error:', error);
         Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: error.message || 'Hubo un error al obtener los datos del tutor.',
+            text: error.message || 'Hubo un error al obtener los datos del usuario.',
         });
     });
 }
-document.addEventListener('DOMContentLoaded', getUserData);
-
-
 
 // Función para manejar el cierre de sesión
 function configurarCierreSesion() {
